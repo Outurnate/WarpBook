@@ -94,9 +94,9 @@ public class WarpPageItem extends Item
         // gui hasn't closed
       }
     }
-    else
+    /*else
       list.clear();
-    System.out.println("HERPDERP");
+    System.out.println("HERPDERP");*/
   }
   
   @Override
