@@ -2,7 +2,6 @@ package panicnot42.warpbook.crafting;
 
 import java.util.List;
 
-import panicnot42.warpbook.WarpBookMod;
 import panicnot42.warpbook.item.WarpPageItem;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
@@ -28,8 +27,6 @@ public class WarpPageShapeless extends ShapelessRecipes
         if (inventory.getStackInSlot(i) != null && inventory.getStackInSlot(i).getItem() instanceof WarpPageItem && inventory.getStackInSlot(i).getItemDamage() == 1)
         {
           output.setTagCompound(inventory.getStackInSlot(i).getTagCompound());
-          //inventory.getStackInSlot(i).getItem().setContainerItem(WarpBookMod.warpPageItem);
-          //System.out.println("ASDFASDFASDF");
         }
     }
     catch (Exception e)
