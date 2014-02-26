@@ -19,7 +19,6 @@ import panicnot42.warpbook.net.PacketPipeline;
 import panicnot42.warpbook.net.packet.PacketParticle;
 import panicnot42.warpbook.net.packet.PacketWarp;
 import panicnot42.warpbook.net.packet.PacketWaypointName;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -30,7 +29,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = "warpbook", name = "Warp Book", version = "0.0.225")
+@Mod(modid = "warpbook", name = "Warp Book", version = "0.0.228")
 public class WarpBookMod
 {
   @Instance(value = "warpbook")
