@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import panicnot42.warpbook.WarpBookMod;
+import panicnot42.warpbook.item.WarpPageItem;
 import panicnot42.warpbook.net.AbstractPacket;
 
 public class PacketWarp extends AbstractPacket
@@ -78,7 +79,6 @@ public class PacketWarp extends AbstractPacket
     
     WarpBookMod.packetPipeline.sendToAll(packet);
 
-    if (player.dimension != page.getInteger("dim")) player.travelToDimension(page.getInteger("dim"));
-    player.setPositionAndUpdate(page.getInteger("posX") + 0.5f, page.getInteger("posY") + 0.5f, page.getInteger("posZ") + 0.5f);
+    WarpPageItem.doPageWarp(player, page);
   }
 }

@@ -69,10 +69,15 @@ public class WarpPageItem extends Item
       itemStack.getTagCompound().setInteger("dim", player.dimension);
       player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWaypointGuiIndex, world, (int) player.posX, (int) player.posY, (int) player.posZ);
     }
-    else if (player.isSneaking())
+    else if (itemStack.getItemDamage() == 1 && player.isSneaking())
     {
       itemStack.setItemDamage(0);
       itemStack.setTagCompound(new NBTTagCompound());
+    }
+    else if (itemStack.getItemDamage() == 1)
+    {
+      doPageWarp(player, itemStack.getTagCompound());
+      itemStack.stackSize = 0;
     }
     return itemStack;
   }
@@ -94,9 +99,12 @@ public class WarpPageItem extends Item
         // gui hasn't closed
       }
     }
-    /*else
-      list.clear();
-    System.out.println("HERPDERP");*/
+  }
+  
+  public static void doPageWarp(EntityPlayer player, NBTTagCompound pageTagCompund)
+  {
+    if (player.dimension != pageTagCompund.getInteger("dim")) player.travelToDimension(pageTagCompund.getInteger("dim"));
+    player.setPositionAndUpdate(pageTagCompund.getInteger("posX") + 0.5f, pageTagCompund.getInteger("posY") + 0.5f, pageTagCompund.getInteger("posZ") + 0.5f);
   }
   
   @Override
