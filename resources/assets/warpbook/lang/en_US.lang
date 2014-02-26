@@ -1,0 +1,7 @@
+item.warpbook.name=Warp Book
+item.warppage.unbound.name=Unbound Warp Page
+item.warppage.bound.name=Bound Warp Page
+
+warpbook.dowarp=Warp to Waypoint
+warpbook.bindpage=Bind Page
+warpbook.namewaypoint=Enter waypoint name
