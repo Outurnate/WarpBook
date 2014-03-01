@@ -6,6 +6,7 @@ import panicnot42.util.CommandUtils;
 import panicnot42.warpbook.WarpBookMod;
 import panicnot42.warpbook.WarpWorldStorage;
 import panicnot42.warpbook.WarpWorldStorage.Waypoint;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +15,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -134,11 +137,34 @@ public class WarpPageItem extends Item
         CommandUtils.showError(player, "This waypoint no longer exists");
       return; //client side for hyper page
     }
-    if (player.dimension != wp.dim)
+    boolean crossDim = player.dimension != wp.dim;
+    player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
+    if (crossDim)
       player.travelToDimension(wp.dim);
     player.setPositionAndUpdate(wp.x + 0.5f, wp.y + 0.5f, wp.z + 0.5f);
   }
   
+  private static float calculateExhaustion(EnumDifficulty difficultySetting, float exhaustionCoefficient, boolean crossDim)
+  {
+    float scaleFactor = 0.0f;
+    switch (difficultySetting)
+    {
+      case EASY:
+        scaleFactor = 1.0f;
+        break;
+      case NORMAL:
+        scaleFactor = 1.5f;
+        break;
+      case HARD:
+        scaleFactor = 2.0f;
+        break;
+      case PEACEFUL:
+        scaleFactor = 0.0f;
+        break;
+    }
+    return exhaustionCoefficient * scaleFactor * (crossDim ? 2.0f : 1.0f);
+  }
+
   @Override
   public boolean hasContainerItem(ItemStack itemStack)
   {

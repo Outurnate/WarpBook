@@ -9,7 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.oredict.RecipeSorter;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +33,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -55,6 +53,8 @@ public class WarpBookMod
 
   private static int guiIndex = 42;
 
+  public static float exhaustionCoefficient;
+
   public static final int WarpBookWarpGuiIndex = guiIndex++;
   public static final int WarpBookWaypointGuiIndex = guiIndex++;
   public static final int WarpBookInventoryGuiIndex = guiIndex++;
@@ -64,6 +64,7 @@ public class WarpBookMod
   {
     Configuration config = new Configuration(event.getSuggestedConfigurationFile());
     config.load();
+    exhaustionCoefficient = (float)config.get("tweaks", "exhaustion coefficient", 20.0f).getDouble(20.0);
     warpBookItem = new WarpBookItem();
     warpPageItem = new WarpPageItem();
     GameRegistry.registerItem(warpBookItem, "warpbook");
