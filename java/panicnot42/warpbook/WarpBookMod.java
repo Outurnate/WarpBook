@@ -3,14 +3,21 @@ package panicnot42.warpbook;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.command.ServerCommandManager;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.oredict.RecipeSorter;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import panicnot42.warpbook.commands.CreateWaypointCommand;
+import panicnot42.warpbook.commands.DeleteWaypointCommand;
+import panicnot42.warpbook.commands.GiveWarpCommand;
+import panicnot42.warpbook.commands.ListWaypointCommand;
 import panicnot42.warpbook.crafting.WarpPageShapeless;
 import panicnot42.warpbook.gui.GuiManager;
 import panicnot42.warpbook.item.WarpBookItem;
@@ -26,17 +33,18 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = "warpbook", name = "Warp Book", version = "0.0.228")
+@Mod(modid = "warpbook", name = "Warp Book", version = "0.1.332")
 public class WarpBookMod
 {
   @Instance(value = "warpbook")
   public static WarpBookMod instance;
   
   public static final PacketPipeline packetPipeline = new PacketPipeline();
-  
   public static final Logger logger = LogManager.getLogger("warpbook");
 
   public static Item warpBookItem;
@@ -99,5 +107,15 @@ public class WarpBookMod
   {
     proxy.registerRenderers();
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
+  }
+  
+  @EventHandler
+  public void serverStarting(FMLServerStartingEvent event)
+  {
+    ServerCommandManager manager = ((ServerCommandManager)MinecraftServer.getServer().getCommandManager());
+    manager.registerCommand(new CreateWaypointCommand());
+    manager.registerCommand(new ListWaypointCommand());
+    manager.registerCommand(new DeleteWaypointCommand());
+    manager.registerCommand(new GiveWarpCommand());
   }
 }

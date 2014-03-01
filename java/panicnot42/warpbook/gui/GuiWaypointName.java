@@ -38,7 +38,7 @@ public class GuiWaypointName extends GuiScreen
     buttonList.clear();
     buttonList.add(doneButton = new GuiButton(0, width / 2 - 100, height / 4 + 96 + 12, I18n.format("gui.done")));
     waypointName = new GuiTextField(fontRendererObj, this.width / 2 - 150, 60, 300, 20);
-    waypointName.setMaxStringLength(10);
+    waypointName.setMaxStringLength(128);
     waypointName.setFocused(true);
     waypointName.setText("");
     doneButton.enabled = waypointName.getText().trim().length() > 0;

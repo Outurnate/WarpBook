@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagList;
 
 import org.lwjgl.input.Keyboard;
 
+import panicnot42.util.StringUtils;
 import panicnot42.warpbook.WarpBookMod;
 import panicnot42.warpbook.net.packet.PacketWarp;
 import cpw.mods.fml.relauncher.Side;
@@ -45,7 +46,7 @@ public class GuiBook extends GuiScreen
       NBTTagCompound compound = ItemStack.loadItemStackFromNBT((NBTTagCompound) items.getCompoundTagAt(i)).getTagCompound();
       try
       {
-        buttonList.add(new GuiButton(i, ((width - 404) / 2) + ((i % 6) * 68), 16 + (24 * (i / 6)), 64, 16, compound.getString("name")));
+        buttonList.add(new GuiButton(i, ((width - 404) / 2) + ((i % 6) * 68), 16 + (24 * (i / 6)), 64, 16, StringUtils.shorten(compound.hasKey("hypername") ? compound.getString("hypername") : compound.getString("name"), 10)));
       }
       catch (Exception e)
       {

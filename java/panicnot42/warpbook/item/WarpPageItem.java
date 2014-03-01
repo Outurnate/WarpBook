@@ -2,7 +2,10 @@ package panicnot42.warpbook.item;
 
 import java.util.List;
 
+import panicnot42.util.CommandUtils;
 import panicnot42.warpbook.WarpBookMod;
+import panicnot42.warpbook.WarpWorldStorage;
+import panicnot42.warpbook.WarpWorldStorage.Waypoint;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -32,13 +36,13 @@ public class WarpPageItem extends Item
   @Override
   public IIcon getIconFromDamage(int meta)
   {
-    return itemIcons[MathHelper.clamp_int(meta, 0, itemMetaNames.length - 1)];
+    return itemIcons[MathHelper.clamp_int(meta, 0, 2)];
   }
 
   @Override
   public String getUnlocalizedName(ItemStack itemStack)
   {
-    return super.getUnlocalizedName() + "." + itemMetaNames[MathHelper.clamp_int(itemStack.getItemDamage(), 0, itemMetaNames.length - 1)];
+    return super.getUnlocalizedName() + "." + itemMetaNames[MathHelper.clamp_int(itemStack.getItemDamage(), 0, 2)];
   }
 
   @Override
@@ -85,6 +89,7 @@ public class WarpPageItem extends Item
           player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWaypointGuiIndex, world, (int) player.posX, (int) player.posY, (int) player.posZ);
           break;
         case 1:
+        case 2:
           doPageWarp(player, itemStack.getTagCompound());
           if (!player.capabilities.isCreativeMode)
             --itemStack.stackSize;
@@ -113,15 +118,25 @@ public class WarpPageItem extends Item
         }
         break;
       case 2:
-        list.add(item.getTagCompound().getString("bindmsg"));
+        String name = item.getTagCompound().getString("hypername");
+        list.add(name);
         break;
     }
   }
   
-  public static void doPageWarp(EntityPlayer player, NBTTagCompound pageTagCompund)
+  public static void doPageWarp(EntityPlayer player, NBTTagCompound pageTagCompound)
   {
-    if (player.dimension != pageTagCompund.getInteger("dim")) player.travelToDimension(pageTagCompund.getInteger("dim"));
-    player.setPositionAndUpdate(pageTagCompund.getInteger("posX") + 0.5f, pageTagCompund.getInteger("posY") + 0.5f, pageTagCompund.getInteger("posZ") + 0.5f);
+    WarpWorldStorage storage = WarpWorldStorage.instance(player.getEntityWorld());
+    Waypoint wp = pageTagCompound.hasKey("hypername") ? storage.getWaypoint(pageTagCompound.getString("hypername")) : storage.new Waypoint("", pageTagCompound.getInteger("posX"), pageTagCompound.getInteger("posY"), pageTagCompound.getInteger("posZ"), pageTagCompound.getInteger("dim"));
+    if (wp == null)
+    {
+      if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+        CommandUtils.showError(player, "This waypoint no longer exists");
+      return; //client side for hyper page
+    }
+    if (player.dimension != wp.dim)
+      player.travelToDimension(wp.dim);
+    player.setPositionAndUpdate(wp.x + 0.5f, wp.y + 0.5f, wp.z + 0.5f);
   }
   
   @Override
