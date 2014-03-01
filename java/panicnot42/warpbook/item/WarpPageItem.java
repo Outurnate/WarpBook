@@ -2,11 +2,6 @@ package panicnot42.warpbook.item;
 
 import java.util.List;
 
-import panicnot42.util.CommandUtils;
-import panicnot42.warpbook.WarpBookMod;
-import panicnot42.warpbook.WarpWorldStorage;
-import panicnot42.warpbook.WarpWorldStorage.Waypoint;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +12,10 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-
+import panicnot42.util.CommandUtils;
+import panicnot42.warpbook.WarpBookMod;
+import panicnot42.warpbook.WarpWorldStorage;
+import panicnot42.warpbook.WarpWorldStorage.Waypoint;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -67,7 +65,7 @@ public class WarpPageItem extends Item
   {
     if (player.isSneaking())
     {
-      switch(itemStack.getItemDamage())
+      switch (itemStack.getItemDamage())
       {
         case 0:
           break;
@@ -79,7 +77,7 @@ public class WarpPageItem extends Item
     }
     else
     {
-      switch(itemStack.getItemDamage())
+      switch (itemStack.getItemDamage())
       {
         case 0:
           itemStack.setItemDamage(1);
@@ -89,13 +87,12 @@ public class WarpPageItem extends Item
           itemStack.getTagCompound().setInteger("posY", MathHelper.ceiling_double_int(player.posY));
           itemStack.getTagCompound().setInteger("posZ", MathHelper.ceiling_double_int(player.posZ));
           itemStack.getTagCompound().setInteger("dim", player.dimension);
-          player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWaypointGuiIndex, world, (int) player.posX, (int) player.posY, (int) player.posZ);
+          player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWaypointGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
           break;
         case 1:
         case 2:
           doPageWarp(player, itemStack.getTagCompound());
-          if (!player.capabilities.isCreativeMode)
-            --itemStack.stackSize;
+          if (!player.capabilities.isCreativeMode) --itemStack.stackSize;
           break;
       }
     }
@@ -107,7 +104,7 @@ public class WarpPageItem extends Item
   @SideOnly(Side.CLIENT)
   public void addInformation(ItemStack item, EntityPlayer player, @SuppressWarnings("rawtypes") List list, boolean thing)
   {
-    switch(item.getItemDamage())
+    switch (item.getItemDamage())
     {
       case 1:
         try
@@ -126,24 +123,23 @@ public class WarpPageItem extends Item
         break;
     }
   }
-  
+
   public static void doPageWarp(EntityPlayer player, NBTTagCompound pageTagCompound)
   {
     WarpWorldStorage storage = WarpWorldStorage.instance(player.getEntityWorld());
-    Waypoint wp = pageTagCompound.hasKey("hypername") ? storage.getWaypoint(pageTagCompound.getString("hypername")) : storage.new Waypoint("", pageTagCompound.getInteger("posX"), pageTagCompound.getInteger("posY"), pageTagCompound.getInteger("posZ"), pageTagCompound.getInteger("dim"));
+    Waypoint wp = pageTagCompound.hasKey("hypername") ? storage.getWaypoint(pageTagCompound.getString("hypername")) : storage.new Waypoint("", pageTagCompound.getInteger("posX"),
+        pageTagCompound.getInteger("posY"), pageTagCompound.getInteger("posZ"), pageTagCompound.getInteger("dim"));
     if (wp == null)
     {
-      if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
-        CommandUtils.showError(player, "This waypoint no longer exists");
-      return; //client side for hyper page
+      if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) CommandUtils.showError(player, "This waypoint no longer exists");
+      return; // client side for hyper page
     }
     boolean crossDim = player.dimension != wp.dim;
     player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
-    if (crossDim)
-      player.travelToDimension(wp.dim);
+    if (crossDim) player.travelToDimension(wp.dim);
     player.setPositionAndUpdate(wp.x + 0.5f, wp.y + 0.5f, wp.z + 0.5f);
   }
-  
+
   private static float calculateExhaustion(EnumDifficulty difficultySetting, float exhaustionCoefficient, boolean crossDim)
   {
     float scaleFactor = 0.0f;
@@ -170,7 +166,7 @@ public class WarpPageItem extends Item
   {
     return itemStack.getItemDamage() == 1;
   }
-  
+
   @Override
   public ItemStack getContainerItem(ItemStack itemStack)
   {

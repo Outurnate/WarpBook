@@ -24,7 +24,7 @@ public class WarpBookInventoryItem implements IInventory
     NBTTagList items = stack.getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
     for (int i = 0; i < items.tagCount(); ++i)
     {
-      NBTTagCompound item = (NBTTagCompound) items.getCompoundTagAt(i);
+      NBTTagCompound item = (NBTTagCompound)items.getCompoundTagAt(i);
       int slot = item.getInteger("Slot");
       if (slot >= 0 && slot < getSizeInventory()) setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));
     }

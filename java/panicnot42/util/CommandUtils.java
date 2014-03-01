@@ -8,28 +8,30 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class CommandUtils
 {
-  public enum ChatType { TYPE_int, TYPE_player };
-  
+  public enum ChatType
+  {
+    TYPE_int, TYPE_player
+  };
+
   private static final ChatStyle errorStyle;
   private static final ChatStyle usageStyle;
   private static final ChatStyle infoStyle;
-  
+
   static
   {
     errorStyle = new ChatStyle();
     errorStyle.setColor(EnumChatFormatting.RED);
-    
+
     usageStyle = new ChatStyle();
     usageStyle.setColor(EnumChatFormatting.YELLOW);
-    
+
     infoStyle = new ChatStyle();
     infoStyle.setColor(EnumChatFormatting.WHITE);
   }
-  
+
   public static void printUsage(ICommandSender sender, CommandBase createWaypointCommand)
   {
-    ChatComponentText prefix = new ChatComponentText("Usage:"),
-                      usage  = new ChatComponentText(createWaypointCommand.getCommandUsage(sender));
+    ChatComponentText prefix = new ChatComponentText("Usage:"), usage = new ChatComponentText(createWaypointCommand.getCommandUsage(sender));
     prefix.setChatStyle(usageStyle);
     usage.setChatStyle(usageStyle);
     sender.addChatMessage(prefix);
@@ -68,8 +70,9 @@ public class CommandUtils
       builder.append(var2[i]);
       builder.append(" ");
     }
-    if (var2.length > 0)
-      builder.deleteCharAt(builder.length() - 1); // remove last space
+    if (var2.length > 0) builder.deleteCharAt(builder.length() - 1); // remove
+                                                                     // last
+                                                                     // space
     return builder.toString();
   }
 

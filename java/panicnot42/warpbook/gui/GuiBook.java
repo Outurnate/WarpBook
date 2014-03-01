@@ -38,15 +38,16 @@ public class GuiBook extends GuiScreen
     if (items.tagCount() == 0)
     {
       WarpBookMod.proxy.printMessage("There are no pages in this book.  Shift+right click to add bound pages");
-      mc.displayGuiScreen((GuiScreen) null);
+      mc.displayGuiScreen((GuiScreen)null);
       return;
     }
     for (int i = 0; i < items.tagCount(); ++i)
     {
-      NBTTagCompound compound = ItemStack.loadItemStackFromNBT((NBTTagCompound) items.getCompoundTagAt(i)).getTagCompound();
+      NBTTagCompound compound = ItemStack.loadItemStackFromNBT((NBTTagCompound)items.getCompoundTagAt(i)).getTagCompound();
       try
       {
-        buttonList.add(new GuiButton(i, ((width - 404) / 2) + ((i % 6) * 68), 16 + (24 * (i / 6)), 64, 16, StringUtils.shorten(compound.hasKey("hypername") ? compound.getString("hypername") : compound.getString("name"), 10)));
+        buttonList.add(new GuiButton(i, ((width - 404) / 2) + ((i % 6) * 68), 16 + (24 * (i / 6)), 64, 16, StringUtils.shorten(compound.hasKey("hypername") ? compound.getString("hypername")
+            : compound.getString("name"), 10)));
       }
       catch (Exception e)
       {
@@ -64,15 +65,11 @@ public class GuiBook extends GuiScreen
   @Override
   protected void actionPerformed(GuiButton guiButton)
   {
-    /*DataOutputStream outputStream = new DataOutputStream(bos);
-    try
-    {
-      outputStream.writeInt(guiButton.id);
-    }
-    catch (Exception e)
-    {
-      e.printStackTrace();
-    }*/
+    /*
+     * DataOutputStream outputStream = new DataOutputStream(bos); try {
+     * outputStream.writeInt(guiButton.id); } catch (Exception e) {
+     * e.printStackTrace(); }
+     */
     PacketWarp packet = new PacketWarp(guiButton.id);
     WarpBookMod.packetPipeline.sendToServer(packet);
 

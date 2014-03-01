@@ -3,7 +3,6 @@ package panicnot42.warpbook.commands;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
-
 import panicnot42.util.CommandUtils;
 import panicnot42.warpbook.WarpWorldStorage;
 
@@ -42,7 +41,9 @@ public class ListWaypointCommand extends CommandBase
         {
           CommandUtils.info(var1, wps[i]);
         }
-        catch (ArrayIndexOutOfBoundsException e) { }
+        catch (ArrayIndexOutOfBoundsException e)
+        {
+        }
       }
       CommandUtils.info(var1, String.format("-- Page %d --", page));
     }

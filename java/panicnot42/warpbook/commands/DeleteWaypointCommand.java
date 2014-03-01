@@ -2,7 +2,6 @@ package panicnot42.warpbook.commands;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-
 import panicnot42.util.CommandUtils;
 import panicnot42.warpbook.WarpWorldStorage;
 

@@ -8,14 +8,16 @@ import panicnot42.warpbook.net.AbstractPacket;
 public class PacketWaypointName extends AbstractPacket
 {
   String name;
-  
-  public PacketWaypointName() {}
-  
+
+  public PacketWaypointName()
+  {
+  }
+
   public PacketWaypointName(String name)
   {
     this.name = name;
   }
-  
+
   @Override
   public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
   {

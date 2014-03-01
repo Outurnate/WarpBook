@@ -1,8 +1,8 @@
 package panicnot42.warpbook.inventory;
 
-import panicnot42.warpbook.item.WarpPageItem;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import panicnot42.warpbook.item.WarpPageItem;
 
 public class WarpBookSlot extends Slot
 {

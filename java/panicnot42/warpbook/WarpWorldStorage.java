@@ -14,7 +14,7 @@ public class WarpWorldStorage extends WorldSavedData
   {
     public String name;
     public int x, y, z, dim;
-    
+
     public Waypoint(String name, int x, int y, int z, int dim)
     {
       this.name = name;
@@ -24,21 +24,20 @@ public class WarpWorldStorage extends WorldSavedData
       this.dim = dim;
     }
   }
-  
+
   private HashMap<String, Waypoint> waypoints;
-  
+
   private final static String IDENTIFIER = "WarpBook";
-  
+
   public WarpWorldStorage(String identifier)
   {
     super(identifier);
     waypoints = new HashMap<String, Waypoint>();
   }
-  
+
   public static WarpWorldStorage instance(World world)
   {
-    if (world.mapStorage.loadData(WarpWorldStorage.class, IDENTIFIER) == null)
-      world.mapStorage.setData(IDENTIFIER, new WarpWorldStorage(IDENTIFIER));
+    if (world.mapStorage.loadData(WarpWorldStorage.class, IDENTIFIER) == null) world.mapStorage.setData(IDENTIFIER, new WarpWorldStorage(IDENTIFIER));
     return (WarpWorldStorage)world.mapStorage.loadData(WarpWorldStorage.class, IDENTIFIER);
   }
 
@@ -47,14 +46,8 @@ public class WarpWorldStorage extends WorldSavedData
   {
     NBTTagList tags = var1.getTagList("waypoints", new NBTTagCompound().getId());
     for (int i = 0; i < tags.tagCount(); ++i)
-      waypoints.put(
-          tags.getCompoundTagAt(i).getString("name"),
-          new Waypoint(
-              tags.getCompoundTagAt(i).getString("friendlyName"),
-              tags.getCompoundTagAt(i).getInteger("x"),
-              tags.getCompoundTagAt(i).getInteger("y"),
-              tags.getCompoundTagAt(i).getInteger("z"),
-              tags.getCompoundTagAt(i).getInteger("dim")));
+      waypoints.put(tags.getCompoundTagAt(i).getString("name"), new Waypoint(tags.getCompoundTagAt(i).getString("friendlyName"), tags.getCompoundTagAt(i).getInteger("x"), tags.getCompoundTagAt(i)
+          .getInteger("y"), tags.getCompoundTagAt(i).getInteger("z"), tags.getCompoundTagAt(i).getInteger("dim")));
   }
 
   @Override
@@ -74,17 +67,17 @@ public class WarpWorldStorage extends WorldSavedData
     }
     var1.setTag("waypoints", tags);
   }
-  
+
   public boolean waypointExists(String name)
   {
     return waypoints.keySet().contains(name);
   }
-  
+
   public Waypoint getWaypoint(String name)
   {
     return waypoints.get(name);
   }
-  
+
   public void addWaypoint(String name, Waypoint point)
   {
     waypoints.put(name, point);

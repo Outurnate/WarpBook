@@ -58,7 +58,7 @@ public class GuiWaypointName extends GuiScreen
       PacketWaypointName packet = new PacketWaypointName(waypointName.getText());
       WarpBookMod.packetPipeline.sendToServer(packet);
 
-      mc.displayGuiScreen((GuiScreen) null);
+      mc.displayGuiScreen((GuiScreen)null);
     }
   }
 

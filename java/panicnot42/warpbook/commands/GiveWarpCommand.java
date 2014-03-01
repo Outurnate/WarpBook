@@ -6,7 +6,6 @@ import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
 import panicnot42.util.CommandUtils;
 import panicnot42.util.CommandUtils.ChatType;
 import panicnot42.warpbook.WarpBookMod;

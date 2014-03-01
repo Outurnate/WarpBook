@@ -1,13 +1,13 @@
 package panicnot42.warpbook.inventory.container;
 
-import panicnot42.warpbook.inventory.WarpBookInventoryItem;
-import panicnot42.warpbook.inventory.WarpBookInventorySlot;
-import panicnot42.warpbook.inventory.WarpBookSlot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import panicnot42.warpbook.inventory.WarpBookInventoryItem;
+import panicnot42.warpbook.inventory.WarpBookInventorySlot;
+import panicnot42.warpbook.inventory.WarpBookSlot;
 
 public class WarpBookContainerItem extends Container
 {
@@ -17,7 +17,7 @@ public class WarpBookContainerItem extends Container
   {
     inventory = inventoryItem;
     for (int i = 0; i < WarpBookInventoryItem.INV_SIZE; ++i)
-      this.addSlotToContainer(new WarpBookSlot(inventory, i, 8 + (18 * (int) (i % 9)), 18 + (18 * (i / 9))));
+      this.addSlotToContainer(new WarpBookSlot(inventory, i, 8 + (18 * (int)(i % 9)), 18 + (18 * (i / 9))));
 
     for (int i = 0; i < 3; ++i)
       for (int j = 0; j < 9; ++j)
@@ -37,7 +37,7 @@ public class WarpBookContainerItem extends Container
   public ItemStack transferStackInSlot(EntityPlayer player, int par2)
   {
     ItemStack itemstack = null;
-    Slot slot = (Slot) this.inventorySlots.get(par2);
+    Slot slot = (Slot)this.inventorySlots.get(par2);
 
     if (slot != null && slot.getHasStack())
     {
@@ -52,7 +52,7 @@ public class WarpBookContainerItem extends Container
 
       if (itemstack1.stackSize == 0)
       {
-        slot.putStack((ItemStack) null);
+        slot.putStack((ItemStack)null);
       }
       else
       {

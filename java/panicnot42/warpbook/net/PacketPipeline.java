@@ -12,12 +12,12 @@ import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import panicnot42.warpbook.WarpBookMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
+import panicnot42.warpbook.WarpBookMod;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.FMLOutboundHandler;
@@ -82,7 +82,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
     Class<? extends AbstractPacket> clazz = msg.getClass();
     if (!this.packets.contains(msg.getClass())) { throw new NullPointerException("No Packet Registered for: " + msg.getClass().getCanonicalName()); }
 
-    byte discriminator = (byte) this.packets.indexOf(clazz);
+    byte discriminator = (byte)this.packets.indexOf(clazz);
     buffer.writeByte(discriminator);
     msg.encodeInto(ctx, buffer);
     FMLProxyPacket proxyPacket = new FMLProxyPacket(buffer.copy(), ctx.channel().attr(NetworkRegistry.FML_CHANNEL).get());
@@ -111,7 +111,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
 
       case SERVER:
         INetHandler netHandler = ctx.channel().attr(NetworkRegistry.NET_HANDLER).get();
-        player = ((NetHandlerPlayServer) netHandler).playerEntity;
+        player = ((NetHandlerPlayServer)netHandler).playerEntity;
         pkt.handleServerSide(player);
         break;
 

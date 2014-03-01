@@ -41,7 +41,7 @@ public class WarpBookMod
 {
   @Instance(value = "warpbook")
   public static WarpBookMod instance;
-  
+
   public static final PacketPipeline packetPipeline = new PacketPipeline();
   public static final Logger logger = LogManager.getLogger("warpbook");
 
@@ -87,7 +87,7 @@ public class WarpBookMod
     GameRegistry.addRecipe(new WarpPageShapeless(boundpage, recipe));
     config.save();
   }
-  
+
   @EventHandler
   public void init(FMLInitializationEvent event)
   {
@@ -109,7 +109,7 @@ public class WarpBookMod
     proxy.registerRenderers();
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
   }
-  
+
   @EventHandler
   public void serverStarting(FMLServerStartingEvent event)
   {

@@ -2,13 +2,13 @@ package panicnot42.warpbook.item;
 
 import java.util.List;
 
-import panicnot42.warpbook.WarpBookMod;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import panicnot42.warpbook.WarpBookMod;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -29,9 +29,9 @@ public class WarpBookItem extends Item
   public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
   {
     if (player.isSneaking())
-      player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookInventoryGuiIndex, world, (int) player.posX, (int) player.posY, (int) player.posZ);
+      player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookInventoryGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
     else
-      player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWarpGuiIndex, world, (int) player.posX, (int) player.posY, (int) player.posZ);
+      player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWarpGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
     return itemStack;
   }
 

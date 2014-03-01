@@ -1,10 +1,10 @@
 package panicnot42.warpbook.gui;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import panicnot42.warpbook.WarpBookMod;
 import panicnot42.warpbook.inventory.WarpBookInventoryItem;
 import panicnot42.warpbook.inventory.container.WarpBookContainerItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class GuiManager implements IGuiHandler
