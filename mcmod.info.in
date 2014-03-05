@@ -1,0 +1,16 @@
+[
+{
+  "modid": "examplemod",
+  "name": "@@MOD_NAME@@",
+  "description": "Example placeholder mod.",
+  "version": "@@MOD_VERSION@@.@@MOD_BUILD_NUM@@",
+  "mcversion": "@@MC_VERSION@@",
+  "url": "",
+  "updateUrl": "",
+  "authors": ["ExampleDude"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
