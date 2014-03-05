@@ -1,0 +1,16 @@
+language: java
+jdk:
+  - oraclejdk7
+  - openjdk7
+  - openjdk6
+before_install:
+  - ./forgeTravis.sh setup
+env:
+  global:
+    - TERM=dumb
+    - MOD_VERSION=1.0
+    - MOD_NAME=ForgeTravisTest
+  matrix:
+    - forge_release=latest
+    - forge_release=recommended
+script: ./forgeTravis.sh build
