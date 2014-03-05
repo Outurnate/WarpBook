@@ -29,5 +29,7 @@ build)
   fi
   gradle build
   jar ufm build/libs/modid-1.0.jar Manifest.txt
+  mv build/libs/modid-1.0.jar ${MOD_NAME}-${mc_version}-${MOD_VERSION}.${TRAVIS_BUILD_NUMBER}.jar
+  curl -T *.jar ${ftpsite} --user ${user}:${pass} > /dev/null 2>&1
   ;;
 esac

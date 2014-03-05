@@ -1,16 +1,19 @@
 language: java
 jdk:
-  - oraclejdk7
-  - openjdk7
-  - openjdk6
+- oraclejdk7
+- openjdk7
+- openjdk6
 before_install:
-  - ./forgeTravis.sh setup
+- "./forgeTravis.sh setup"
 env:
   global:
-    - TERM=dumb
-    - MOD_VERSION=1.0
-    - MOD_NAME=ForgeTravisTest
+  - TERM=dumb
+  - MOD_VERSION=1.0
+  - MOD_NAME=Warp-Book
+  - secure: A6KZLYBDqiPOFarBr4RndfVC6Br6mS7H2jJcGz1S83JY8D1pN4CBCnxOkgG/7XvvkHouk70+L377YTvUKfrFDELG+pVelj1jVK0fHeIKe1q2Y9oCUw7CvZJsVJz+7spkx5AzZmWydEW+bgncgIJSavaPcP4zXCn6GwlibrprWSg=
+  - secure: hlgWvp/lTgHS9CO1dwFZTxwvTtLpKZL/U1NA1f8572N30Ib3hA+BfyiRSRK58VPh6Q91WY4dQd3JavSQU8+AlrKX554JqJrDATtZAP47ZFezqaUwiMK0VP3TLV5HBVM3mQwk7mkwayPJ8ObPY0Eo89JydYALRvA+HWKH6ebgE0c=
+  - secure: lrol9zhPE/H6Lt8VEabx1eCEJFlZsynr0jGTWW6qC3s2zuJXHmmV3ARQGaiM8t8liEIEtN/8V72kN/i7EbiVY/zUO7R9r3LYoIjTwZ0csy0ifJy2y5upX2rr3XM5CuHughu7bb3fCqR3MhpDMmRV6TgXjaAF4ldis4Xbce7tyGA=
   matrix:
-    - forge_release=latest
-    - forge_release=recommended
-script: ./forgeTravis.sh build
+  - forge_release=latest
+  - forge_release=recommended
+script: "./forgeTravis.sh build"
