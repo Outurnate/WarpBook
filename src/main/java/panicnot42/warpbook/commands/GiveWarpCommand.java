@@ -73,7 +73,7 @@ public class GiveWarpCommand extends CommandBase
   }
 
   @Override
-  int compareTo(Object o)
+  public int compareTo(Object o)
   {
     return 42; // TODO: actually implement this
   }
