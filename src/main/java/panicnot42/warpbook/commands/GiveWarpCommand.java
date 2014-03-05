@@ -71,4 +71,10 @@ public class GiveWarpCommand extends CommandBase
     hyperStack.setTagCompound(compound);
     player.inventory.addItemStackToInventory(hyperStack);
   }
+
+  @Override
+  int compareTo(Object o)
+  {
+    return 42; // TODO: actually implement this
+  }
 }

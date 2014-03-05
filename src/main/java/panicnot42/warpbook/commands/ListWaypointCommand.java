@@ -53,4 +53,10 @@ public class ListWaypointCommand extends CommandBase
       CommandUtils.showError(var1, CommandUtils.ChatType.TYPE_int, ((String)e.getErrorOjbects()[0]));
     }
   }
+
+  @Override
+  int compareTo(Object o)
+  {
+    return 42; // TODO: actually implement this
+  }
 }

@@ -33,4 +33,10 @@ public class DeleteWaypointCommand extends CommandBase
     else
       CommandUtils.showError(var1, String.format("'%s' is not a waypoint", var2[0]));
   }
+
+  @Override
+  int compareTo(Object o)
+  {
+    return 42; // TODO: actually implement this
+  }
 }
