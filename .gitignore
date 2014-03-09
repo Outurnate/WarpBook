@@ -1,0 +1,14 @@
+eclipse
+gradle
+build.gradle
+CREDITS-fml.txt
+forge-*-changelog.txt
+gradlew*
+LICENSE-fml.txt
+MinecraftForge-Credits.txt
+MinecraftForge-License.txt
+README.txt
+.gradle
+build
+
+*~
