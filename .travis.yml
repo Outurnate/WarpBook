@@ -4,6 +4,9 @@ jdk:
 - openjdk7
 - openjdk6
 before_install:
+- wget https://raw.github.com/josephd/ForgeTravis/1.7.2/forgeTravis.sh
+- chmod +x forgeTravis.sh
+install:
 - "./forgeTravis.sh setup"
 env:
   global:
@@ -12,8 +15,11 @@ env:
   - MOD_NAME=Warp-Book
   - secure: A6KZLYBDqiPOFarBr4RndfVC6Br6mS7H2jJcGz1S83JY8D1pN4CBCnxOkgG/7XvvkHouk70+L377YTvUKfrFDELG+pVelj1jVK0fHeIKe1q2Y9oCUw7CvZJsVJz+7spkx5AzZmWydEW+bgncgIJSavaPcP4zXCn6GwlibrprWSg=
   - secure: hlgWvp/lTgHS9CO1dwFZTxwvTtLpKZL/U1NA1f8572N30Ib3hA+BfyiRSRK58VPh6Q91WY4dQd3JavSQU8+AlrKX554JqJrDATtZAP47ZFezqaUwiMK0VP3TLV5HBVM3mQwk7mkwayPJ8ObPY0Eo89JydYALRvA+HWKH6ebgE0c=
-  - secure: lrol9zhPE/H6Lt8VEabx1eCEJFlZsynr0jGTWW6qC3s2zuJXHmmV3ARQGaiM8t8liEIEtN/8V72kN/i7EbiVY/zUO7R9r3LYoIjTwZ0csy0ifJy2y5upX2rr3XM5CuHughu7bb3fCqR3MhpDMmRV6TgXjaAF4ldis4Xbce7tyGA=
+  - secure: fqQs0qTVzJKZYAM1Yx8Pac+XIhKiVd90EZw+UwRUCJmFE8HSZIob9D6TJEqT5CZHoOXFLr8mPT/Yr9HX0w9d977vj15APcQ+Je7FgzQSNnR12aLq66UZ2OJj6UgdrUjBMruuY6TF0PtYrjHZz1tmL7IbioIjbg3yQt2NadxKAqc=
   matrix:
   - forge_release=latest
   - forge_release=recommended
-script: "./forgeTravis.sh build"
+script:
+- gradle build
+after_success:
+- "./forgeTravis.sh release"
