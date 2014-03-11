@@ -10,5 +10,9 @@ MinecraftForge-License.txt
 README.txt
 .gradle
 build
+.classpath
+.project
+.settings
+bin
 
 *~
