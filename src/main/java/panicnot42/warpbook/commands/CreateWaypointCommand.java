@@ -5,7 +5,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
 import panicnot42.util.CommandUtils;
 import panicnot42.warpbook.WarpWorldStorage;
-import panicnot42.warpbook.WarpWorldStorage.Waypoint;
+import panicnot42.warpbook.util.Waypoint;
 
 public class CreateWaypointCommand extends CommandBase
 {
@@ -32,7 +32,7 @@ public class CreateWaypointCommand extends CommandBase
     WarpWorldStorage storage = WarpWorldStorage.instance(var1.getEntityWorld());
     try
     {
-      Waypoint wp = storage.new Waypoint(CommandUtils.stringConcat(var2, 5), CommandBase.parseInt(var1, var2[1]), CommandBase.parseInt(var1, var2[2]), CommandBase.parseInt(var1, var2[3]),
+      Waypoint wp = new Waypoint(CommandUtils.stringConcat(var2, 5), CommandBase.parseInt(var1, var2[1]), CommandBase.parseInt(var1, var2[2]), CommandBase.parseInt(var1, var2[3]),
           CommandBase.parseInt(var1, var2[4]));
       storage.addWaypoint(var2[0], wp);
       CommandUtils.info(var1, "Waypoint created");

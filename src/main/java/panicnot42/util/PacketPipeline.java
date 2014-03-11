@@ -1,4 +1,4 @@
-package panicnot42.warpbook.net;
+package panicnot42.util;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -11,6 +11,8 @@ import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.logging.log4j.Logger;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,7 +32,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * Packet pipeline class. Directs all registered packet data to be handled by
  * the packets themselves.
  * 
- * @author sirgingalot some code from: cpw
+ * @author panicnot42, from code originally by: sirgingalot some code from: cpw
  */
 @ChannelHandler.Sharable
 public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, AbstractPacket>
@@ -38,6 +40,14 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
   private EnumMap<Side, FMLEmbeddedChannel> channels;
   private LinkedList<Class<? extends AbstractPacket>> packets = new LinkedList<Class<? extends AbstractPacket>>();
   private boolean isPostInitialised = false;
+  private Logger logger;
+  private String channelName;
+  
+  public PacketPipeline(Logger logger, String channelName)
+  {
+    this.logger = logger;
+    this.channelName = channelName;
+  }
 
   /**
    * Register your packet with the pipeline. Discriminators are automatically
@@ -54,19 +64,19 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
   {
     if (this.packets.size() > 256)
     {
-      WarpBookMod.logger.error("Attempted to register more than 256 packets!");
+      logger.error("Attempted to register more than 256 packets!");
       return false;
     }
 
     if (this.packets.contains(clazz))
     {
-      WarpBookMod.logger.warn("Attempted to re-register a packet");
+      logger.warn("Attempted to re-register a packet");
       return false;
     }
 
     if (this.isPostInitialised)
     {
-      WarpBookMod.logger.warn("Attempted to register a packet after post-init");
+      logger.warn("Attempted to register a packet after post-init");
       return false;
     }
 
@@ -124,7 +134,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
   // Method to call from FMLInitializationEvent
   public void initalise()
   {
-    this.channels = NetworkRegistry.INSTANCE.newChannel("warpbook", this);
+    this.channels = NetworkRegistry.INSTANCE.newChannel(channelName, this);
   }
 
   // Method to call from FMLPostInitializationEvent

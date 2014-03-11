@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import panicnot42.warpbook.net.AbstractPacket;
+import panicnot42.util.AbstractPacket;
 
 public class PacketParticle extends AbstractPacket
 {

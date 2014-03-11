@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import panicnot42.util.CommandUtils;
 import panicnot42.warpbook.WarpBookMod;
 import panicnot42.warpbook.WarpWorldStorage;
-import panicnot42.warpbook.WarpWorldStorage.Waypoint;
+import panicnot42.warpbook.util.Waypoint;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -127,7 +127,7 @@ public class WarpPageItem extends Item
   public static void doPageWarp(EntityPlayer player, NBTTagCompound pageTagCompound)
   {
     WarpWorldStorage storage = WarpWorldStorage.instance(player.getEntityWorld());
-    Waypoint wp = pageTagCompound.hasKey("hypername") ? storage.getWaypoint(pageTagCompound.getString("hypername")) : storage.new Waypoint("", pageTagCompound.getInteger("posX"),
+    panicnot42.warpbook.util.Waypoint wp = pageTagCompound.hasKey("hypername") ? storage.getWaypoint(pageTagCompound.getString("hypername")) : new Waypoint("", pageTagCompound.getInteger("posX"),
         pageTagCompound.getInteger("posY"), pageTagCompound.getInteger("posZ"), pageTagCompound.getInteger("dim"));
     if (wp == null)
     {

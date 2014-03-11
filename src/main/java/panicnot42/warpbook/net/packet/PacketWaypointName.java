@@ -3,7 +3,7 @@ package panicnot42.warpbook.net.packet;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
-import panicnot42.warpbook.net.AbstractPacket;
+import panicnot42.util.AbstractPacket;
 
 public class PacketWaypointName extends AbstractPacket
 {

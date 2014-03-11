@@ -3,29 +3,20 @@ package panicnot42.warpbook;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import panicnot42.util.INBTSerializable;
+import panicnot42.util.SyncableTable;
+import panicnot42.util.UpdateTableEvent;
+import panicnot42.util.UpdateTableListener;
+import panicnot42.warpbook.util.Waypoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 
-public class WarpWorldStorage extends WorldSavedData
+public class WarpWorldStorage extends WorldSavedData implements INBTSerializable, UpdateTableListener
 {
-  public class Waypoint
-  {
-    public String name;
-    public int x, y, z, dim;
-
-    public Waypoint(String name, int x, int y, int z, int dim)
-    {
-      this.name = name;
-      this.x = x;
-      this.y = y;
-      this.z = z;
-      this.dim = dim;
-    }
-  }
-
-  private HashMap<String, Waypoint> waypoints;
+  private static SyncableTable<WarpWorldStorage> table;
+  private static HashMap<String, Waypoint> waypoints;
 
   private final static String IDENTIFIER = "WarpBook";
 
@@ -94,5 +85,22 @@ public class WarpWorldStorage extends WorldSavedData
   {
     this.markDirty();
     return waypoints.remove(waypoint) != null;
+  }
+  
+  @Override
+  public void markDirty()
+  {
+    table.set("storage", this);
+    super.markDirty();
+  }
+
+  @Override
+  public void tableUpdated(UpdateTableEvent updateTableEvent)
+  {
+    // oh boy what have i done.........
+    // need to make an nbt serializable hashmap
+    // then use it on the table
+    // then the table needs to be in the main mod class
+    // TODO TODO TODO: do this
   }
 }

@@ -6,9 +6,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import panicnot42.util.AbstractPacket;
 import panicnot42.warpbook.WarpBookMod;
 import panicnot42.warpbook.item.WarpPageItem;
-import panicnot42.warpbook.net.AbstractPacket;
 
 public class PacketWarp extends AbstractPacket
 {

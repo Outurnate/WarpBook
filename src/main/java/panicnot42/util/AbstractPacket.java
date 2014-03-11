@@ -1,4 +1,4 @@
-package panicnot42.warpbook.net;
+package panicnot42.util;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -16,7 +16,7 @@ public abstract class AbstractPacket
    * Encode the packet data into the ByteBuf stream. Complex data sets may need
    * specific data handlers (See
    * 
-   * @link{cpw.mods.fml.common.network.ByteBuffUtils )
+   * @link{cpw.mods.fml.common.network.ByteBufUtils )
    * 
    * @param ctx
    *          channel context
@@ -29,7 +29,7 @@ public abstract class AbstractPacket
    * Decode the packet data from the ByteBuf stream. Complex data sets may need
    * specific data handlers (See
    * 
-   * @link{cpw.mods.fml.common.network.ByteBuffUtils )
+   * @link{cpw.mods.fml.common.network.ByteBufUtils )
    * 
    * @param ctx
    *          channel context
