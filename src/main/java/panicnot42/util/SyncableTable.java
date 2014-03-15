@@ -10,15 +10,19 @@ import java.util.Set;
 import javax.swing.event.EventListenerList;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetHandlerPlayServer;
 
-public class SyncableTable<T extends INBTSerializable> // TODO: is this threadsafe?  research netty/forge communication
+public class SyncableTable<T extends INBTSerializable> implements INBTSerializable // TODO: is this threadsafe?  research netty/forge communication
 {
   private class TablePacket extends AbstractPacket
   {
@@ -94,7 +98,8 @@ public class SyncableTable<T extends INBTSerializable> // TODO: is this threadsa
   {
     this.pipeline = pipeline;
     this.clazz = clazz;
-    FMLCommonHandler.instance().bus().register(this); 
+    this.table = new HashMap<String, T>();
+    FMLCommonHandler.instance().bus().register(this);
   }
   
   public void set(String key, T value)
@@ -103,9 +108,14 @@ public class SyncableTable<T extends INBTSerializable> // TODO: is this threadsa
     markDirty();
   }
 
-  public T set(String key)
+  public T get(String key)
   {
     return table.get(key);
+  }
+  
+  public T remove(String waypoint)
+  {
+    return table.remove(waypoint);
   }
   
   public void addUpdateTableListener(UpdateTableListener listener)
@@ -121,12 +131,10 @@ public class SyncableTable<T extends INBTSerializable> // TODO: is this threadsa
   protected void fireUpdate(UpdateTableEvent updateTableEvent)
   {
     for (UpdateTableListener listener : updateTableListeners.getListeners(UpdateTableListener.class))
-    {
       listener.tableUpdated(updateTableEvent);
-    }
   }
-  
-  @SubscribeEvent
+
+  @EventHandler
   public void registerHandlers(FMLPostInitializationEvent event)
   {
     pipeline.registerPacket(TablePacket.class);
@@ -137,6 +145,12 @@ public class SyncableTable<T extends INBTSerializable> // TODO: is this threadsa
   {
     if (dirty)
       clean();
+  }
+  
+  @SubscribeEvent
+  public void clientJoined(ServerConnectionFromClientEvent e)
+  {
+    pipeline.sendTo(new TablePacket(table), ((NetHandlerPlayServer)e.handler).playerEntity);
   }
 
   private void markDirty()
@@ -158,5 +172,29 @@ public class SyncableTable<T extends INBTSerializable> // TODO: is this threadsa
         break;
     }
     dirty = false;
+  }
+
+  @Override
+  public void readFromNBT(NBTTagCompound var1)
+  {
+    NBTUtils.readHashMapFromNBT(var1, (Class<INBTSerializable>)clazz);
+  }
+
+  @Override
+  public void writeToNBT(NBTTagCompound var1)
+  {
+    NBTUtils.writeHashMapToNBT(var1, (HashMap<String, INBTSerializable>)table);
+  }
+
+  public boolean contains(String name)
+  {
+    return table.keySet().contains(name);
+  }
+
+  public String[] keyList()
+  {
+    String[] keySet = new String[table.size()];
+    table.keySet().toArray(keySet);
+    return keySet;
   }
 }

@@ -127,13 +127,10 @@ public class WarpPageItem extends Item
   public static void doPageWarp(EntityPlayer player, NBTTagCompound pageTagCompound)
   {
     WarpWorldStorage storage = WarpWorldStorage.instance(player.getEntityWorld());
-    panicnot42.warpbook.util.Waypoint wp = pageTagCompound.hasKey("hypername") ? storage.getWaypoint(pageTagCompound.getString("hypername")) : new Waypoint("", pageTagCompound.getInteger("posX"),
+    panicnot42.warpbook.util.Waypoint wp = pageTagCompound.hasKey("hypername") ? storage.getWaypoint(pageTagCompound.getString("hypername")) : new Waypoint("", "", pageTagCompound.getInteger("posX"),
         pageTagCompound.getInteger("posY"), pageTagCompound.getInteger("posZ"), pageTagCompound.getInteger("dim"));
     if (wp == null)
-    {
-      if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) CommandUtils.showError(player, "This waypoint no longer exists");
-      return; // client side for hyper page
-    }
+      CommandUtils.showError(player, "This waypoint no longer exists");
     boolean crossDim = player.dimension != wp.dim;
     player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
     if (crossDim) player.travelToDimension(wp.dim);

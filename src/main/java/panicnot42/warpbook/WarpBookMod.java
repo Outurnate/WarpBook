@@ -98,6 +98,7 @@ public class WarpBookMod
   @EventHandler
   public void postInit(FMLPostInitializationEvent event)
   {
+    WarpWorldStorage.postInit();
     packetPipeline.registerPacket(PacketWarp.class);
     packetPipeline.registerPacket(PacketParticle.class);
     packetPipeline.registerPacket(PacketWaypointName.class);

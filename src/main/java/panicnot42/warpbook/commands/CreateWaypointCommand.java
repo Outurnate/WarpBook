@@ -32,9 +32,9 @@ public class CreateWaypointCommand extends CommandBase
     WarpWorldStorage storage = WarpWorldStorage.instance(var1.getEntityWorld());
     try
     {
-      Waypoint wp = new Waypoint(CommandUtils.stringConcat(var2, 5), CommandBase.parseInt(var1, var2[1]), CommandBase.parseInt(var1, var2[2]), CommandBase.parseInt(var1, var2[3]),
+      Waypoint wp = new Waypoint(CommandUtils.stringConcat(var2, 5), var2[0], CommandBase.parseInt(var1, var2[1]), CommandBase.parseInt(var1, var2[2]), CommandBase.parseInt(var1, var2[3]),
           CommandBase.parseInt(var1, var2[4]));
-      storage.addWaypoint(var2[0], wp);
+      storage.addWaypoint(wp);
       CommandUtils.info(var1, "Waypoint created");
     }
     catch (NumberInvalidException e)

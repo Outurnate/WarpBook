@@ -13,38 +13,44 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 
-public class WarpWorldStorage extends WorldSavedData implements INBTSerializable, UpdateTableListener
+public class WarpWorldStorage extends WorldSavedData implements UpdateTableListener
 {
-  private static SyncableTable<WarpWorldStorage> table;
-  private static HashMap<String, Waypoint> waypoints;
+  private static SyncableTable<Waypoint> table;
+  //private static HashMap<String, Waypoint> waypoints;
 
   private final static String IDENTIFIER = "WarpBook";
 
   public WarpWorldStorage(String identifier)
   {
     super(identifier);
-    waypoints = new HashMap<String, Waypoint>();
+    //waypoints = new HashMap<String, Waypoint>();
   }
 
   public static WarpWorldStorage instance(World world)
   {
-    if (world.mapStorage.loadData(WarpWorldStorage.class, IDENTIFIER) == null) world.mapStorage.setData(IDENTIFIER, new WarpWorldStorage(IDENTIFIER));
+    if (world.mapStorage.loadData(WarpWorldStorage.class, IDENTIFIER) == null)
+      world.mapStorage.setData(IDENTIFIER, new WarpWorldStorage(IDENTIFIER));
     return (WarpWorldStorage)world.mapStorage.loadData(WarpWorldStorage.class, IDENTIFIER);
+  }
+  
+  public static void postInit()
+  {
+    table = new SyncableTable<Waypoint>(WarpBookMod.packetPipeline, Waypoint.class);
   }
 
   @Override
   public void readFromNBT(NBTTagCompound var1)
   {
-    NBTTagList tags = var1.getTagList("waypoints", new NBTTagCompound().getId());
+    /*NBTTagList tags = var1.getTagList("waypoints", new NBTTagCompound().getId());
     for (int i = 0; i < tags.tagCount(); ++i)
-      waypoints.put(tags.getCompoundTagAt(i).getString("name"), new Waypoint(tags.getCompoundTagAt(i).getString("friendlyName"), tags.getCompoundTagAt(i).getInteger("x"), tags.getCompoundTagAt(i)
-          .getInteger("y"), tags.getCompoundTagAt(i).getInteger("z"), tags.getCompoundTagAt(i).getInteger("dim")));
+      table.set(tags.getCompoundTagAt(i).getString("name"), new Waypoint(tags.getCompoundTagAt(i)));*/
+    table.readFromNBT(var1);
   }
 
   @Override
   public void writeToNBT(NBTTagCompound var1)
   {
-    NBTTagList tags = new NBTTagList();
+    /*NBTTagList tags = new NBTTagList();
     for (Entry<String, Waypoint> wps : waypoints.entrySet())
     {
       NBTTagCompound wp = new NBTTagCompound();
@@ -56,51 +62,40 @@ public class WarpWorldStorage extends WorldSavedData implements INBTSerializable
       wp.setString("name", wps.getKey());
       tags.appendTag(wp);
     }
-    var1.setTag("waypoints", tags);
+    var1.setTag("waypoints", tags);*/
+    table.writeToNBT(var1);
   }
 
   public boolean waypointExists(String name)
   {
-    return waypoints.keySet().contains(name);
+    return table.contains(name);
   }
 
   public Waypoint getWaypoint(String name)
   {
-    return waypoints.get(name);
+    return table.get(name);
   }
 
-  public void addWaypoint(String name, Waypoint point)
+  public void addWaypoint(Waypoint point)
   {
-    waypoints.put(name, point);
+    table.set(point.name, point);
     this.markDirty();
   }
 
   public String[] listWaypoints()
   {
-    String[] wplist = new String[waypoints.size()];
-    return (String[])waypoints.keySet().toArray(wplist);
+    return table.keyList();
   }
 
   public boolean deleteWaypoint(String waypoint)
   {
     this.markDirty();
-    return waypoints.remove(waypoint) != null;
-  }
-  
-  @Override
-  public void markDirty()
-  {
-    table.set("storage", this);
-    super.markDirty();
+    return table.remove(waypoint) != null;
   }
 
   @Override
   public void tableUpdated(UpdateTableEvent updateTableEvent)
   {
-    // oh boy what have i done.........
-    // need to make an nbt serializable hashmap
-    // then use it on the table
-    // then the table needs to be in the main mod class
-    // TODO TODO TODO: do this
+    // nope
   }
 }
