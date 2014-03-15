@@ -15,4 +15,6 @@ build
 .settings
 bin
 
+src/main/java/org
+
 *~

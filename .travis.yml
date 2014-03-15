@@ -7,6 +7,7 @@ before_install:
 - wget https://raw.github.com/josephd/ForgeTravis/1.7.2/forgeTravis.sh
 - chmod +x forgeTravis.sh
 install:
+- ./fetchDeps.sh
 - "./forgeTravis.sh setup"
 env:
   global:
