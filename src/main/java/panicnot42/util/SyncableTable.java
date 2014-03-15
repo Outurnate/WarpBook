@@ -177,13 +177,13 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
   @Override
   public void readFromNBT(NBTTagCompound var1)
   {
-    NBTUtils.readHashMapFromNBT(var1, (Class<INBTSerializable>)clazz);
+    NBTUtils.readHashMapFromNBT(var1.getTagList("waypointTable", new NBTTagCompound().getId()), (Class<INBTSerializable>)clazz);
   }
 
   @Override
   public void writeToNBT(NBTTagCompound var1)
   {
-    NBTUtils.writeHashMapToNBT(var1, (HashMap<String, INBTSerializable>)table);
+    NBTUtils.writeHashMapToNBT(var1.getTagList("waypointTable", new NBTTagCompound().getId()), (HashMap<String, INBTSerializable>)table);
   }
 
   public boolean contains(String name)

@@ -5,13 +5,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 
 public class NBTUtils
 {
-  public static HashMap<String, INBTSerializable> readHashMapFromNBT(NBTTagCompound tag, Class<INBTSerializable> clazz)
+  public static HashMap<String, INBTSerializable> readHashMapFromNBT(NBTTagList tag, Class<INBTSerializable> clazz)
   {
     HashMap<String, INBTSerializable> map = new HashMap<String, INBTSerializable>();
-    for (NBTTagCompound e : (Set<NBTTagCompound>)tag.func_150296_c())
+    for (int i = 0; i < tag.tagCount(); ++i)
     {
       INBTSerializable obj;
       try
@@ -26,23 +27,22 @@ public class NBTUtils
       {
         throw new RuntimeException(e1);
       }
-      obj.readFromNBT(e.getCompoundTag("value"));
-      map.put(e.getString("name"), obj);
+      obj.readFromNBT(tag.getCompoundTagAt(i).getCompoundTag("value"));
+      map.put(tag.getCompoundTagAt(i).getString("name"), obj);
     }
     return map;
   }
   
-  public static void writeHashMapToNBT(NBTTagCompound tag, HashMap<String, INBTSerializable> map)
+  public static void writeHashMapToNBT(NBTTagList tag, HashMap<String, INBTSerializable> map)
   {
-    int i = 0;
     for (Entry<String, INBTSerializable> e : map.entrySet())
     {
       NBTTagCompound comp = new NBTTagCompound();
-      comp.setString("name", e.getKey());
       NBTTagCompound value = new NBTTagCompound();
       e.getValue().writeToNBT(value);
+      comp.setString("name", e.getKey());
       comp.setTag("value", value);
-      tag.setTag(String.format("tag%d", i++), comp);
+      tag.appendTag(comp);
     }
   }
 }
