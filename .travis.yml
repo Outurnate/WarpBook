@@ -7,7 +7,7 @@ before_install:
 - wget https://raw.github.com/josephd/ForgeTravis/1.7.2/forgeTravis.sh
 - chmod +x forgeTravis.sh
 install:
-- ./fetchDeps.sh
+- "./fetchDeps.sh"
 - "./forgeTravis.sh setup"
 env:
   global:
@@ -16,9 +16,9 @@ env:
   - MOD_NAME=Warp Book
   - MOD_NAMESPACE=panicnot42
   - MOD_JARNAME=warp-book
-  - secure: A6KZLYBDqiPOFarBr4RndfVC6Br6mS7H2jJcGz1S83JY8D1pN4CBCnxOkgG/7XvvkHouk70+L377YTvUKfrFDELG+pVelj1jVK0fHeIKe1q2Y9oCUw7CvZJsVJz+7spkx5AzZmWydEW+bgncgIJSavaPcP4zXCn6GwlibrprWSg=
-  - secure: hlgWvp/lTgHS9CO1dwFZTxwvTtLpKZL/U1NA1f8572N30Ib3hA+BfyiRSRK58VPh6Q91WY4dQd3JavSQU8+AlrKX554JqJrDATtZAP47ZFezqaUwiMK0VP3TLV5HBVM3mQwk7mkwayPJ8ObPY0Eo89JydYALRvA+HWKH6ebgE0c=
-  - secure: fqQs0qTVzJKZYAM1Yx8Pac+XIhKiVd90EZw+UwRUCJmFE8HSZIob9D6TJEqT5CZHoOXFLr8mPT/Yr9HX0w9d977vj15APcQ+Je7FgzQSNnR12aLq66UZ2OJj6UgdrUjBMruuY6TF0PtYrjHZz1tmL7IbioIjbg3yQt2NadxKAqc=
+  - secure: cQz48Aaro9k9Cz5wkjyn5T++59bMb049rcltqj5vY+dZTbo0Qp4531Y5Vpe0dbrLuiVqd/njlzsybAMuv0Troo+KCXjNXK9k7gsDChJe1fnwXOA1Cuc7Zwge3+dyn/OVLEK/jxDLwoPDPmaZfKTjhO4aK2py2EUuvhHfKCGK+2M=
+  - secure: ezsPmcQ+Ea21Vjkn9LCvrKuK0ZxBw/PQE5eSeJ4QKgnsG9dVw+OIZX2ZqZ6DmA4W3B0ecQvIRZ0liRAX6Vf+ZB6m04Yp5BkSk6wBh1vd5iFlxavH0Vz8rh7MMok8HJQOY6iSDbKH2T+F1atzgtiuGPI5I4/B4d/x59ALx9d8IUM=
+  - secure: b0BYCuOgce4yh2LkrGDxPiaptIkDiVSuSfHQfDfwN4/yT43AfelgZRREFA7cN42ZcyEj8f8bTJeGNI+jsMwwBJmoZKYdneC+pjdTqp4tPHnxwkSAtlG2Rsic8SFltzQdNxhilvnP7Sh9rsT/u8nvNd0u9md88YKJLBXbpeQFyYo=
   matrix:
   - forge_release=latest
   - forge_release=recommended
