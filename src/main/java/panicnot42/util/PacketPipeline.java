@@ -34,6 +34,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author panicnot42, from code originally by: sirgingalot some code from: cpw
  */
+// TODO: almost complete rewrite
 @ChannelHandler.Sharable
 public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, AbstractPacket>
 {

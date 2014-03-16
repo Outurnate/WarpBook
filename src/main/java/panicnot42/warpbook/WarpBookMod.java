@@ -22,7 +22,6 @@ import panicnot42.warpbook.crafting.WarpPageShapeless;
 import panicnot42.warpbook.gui.GuiManager;
 import panicnot42.warpbook.item.WarpBookItem;
 import panicnot42.warpbook.item.WarpPageItem;
-import panicnot42.warpbook.net.packet.PacketParticle;
 import panicnot42.warpbook.net.packet.PacketWarp;
 import panicnot42.warpbook.net.packet.PacketWaypointName;
 
@@ -37,7 +36,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = "warpbook", name = "Warp Book", version = "0.1.332")
+@Mod(modid = WarpBookMod.modid, name = "Warp Book", version = "0.1.332")
 public class WarpBookMod
 {
   @Instance(value = "warpbook")
@@ -59,6 +58,8 @@ public class WarpBookMod
   public static final int WarpBookWarpGuiIndex = guiIndex++;
   public static final int WarpBookWaypointGuiIndex = guiIndex++;
   public static final int WarpBookInventoryGuiIndex = guiIndex++;
+
+  public static final String modid = "warpbook";
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent event)
@@ -100,7 +101,6 @@ public class WarpBookMod
   {
     WarpWorldStorage.postInit();
     packetPipeline.registerPacket(PacketWarp.class);
-    packetPipeline.registerPacket(PacketParticle.class);
     packetPipeline.registerPacket(PacketWaypointName.class);
     packetPipeline.postInitialise();
   }

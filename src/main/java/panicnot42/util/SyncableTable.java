@@ -93,12 +93,14 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
   private Class<T> clazz;
   private boolean dirty = false;
   private EventListenerList updateTableListeners = new EventListenerList();
+  private String rootTagName;
   
-  public SyncableTable(PacketPipeline pipeline, Class<T> clazz)
+  public SyncableTable(PacketPipeline pipeline, Class<T> clazz, String rootTagName)
   {
     this.pipeline = pipeline;
     this.clazz = clazz;
     this.table = new HashMap<String, T>();
+    this.rootTagName = rootTagName;
     FMLCommonHandler.instance().bus().register(this);
   }
   
@@ -177,13 +179,13 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
   @Override
   public void readFromNBT(NBTTagCompound var1)
   {
-    NBTUtils.readHashMapFromNBT(var1.getTagList("waypointTable", new NBTTagCompound().getId()), (Class<INBTSerializable>)clazz);
+    NBTUtils.readHashMapFromNBT(var1.getTagList(rootTagName, new NBTTagCompound().getId()), (Class<INBTSerializable>)clazz);
   }
 
   @Override
   public void writeToNBT(NBTTagCompound var1)
   {
-    NBTUtils.writeHashMapToNBT(var1.getTagList("waypointTable", new NBTTagCompound().getId()), (HashMap<String, INBTSerializable>)table);
+    NBTUtils.writeHashMapToNBT(var1.getTagList(rootTagName, new NBTTagCompound().getId()), (HashMap<String, INBTSerializable>)table);
   }
 
   public boolean contains(String name)

@@ -35,7 +35,7 @@ public class WarpWorldStorage extends WorldSavedData implements UpdateTableListe
   
   public static void postInit()
   {
-    table = new SyncableTable<Waypoint>(WarpBookMod.packetPipeline, Waypoint.class);
+    table = new SyncableTable<Waypoint>(WarpBookMod.packetPipeline, Waypoint.class, "waypointTable");
   }
 
   @Override

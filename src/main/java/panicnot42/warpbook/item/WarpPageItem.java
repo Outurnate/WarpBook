@@ -2,6 +2,7 @@ package panicnot42.warpbook.item;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +16,7 @@ import net.minecraft.world.World;
 import panicnot42.util.CommandUtils;
 import panicnot42.warpbook.WarpBookMod;
 import panicnot42.warpbook.WarpWorldStorage;
+import panicnot42.warpbook.client.fx.WarpEntryFX;
 import panicnot42.warpbook.util.Waypoint;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -27,6 +29,9 @@ public class WarpPageItem extends Item
 
   @SideOnly(Side.CLIENT)
   private IIcon[] itemIcons;
+  
+  @SideOnly(Side.CLIENT)
+  public static IIcon warpExitParticleFX; // TODO this feels wrong
 
   public WarpPageItem()
   {
@@ -52,6 +57,7 @@ public class WarpPageItem extends Item
     itemIcons = new IIcon[itemTextures.length];
     for (int i = 0; i < itemTextures.length; ++i)
       itemIcons[i] = iconRegister.registerIcon("warpbook:" + itemTextures[i]);
+    warpExitParticleFX = iconRegister.registerIcon("warpbook:warpparticle.png");
   }
 
   @Override
@@ -91,7 +97,10 @@ public class WarpPageItem extends Item
           break;
         case 1:
         case 2:
-          doPageWarp(player, itemStack.getTagCompound());
+          if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+            this.doPageWarp(player, itemStack);
+          else if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+            this.doParticles(player, itemStack);
           if (!player.capabilities.isCreativeMode) --itemStack.stackSize;
           break;
       }
@@ -123,11 +132,17 @@ public class WarpPageItem extends Item
         break;
     }
   }
-
-  public static void doPageWarp(EntityPlayer player, NBTTagCompound pageTagCompound)
+  
+  @SideOnly(Side.CLIENT)
+  public void doParticles(EntityPlayer player, ItemStack page)
   {
+  }
+
+  public void doPageWarp(EntityPlayer player, ItemStack page)
+  {
+    NBTTagCompound pageTagCompound = page.getTagCompound();
     WarpWorldStorage storage = WarpWorldStorage.instance(player.getEntityWorld());
-    panicnot42.warpbook.util.Waypoint wp = pageTagCompound.hasKey("hypername") ? storage.getWaypoint(pageTagCompound.getString("hypername")) : new Waypoint("", "", pageTagCompound.getInteger("posX"),
+    Waypoint wp = pageTagCompound.hasKey("hypername") ? storage.getWaypoint(pageTagCompound.getString("hypername")) : new Waypoint("", "", pageTagCompound.getInteger("posX"),
         pageTagCompound.getInteger("posY"), pageTagCompound.getInteger("posZ"), pageTagCompound.getInteger("dim"));
     if (wp == null)
     {

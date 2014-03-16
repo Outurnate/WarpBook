@@ -1,5 +1,6 @@
 package panicnot42.warpbook.gui;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
@@ -12,6 +13,7 @@ import org.lwjgl.input.Keyboard;
 
 import panicnot42.util.StringUtils;
 import panicnot42.warpbook.WarpBookMod;
+import panicnot42.warpbook.item.WarpPageItem;
 import panicnot42.warpbook.net.packet.PacketWarp;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -65,13 +67,10 @@ public class GuiBook extends GuiScreen
   @Override
   protected void actionPerformed(GuiButton guiButton)
   {
-    /*
-     * DataOutputStream outputStream = new DataOutputStream(bos); try {
-     * outputStream.writeInt(guiButton.id); } catch (Exception e) {
-     * e.printStackTrace(); }
-     */
     PacketWarp packet = new PacketWarp(guiButton.id);
     WarpBookMod.packetPipeline.sendToServer(packet);
+    ItemStack page = PacketWarp.getPageById(entityPlayer, guiButton.id);
+    ((WarpPageItem)page.getItem()).doParticles(Minecraft.getMinecraft().thePlayer, page);
 
     mc.displayGuiScreen((GuiScreen)null);
   }
