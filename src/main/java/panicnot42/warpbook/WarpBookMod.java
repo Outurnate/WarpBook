@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import panicnot42.util.PacketPipeline;
+import panicnot42.warpbook.client.ClientLogicalProxy;
 import panicnot42.warpbook.commands.CreateWaypointCommand;
 import panicnot42.warpbook.commands.DeleteWaypointCommand;
 import panicnot42.warpbook.commands.GiveWarpCommand;
@@ -24,7 +25,7 @@ import panicnot42.warpbook.item.WarpBookItem;
 import panicnot42.warpbook.item.WarpPageItem;
 import panicnot42.warpbook.net.packet.PacketWarp;
 import panicnot42.warpbook.net.packet.PacketWaypointName;
-
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -35,6 +36,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = WarpBookMod.modid, name = "Warp Book", version = "0.1.332")
 public class WarpBookMod
@@ -45,11 +47,11 @@ public class WarpBookMod
   public static final Logger logger = LogManager.getLogger("warpbook");
   public static final PacketPipeline packetPipeline = new PacketPipeline(logger, "warpbook");
 
-  public static Item warpBookItem;
-  public static Item warpPageItem;
+  public static WarpBookItem warpBookItem;
+  public static WarpPageItem warpPageItem;
 
-  @SidedProxy(clientSide = "panicnot42.warpbook.client.ClientProxy", serverSide = "panicnot42.warpbook.CommonProxy")
-  public static CommonProxy proxy;
+  @SidedProxy(clientSide = "panicnot42.warpbook.client.ClientProxy", serverSide = "panicnot42.warpbook.Proxy")
+  public static Proxy proxy;
 
   private static int guiIndex = 42;
 
@@ -93,6 +95,8 @@ public class WarpBookMod
   @EventHandler
   public void init(FMLInitializationEvent event)
   {
+    proxy.registerRenderers();
+    NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
     packetPipeline.initalise();
   }
 
@@ -103,13 +107,6 @@ public class WarpBookMod
     packetPipeline.registerPacket(PacketWarp.class);
     packetPipeline.registerPacket(PacketWaypointName.class);
     packetPipeline.postInitialise();
-  }
-
-  @EventHandler
-  public void load(FMLInitializationEvent event)
-  {
-    proxy.registerRenderers();
-    NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
   }
 
   @EventHandler

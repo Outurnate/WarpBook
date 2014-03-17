@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagList;
 
 import org.lwjgl.input.Keyboard;
 
+import panicnot42.util.CommandUtils;
 import panicnot42.util.StringUtils;
 import panicnot42.warpbook.WarpBookMod;
 import panicnot42.warpbook.item.WarpPageItem;
@@ -39,7 +40,7 @@ public class GuiBook extends GuiScreen
     items = entityPlayer.getHeldItem().getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
     if (items.tagCount() == 0)
     {
-      WarpBookMod.proxy.printMessage("There are no pages in this book.  Shift+right click to add bound pages");
+      CommandUtils.showError(entityPlayer, "There are no pages in this book.  Shift+right click to add bound pages");
       mc.displayGuiScreen((GuiScreen)null);
       return;
     }
@@ -70,7 +71,7 @@ public class GuiBook extends GuiScreen
     PacketWarp packet = new PacketWarp(guiButton.id);
     WarpBookMod.packetPipeline.sendToServer(packet);
     ItemStack page = PacketWarp.getPageById(entityPlayer, guiButton.id);
-    ((WarpPageItem)page.getItem()).doParticles(Minecraft.getMinecraft().thePlayer, page);
+    WarpBookMod.proxy.handleWarp(Minecraft.getMinecraft().thePlayer, page);
 
     mc.displayGuiScreen((GuiScreen)null);
   }

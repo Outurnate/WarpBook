@@ -44,7 +44,7 @@ public class PacketWarp extends AbstractPacket
   public void handleServerSide(EntityPlayer player)
   {
     ItemStack page = getPageById(player, this.pageSlot);
-    ((WarpPageItem)page.getItem()).doPageWarp(player, page);
+    WarpBookMod.proxy.handleWarp(player, page);
   }
 
   public static ItemStack getPageById(EntityPlayer player, int pageSlot)

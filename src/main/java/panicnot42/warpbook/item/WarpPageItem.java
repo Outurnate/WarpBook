@@ -31,7 +31,7 @@ public class WarpPageItem extends Item
   private IIcon[] itemIcons;
   
   @SideOnly(Side.CLIENT)
-  public static IIcon warpExitParticleFX; // TODO this feels wrong
+  public IIcon warpExitParticleFX; // TODO this feels wrong
 
   public WarpPageItem()
   {
@@ -57,7 +57,7 @@ public class WarpPageItem extends Item
     itemIcons = new IIcon[itemTextures.length];
     for (int i = 0; i < itemTextures.length; ++i)
       itemIcons[i] = iconRegister.registerIcon("warpbook:" + itemTextures[i]);
-    warpExitParticleFX = iconRegister.registerIcon("warpbook:warpparticle.png");
+    warpExitParticleFX = iconRegister.registerIcon("warpbook:warpparticle");
   }
 
   @Override
@@ -97,10 +97,7 @@ public class WarpPageItem extends Item
           break;
         case 1:
         case 2:
-          if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
-            this.doPageWarp(player, itemStack);
-          else if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
-            this.doParticles(player, itemStack);
+          WarpBookMod.proxy.handleWarp(player, itemStack);
           if (!player.capabilities.isCreativeMode) --itemStack.stackSize;
           break;
       }
@@ -131,49 +128,6 @@ public class WarpPageItem extends Item
         list.add(name);
         break;
     }
-  }
-  
-  @SideOnly(Side.CLIENT)
-  public void doParticles(EntityPlayer player, ItemStack page)
-  {
-  }
-
-  public void doPageWarp(EntityPlayer player, ItemStack page)
-  {
-    NBTTagCompound pageTagCompound = page.getTagCompound();
-    WarpWorldStorage storage = WarpWorldStorage.instance(player.getEntityWorld());
-    Waypoint wp = pageTagCompound.hasKey("hypername") ? storage.getWaypoint(pageTagCompound.getString("hypername")) : new Waypoint("", "", pageTagCompound.getInteger("posX"),
-        pageTagCompound.getInteger("posY"), pageTagCompound.getInteger("posZ"), pageTagCompound.getInteger("dim"));
-    if (wp == null)
-    {
-      CommandUtils.showError(player, "This waypoint no longer exists");
-      return; // kind of important....
-    }
-    boolean crossDim = player.dimension != wp.dim;
-    player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
-    if (crossDim) player.travelToDimension(wp.dim);
-    player.setPositionAndUpdate(wp.x + 0.5f, wp.y + 0.5f, wp.z + 0.5f);
-  }
-
-  private static float calculateExhaustion(EnumDifficulty difficultySetting, float exhaustionCoefficient, boolean crossDim)
-  {
-    float scaleFactor = 0.0f;
-    switch (difficultySetting)
-    {
-      case EASY:
-        scaleFactor = 1.0f;
-        break;
-      case NORMAL:
-        scaleFactor = 1.5f;
-        break;
-      case HARD:
-        scaleFactor = 2.0f;
-        break;
-      case PEACEFUL:
-        scaleFactor = 0.0f;
-        break;
-    }
-    return exhaustionCoefficient * scaleFactor * (crossDim ? 2.0f : 1.0f);
   }
 
   @Override
