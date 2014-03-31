@@ -12,7 +12,7 @@ public class Proxy
   public void registerRenderers()
   {
   }
-  
+
   public void handleWarp(EntityPlayer player, ItemStack page)
   {
     Waypoint wp = extractWaypoint(player, page);

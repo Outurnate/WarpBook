@@ -22,17 +22,20 @@ public class GuiWarpBookItemInventory extends GuiContainer
     ySize = 222;
   }
 
+  @Override
   public void drawScreen(int xsize, int ysize, float par3)
   {
     super.drawScreen(xsize, ysize, par3);
   }
 
+  @Override
   protected void drawGuiContainerForegroundLayer(int par1, int par2)
   {
     String s = inventory.getInventoryName();
     fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
   }
 
+  @Override
   protected void drawGuiContainerBackgroundLayer(float f, int i, int j)
   {
     GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

@@ -9,6 +9,9 @@ import java.util.Set;
 
 import javax.swing.event.EventListenerList;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetHandlerPlayServer;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -16,21 +19,28 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetHandlerPlayServer;
 
-public class SyncableTable<T extends INBTSerializable> implements INBTSerializable // TODO: is this threadsafe?  research netty/forge communication
+public class SyncableTable<T extends INBTSerializable> implements INBTSerializable // TODO:
+// is
+// this
+// threadsafe?
+// research
+// netty/forge
+// communication
 {
   private class TablePacket extends AbstractPacket
   {
     private HashMap<String, T> payload;
-    
-    public TablePacket() { }
-    private TablePacket(HashMap<String, T> payload) { this.payload = payload; }
-    
+
+    public TablePacket()
+    {
+    }
+
+    private TablePacket(HashMap<String, T> payload)
+    {
+      this.payload = payload;
+    }
+
     @Override
     public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
     {
@@ -80,21 +90,21 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
     {
       copyParent();
     }
-    
+
     private void copyParent()
     {
       table = new HashMap<String, T>(payload); // here's where I may need sync
       dirty = false;
     }
   }
-  
+
   private PacketPipeline pipeline;
   private HashMap<String, T> table;
   private Class<T> clazz;
   private boolean dirty = false;
   private EventListenerList updateTableListeners = new EventListenerList();
   private String rootTagName;
-  
+
   public SyncableTable(PacketPipeline pipeline, Class<T> clazz, String rootTagName)
   {
     this.pipeline = pipeline;
@@ -103,7 +113,7 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
     this.rootTagName = rootTagName;
     FMLCommonHandler.instance().bus().register(this);
   }
-  
+
   public void set(String key, T value)
   {
     table.put(key, value);
@@ -114,22 +124,22 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
   {
     return table.get(key);
   }
-  
+
   public T remove(String waypoint)
   {
     return table.remove(waypoint);
   }
-  
+
   public void addUpdateTableListener(UpdateTableListener listener)
   {
     updateTableListeners.add(UpdateTableListener.class, listener);
   }
-  
+
   public void removeUpdateTableListener(UpdateTableListener listener)
   {
     updateTableListeners.remove(UpdateTableListener.class, listener);
   }
-  
+
   protected void fireUpdate(UpdateTableEvent updateTableEvent)
   {
     for (UpdateTableListener listener : updateTableListeners.getListeners(UpdateTableListener.class))
@@ -141,14 +151,13 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
   {
     pipeline.registerPacket(TablePacket.class);
   }
-  
+
   @SubscribeEvent
   public void tick(TickEvent e)
   {
-    if (dirty)
-      clean();
+    if (dirty) clean();
   }
-  
+
   @SubscribeEvent
   public void clientJoined(ServerConnectionFromClientEvent e)
   {
@@ -159,7 +168,7 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
   {
     dirty = true;
   }
-  
+
   private void clean()
   {
     switch (FMLCommonHandler.instance().getEffectiveSide())

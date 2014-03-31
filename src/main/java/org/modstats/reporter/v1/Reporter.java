@@ -29,6 +29,7 @@ package org.modstats.reporter.v1;
 
 /**
  * Obsolete.
+ * 
  * @deprecated See org.modstats.reporter.v2
  */
 @Deprecated()

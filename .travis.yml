@@ -12,7 +12,7 @@ env:
   global:
   - TERM=dumb
   - MOD_VERSION=1.0
-  - MOD_NAME=Warp Book
+  - MOD_NAME=warpbook
   - MOD_NAMESPACE=panicnot42
   - MOD_JARNAME=warp-book
   - secure: cQz48Aaro9k9Cz5wkjyn5T++59bMb049rcltqj5vY+dZTbo0Qp4531Y5Vpe0dbrLuiVqd/njlzsybAMuv0Troo+KCXjNXK9k7gsDChJe1fnwXOA1Cuc7Zwge3+dyn/OVLEK/jxDLwoPDPmaZfKTjhO4aK2py2EUuvhHfKCGK+2M=

@@ -17,7 +17,7 @@ public class WarpBookContainerItem extends Container
   {
     inventory = inventoryItem;
     for (int i = 0; i < WarpBookInventoryItem.INV_SIZE; ++i)
-      this.addSlotToContainer(new WarpBookSlot(inventory, i, 8 + (18 * (int)(i % 9)), 18 + (18 * (i / 9))));
+      this.addSlotToContainer(new WarpBookSlot(inventory, i, 8 + (18 * (i % 9)), 18 + (18 * (i / 9))));
 
     for (int i = 0; i < 3; ++i)
       for (int j = 0; j < 9; ++j)

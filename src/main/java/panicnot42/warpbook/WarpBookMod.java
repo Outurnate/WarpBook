@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.config.Configuration;
@@ -24,7 +23,6 @@ import panicnot42.warpbook.item.WarpBookItem;
 import panicnot42.warpbook.item.WarpPageItem;
 import panicnot42.warpbook.net.packet.PacketWarp;
 import panicnot42.warpbook.net.packet.PacketWaypointName;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -35,7 +33,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = WarpBookMod.modid, name = "Warp Book", version = "0.1.332")
 public class WarpBookMod

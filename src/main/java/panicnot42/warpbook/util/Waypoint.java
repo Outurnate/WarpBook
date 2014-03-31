@@ -17,7 +17,7 @@ public class Waypoint implements INBTSerializable
     this.z = z;
     this.dim = dim;
   }
-  
+
   public Waypoint(NBTTagCompound var1)
   {
     readFromNBT(var1);

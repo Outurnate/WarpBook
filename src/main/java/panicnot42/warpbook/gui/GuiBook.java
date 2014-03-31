@@ -14,7 +14,6 @@ import org.lwjgl.input.Keyboard;
 import panicnot42.util.CommandUtils;
 import panicnot42.util.StringUtils;
 import panicnot42.warpbook.WarpBookMod;
-import panicnot42.warpbook.item.WarpPageItem;
 import panicnot42.warpbook.net.packet.PacketWarp;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -46,7 +45,7 @@ public class GuiBook extends GuiScreen
     }
     for (int i = 0; i < items.tagCount(); ++i)
     {
-      NBTTagCompound compound = ItemStack.loadItemStackFromNBT((NBTTagCompound)items.getCompoundTagAt(i)).getTagCompound();
+      NBTTagCompound compound = ItemStack.loadItemStackFromNBT(items.getCompoundTagAt(i)).getTagCompound();
       try
       {
         buttonList.add(new GuiButton(i, ((width - 404) / 2) + ((i % 6) * 68), 16 + (24 * (i / 6)), 64, 16, StringUtils.shorten(compound.hasKey("hypername") ? compound.getString("hypername")

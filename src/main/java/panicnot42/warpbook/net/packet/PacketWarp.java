@@ -8,7 +8,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import panicnot42.util.AbstractPacket;
 import panicnot42.warpbook.WarpBookMod;
-import panicnot42.warpbook.item.WarpPageItem;
 
 public class PacketWarp extends AbstractPacket
 {
@@ -50,7 +49,7 @@ public class PacketWarp extends AbstractPacket
   public static ItemStack getPageById(EntityPlayer player, int pageSlot)
   {
     NBTTagList stack = player.getHeldItem().getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
-    ItemStack page = ItemStack.loadItemStackFromNBT((NBTTagCompound)stack.getCompoundTagAt(pageSlot));
+    ItemStack page = ItemStack.loadItemStackFromNBT(stack.getCompoundTagAt(pageSlot));
     return page;
   }
 }

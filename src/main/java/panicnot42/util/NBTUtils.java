@@ -2,7 +2,6 @@ package panicnot42.util;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -32,7 +31,7 @@ public class NBTUtils
     }
     return map;
   }
-  
+
   public static void writeHashMapToNBT(NBTTagList tag, HashMap<String, INBTSerializable> map)
   {
     for (Entry<String, INBTSerializable> e : map.entrySet())

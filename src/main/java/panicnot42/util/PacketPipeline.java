@@ -12,14 +12,14 @@ import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.NetHandlerPlayServer;
-import panicnot42.warpbook.WarpBookMod;
+
+import org.apache.logging.log4j.Logger;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.FMLOutboundHandler;
@@ -43,7 +43,7 @@ public class PacketPipeline extends MessageToMessageCodec<FMLProxyPacket, Abstra
   private boolean isPostInitialised = false;
   private Logger logger;
   private String channelName;
-  
+
   public PacketPipeline(Logger logger, String channelName)
   {
     this.logger = logger;
