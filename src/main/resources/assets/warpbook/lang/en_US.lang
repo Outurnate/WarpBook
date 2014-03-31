@@ -1,7 +1,7 @@
 item.warpbook.name=Warp Book
 item.warppage.unbound.name=Unbound Warp Page
 item.warppage.bound.name=Bound Warp Page
-item.warppage.hyperbound.name=Hyper Bound Warp Page
+item.warppage.hyperbound.name=Hyper Warp Page
 
 warpbook.dowarp=Warp to Waypoint
 warpbook.bindpage=Bind Page
