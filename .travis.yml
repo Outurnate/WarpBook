@@ -15,9 +15,9 @@ env:
   - MOD_NAME=warpbook
   - MOD_NAMESPACE=panicnot42
   - MOD_JARNAME=warp-book
-  - secure: ezsPmcQ+Ea21Vjkn9LCvrKuK0ZxBw/PQE5eSeJ4QKgnsG9dVw+OIZX2ZqZ6DmA4W3B0ecQvIRZ0liRAX6Vf+ZB6m04Yp5BkSk6wBh1vd5iFlxavH0Vz8rh7MMok8HJQOY6iSDbKH2T+F1atzgtiuGPI5I4/B4d/x59ALx9d8IUM=
-  - secure: b0BYCuOgce4yh2LkrGDxPiaptIkDiVSuSfHQfDfwN4/yT43AfelgZRREFA7cN42ZcyEj8f8bTJeGNI+jsMwwBJmoZKYdneC+pjdTqp4tPHnxwkSAtlG2Rsic8SFltzQdNxhilvnP7Sh9rsT/u8nvNd0u9md88YKJLBXbpeQFyYo=
   - secure: ZY/tOxF7igHTgUn+F2vkA9gk3oVgqYiO7Fir5W0Lw5p92i/lmoOd7VWB2MZ6PapQXYAo0I3FWfW6GCH55mNBNsQ0jqzhC6w1kc9ArCXVc8QHmW//5AEbnGAAeuIxbAogGy1VjBqb7C/p+Ri4ioJy9L436FW8ftN55oYHEWAFvyQ=
+  - secure: Q9hWaQPdIKPOrRb0R2+x9yzipCtZdMGv3FyAyWLRJRME+KdnXiveL4HDElA0UxSte61OyIMzFTnQokOHRYX74aEkv/A5a/FP4MRTDnTqI8XfrBV1yWWALIcZxjK+QAP3rWovId7pio6GiLZuKINYSBL4ZnQptQeeBxmFbwmPNtI=
+  - secure: GQ+9LtqOgZCXGxkKeUwNZi7SqV+DB0LA0HCu5FkbDmEkA+3BUwC6arzsPEePbFQ33mklIVULytdVCIi06pco0SFRh6Ugweru8wQGBIj1coUcTAjUzQy6xEbXaJe/EhBq9hWjEm2dt3avC+0ivGtK33RsTjgnmqoXyykH9YbKmPw=
   matrix:
   - forge_release=latest
   - forge_release=recommended

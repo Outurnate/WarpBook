@@ -14,5 +14,6 @@ build
 .project
 .settings
 bin
+src/main/java/Properties.java
 
 *~

@@ -1,7 +1,12 @@
 package panicnot42.warpbook;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Manifest;
 
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.init.Items;
@@ -34,7 +39,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = WarpBookMod.modid, name = "Warp Book", version = "0.1.332")
+@Mod(modid = Properties.modid, name = Properties.name, version = Properties.version)
 public class WarpBookMod
 {
   @Instance(value = "warpbook")
@@ -56,8 +61,6 @@ public class WarpBookMod
   public static final int WarpBookWarpGuiIndex = guiIndex++;
   public static final int WarpBookWaypointGuiIndex = guiIndex++;
   public static final int WarpBookInventoryGuiIndex = guiIndex++;
-
-  public static final String modid = "warpbook";
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent event)
