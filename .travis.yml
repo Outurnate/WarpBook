@@ -18,6 +18,7 @@ env:
   - secure: lno54t+Ot7TCqj4iO/dd5LFjIU9bTX7LXCQp2MmLKqSlWFk+qrE8hcuP8x7xcOmAHUUKPrdHrNNEXXvmv/HbBrL3aZOAFZrXDxLI+OvpxUHo5c2xhsHyXHl38m4TXUugbHrt5Ne5bHW47Y/cgFy/2YuZ8M7Sq3H8imzu4E8I1Tc=
   - secure: QBvKcQVkz+1cwdSwds+w1XLljsAC0gzcQ+4yCxXZaUTeC/nWP5dOKa/sVMHtaFDqSSJPO/nxmbVCP7f1wgh8TOR5NjGjKjNrPllAn7eXshSMC8ZmnBFo+d0GU5VylzUGQnPq4+JvpAvk03r+R8t8ku8tE4vOzfuuwpEIXIltGg0=
   - secure: ONm2/0UEDNdFaCLMayKQv7UG4GRojw67rHrzSYc3OH2jMz5V84Au4j5Pks+PaPIPd6aUpEeX+/4jjeHzB6puX7V8ogH44YdXCgJA5PvE2i0W7uPuCpacYJySMt4zNArPoGkfOpqntD4GmNDFudaOQg8QkM/tDTh7c/lVm233kG0=
+  - secure: GXbSANDmqtfsSsojL+5Waq95Ef5hF5Ffv6oO8pQnc32uDtnK43oGNQw64Z1Vcx/AYH1R6wOGSQW62qD/UnIEqEKoGZoZv6zq6EApDCP4gjPtzQ1neiBZXse7MW/geSrQGrtxFbLJsoc6fAXyos0HtmqZC6y/hnIVOLFJUXzDL8E=
   matrix:
   - forge_release=latest
   - forge_release=recommended
