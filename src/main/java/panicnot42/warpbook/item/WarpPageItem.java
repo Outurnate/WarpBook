@@ -1,5 +1,6 @@
 package panicnot42.warpbook.item;
 
+import java.math.RoundingMode;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -14,9 +15,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import panicnot42.util.CommandUtils;
+import panicnot42.util.MathUtils;
 import panicnot42.warpbook.WarpBookMod;
 import panicnot42.warpbook.WarpWorldStorage;
-import panicnot42.warpbook.client.fx.WarpEntryFX;
 import panicnot42.warpbook.util.Waypoint;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -29,9 +30,6 @@ public class WarpPageItem extends Item
 
   @SideOnly(Side.CLIENT)
   private IIcon[] itemIcons;
-  
-  @SideOnly(Side.CLIENT)
-  public IIcon warpExitParticleFX; // TODO this feels wrong
 
   public WarpPageItem()
   {
@@ -57,7 +55,6 @@ public class WarpPageItem extends Item
     itemIcons = new IIcon[itemTextures.length];
     for (int i = 0; i < itemTextures.length; ++i)
       itemIcons[i] = iconRegister.registerIcon("warpbook:" + itemTextures[i]);
-    warpExitParticleFX = iconRegister.registerIcon("warpbook:warpparticle");
   }
 
   @Override
@@ -89,9 +86,9 @@ public class WarpPageItem extends Item
           itemStack.setItemDamage(1);
           if (!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
           itemStack.getTagCompound().setString("bindmsg", String.format("Bound to (%.0f, %.0f, %.0f) in dimension %d", player.posX, player.posY, player.posZ, player.dimension));
-          itemStack.getTagCompound().setInteger("posX", MathHelper.ceiling_double_int(player.posX));
-          itemStack.getTagCompound().setInteger("posY", MathHelper.ceiling_double_int(player.posY));
-          itemStack.getTagCompound().setInteger("posZ", MathHelper.ceiling_double_int(player.posZ));
+          itemStack.getTagCompound().setInteger("posX", MathUtils.round(player.posX, RoundingMode.DOWN));
+          itemStack.getTagCompound().setInteger("posY", MathUtils.round(player.posY, RoundingMode.DOWN));
+          itemStack.getTagCompound().setInteger("posZ", MathUtils.round(player.posZ, RoundingMode.DOWN));
           itemStack.getTagCompound().setInteger("dim", player.dimension);
           player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWaypointGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
           break;

@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import panicnot42.util.PacketPipeline;
-import panicnot42.warpbook.client.ClientLogicalProxy;
 import panicnot42.warpbook.commands.CreateWaypointCommand;
 import panicnot42.warpbook.commands.DeleteWaypointCommand;
 import panicnot42.warpbook.commands.GiveWarpCommand;

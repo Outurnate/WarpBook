@@ -15,10 +15,7 @@ public class Proxy
   
   public void handleWarp(EntityPlayer player, ItemStack page)
   {
-    NBTTagCompound pageTagCompound = page.getTagCompound();
-    WarpWorldStorage storage = WarpWorldStorage.instance(player.getEntityWorld());
-    Waypoint wp = pageTagCompound.hasKey("hypername") ? storage.getWaypoint(pageTagCompound.getString("hypername")) : new Waypoint("", "", pageTagCompound.getInteger("posX"),
-        pageTagCompound.getInteger("posY"), pageTagCompound.getInteger("posZ"), pageTagCompound.getInteger("dim"));
+    Waypoint wp = extractWaypoint(player, page);
     if (wp == null)
     {
       CommandUtils.showError(player, "This waypoint no longer exists");
@@ -28,6 +25,15 @@ public class Proxy
     player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
     if (crossDim) player.travelToDimension(wp.dim);
     player.setPositionAndUpdate(wp.x + 0.5f, wp.y + 0.5f, wp.z + 0.5f);
+  }
+
+  protected Waypoint extractWaypoint(EntityPlayer player, ItemStack page)
+  {
+    NBTTagCompound pageTagCompound = page.getTagCompound();
+    WarpWorldStorage storage = WarpWorldStorage.instance(player.getEntityWorld());
+    Waypoint wp = pageTagCompound.hasKey("hypername") ? storage.getWaypoint(pageTagCompound.getString("hypername")) : new Waypoint("", "", pageTagCompound.getInteger("posX"),
+        pageTagCompound.getInteger("posY"), pageTagCompound.getInteger("posZ"), pageTagCompound.getInteger("dim"));
+    return wp;
   }
 
   private static float calculateExhaustion(EnumDifficulty difficultySetting, float exhaustionCoefficient, boolean crossDim)

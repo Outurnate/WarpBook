@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import panicnot42.warpbook.Proxy;
 import panicnot42.warpbook.WarpBookMod;
-import panicnot42.warpbook.client.fx.WarpEntryFX;
+import panicnot42.warpbook.util.Waypoint;
 
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends Proxy
@@ -23,13 +23,16 @@ public class ClientProxy extends Proxy
   @Override
   public void handleWarp(EntityPlayer player, ItemStack page)
   {
+    Waypoint wp = extractWaypoint(player, page);
     if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
-      for (int i = 0; i < 1000; ++i)
-      {
-        EntityFX fx = new WarpEntryFX(player.worldObj, 0, 4 + (player.worldObj.rand.nextFloat() * 2.0f), 0, 0, 0, 0, WarpBookMod.warpPageItem.warpExitParticleFX);
-        //fx.setParticleIcon(WarpBookMod.warpPageItem.warpExitParticleFX);
-        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-      }
+    {
+      int particles = (2 - Minecraft.getMinecraft().gameSettings.particleSetting) * 50;
+      if (player.dimension == wp.dim)
+        for (int i = 0; i < particles; ++i)
+          player.worldObj.spawnParticle("portal", wp.x + 0.5D, wp.y + (player.worldObj.rand.nextDouble() * 2), wp.z + 0.5D, player.worldObj.rand.nextDouble() - 0.5D, player.worldObj.rand.nextDouble() - 0.5D, player.worldObj.rand.nextDouble() - 0.5D);
+      for (int i = 0; i < (5 * particles); ++i)
+        player.worldObj.spawnParticle("largesmoke", player.posX, player.posY + (player.worldObj.rand.nextDouble() * 2), player.posZ, (player.worldObj.rand.nextDouble() / 10) - 0.05D, 0D, (player.worldObj.rand.nextDouble() / 10) - 0.05D);
+    }
     super.handleWarp(player, page);
   }
 }
