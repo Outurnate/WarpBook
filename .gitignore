@@ -14,6 +14,6 @@ build
 .project
 .settings
 bin
-src/main/java/Properties.java
+src/main/java/panicnot42/warpbook/Properties.java
 
 *~
