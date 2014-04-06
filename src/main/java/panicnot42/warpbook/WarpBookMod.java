@@ -40,6 +40,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = Properties.modid, name = Properties.name, version = Properties.version)
+@ModstatInfo(prefix="warpbook")
 public class WarpBookMod
 {
   @Instance(value = "warpbook")
@@ -97,6 +98,7 @@ public class WarpBookMod
     proxy.registerRenderers();
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
     packetPipeline.initalise();
+    Modstats.instance().getReporter().registerMod(this);
   }
 
   @EventHandler
