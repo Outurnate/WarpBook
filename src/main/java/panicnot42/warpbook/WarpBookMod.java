@@ -1,12 +1,7 @@
 package panicnot42.warpbook;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.Manifest;
 
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.init.Items;
@@ -40,7 +35,6 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = Properties.modid, name = Properties.name, version = Properties.version)
-@ModstatInfo(prefix="warpbook")
 public class WarpBookMod
 {
   @Instance(value = "warpbook")
@@ -98,7 +92,6 @@ public class WarpBookMod
     proxy.registerRenderers();
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
     packetPipeline.initalise();
-    Modstats.instance().getReporter().registerMod(this);
   }
 
   @EventHandler
