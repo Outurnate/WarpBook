@@ -32,10 +32,6 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
   {
     private HashMap<String, T> payload;
 
-    public TablePacket()
-    {
-    }
-
     private TablePacket(HashMap<String, T> payload)
     {
       this.payload = payload;
@@ -54,6 +50,7 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
       ByteBufUtils.writeTag(buffer, tag);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
     {
@@ -185,12 +182,14 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
     dirty = false;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void readFromNBT(NBTTagCompound var1)
   {
     NBTUtils.readHashMapFromNBT(var1.getTagList(rootTagName, new NBTTagCompound().getId()), (Class<INBTSerializable>)clazz);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void writeToNBT(NBTTagCompound var1)
   {

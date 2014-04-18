@@ -14,6 +14,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import panicnot42.util.MathUtils;
 import panicnot42.warpbook.WarpBookMod;
+import panicnot42.warpbook.WarpWorldStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -117,6 +118,7 @@ public class WarpPageItem extends Item
       case 2:
         String name = item.getTagCompound().getString("hypername");
         list.add(name);
+        list.add(WarpWorldStorage.instance(player.worldObj).getWaypoint(name).friendlyName);
         break;
     }
   }
