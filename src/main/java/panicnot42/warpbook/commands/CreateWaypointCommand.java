@@ -1,5 +1,6 @@
 package panicnot42.warpbook.commands;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
@@ -35,7 +36,7 @@ public class CreateWaypointCommand extends CommandBase
       Waypoint wp = new Waypoint(CommandUtils.stringConcat(var2, 5), var2[0], CommandBase.parseInt(var1, var2[1]), CommandBase.parseInt(var1, var2[2]), CommandBase.parseInt(var1, var2[3]),
           CommandBase.parseInt(var1, var2[4]));
       storage.addWaypoint(wp);
-      CommandUtils.info(var1, "Waypoint created");
+      CommandUtils.info(var1, I18n.format("help.waypointcreated"));
     }
     catch (NumberInvalidException e)
     {

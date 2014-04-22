@@ -1,5 +1,6 @@
 package panicnot42.warpbook.commands;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
@@ -31,7 +32,7 @@ public class ListWaypointCommand extends CommandBase
       String[] wps = storage.listWaypoints();
       if (wps.length == 0)
       {
-        CommandUtils.showError(var1, "No waypoints found");
+        CommandUtils.showError(var1, I18n.format("help.nowaypointsfound"));
         return;
       }
       CommandUtils.info(var1, String.format("-- Page %d --", page));
