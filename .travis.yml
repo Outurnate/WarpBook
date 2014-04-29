@@ -3,6 +3,9 @@ jdk:
 - oraclejdk7
 - openjdk7
 - openjdk6
+branches:
+  except:
+    - 1.6.4
 before_install:
 - wget https://raw.github.com/josephd/ForgeTravis/1.7.2/forgeTravis.sh
 - chmod +x forgeTravis.sh
