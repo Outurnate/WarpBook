@@ -2,6 +2,7 @@ package panicnot42.warpbook.item;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -9,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import panicnot42.warpbook.WarpBookMod;
+import panicnot42.warpbook.gui.GuiBook;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -31,6 +33,7 @@ public class WarpBookItem extends Item
     if (player.isSneaking())
       player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookInventoryGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
     else
+      //Minecraft.getMinecraft().displayGuiScreen(new GuiBook(player));
       player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWarpGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
     return itemStack;
   }

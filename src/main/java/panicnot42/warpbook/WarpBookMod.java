@@ -37,7 +37,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @Mod(modid = Properties.modid, name = Properties.name, version = Properties.version)
 public class WarpBookMod
 {
-  @Instance(value = "warpbook")
+  @Instance(value = Properties.modid)
   public static WarpBookMod instance;
 
   public static final Logger logger = LogManager.getLogger("warpbook");
