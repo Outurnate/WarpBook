@@ -1,5 +1,6 @@
 package panicnot42.warpbook.net.packet;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,27 +12,31 @@ import panicnot42.warpbook.WarpBookMod;
 
 public class PacketWarp extends AbstractPacket
 {
+  ItemStack itemStack;
   int pageSlot;
-
+  
   public PacketWarp()
   {
   }
 
-  public PacketWarp(int pageSlot)
+  public PacketWarp(ItemStack itemStack, int pageSlot)
   {
     this.pageSlot = pageSlot;
+    this.itemStack = itemStack;
   }
 
   @Override
   public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
   {
     buffer.writeInt(pageSlot);
+    ByteBufUtils.writeItemStack(buffer, itemStack);
   }
 
   @Override
   public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
   {
     pageSlot = buffer.readInt();
+    itemStack = ByteBufUtils.readItemStack(buffer);
   }
 
   @Override
@@ -42,13 +47,13 @@ public class PacketWarp extends AbstractPacket
   @Override
   public void handleServerSide(EntityPlayer player)
   {
-    ItemStack page = getPageById(player, this.pageSlot);
+    ItemStack page = getPageById(itemStack, this.pageSlot);
     WarpBookMod.proxy.handleWarp(player, page);
   }
 
-  public static ItemStack getPageById(EntityPlayer player, int pageSlot)
+  public static ItemStack getPageById(ItemStack itemStack, int pageSlot)
   {
-    NBTTagList stack = player.getHeldItem().getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
+    NBTTagList stack = itemStack.getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
     ItemStack page = ItemStack.loadItemStackFromNBT(stack.getCompoundTagAt(pageSlot));
     return page;
   }
