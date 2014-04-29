@@ -1,6 +1,5 @@
 package panicnot42.warpbook.commands;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
@@ -40,7 +39,7 @@ public class GiveWarpCommand extends CommandBase
           player = (EntityPlayer)var1;
         else
         {
-          CommandUtils.showError(var1, I18n.format("help.noplayerspecified"));
+          CommandUtils.showError(var1, "Must specify player name");
           return;
         }
         break;
@@ -62,7 +61,7 @@ public class GiveWarpCommand extends CommandBase
     }
     if (!storage.waypointExists(name))
     {
-      CommandUtils.showError(var1, I18n.format("help.waypointdoesnotexist", name));
+      CommandUtils.showError(var1, String.format("Waypoint '%s' does not exist", name));
       return;
     }
     ItemStack hyperStack = new ItemStack(WarpBookMod.warpPageItem);

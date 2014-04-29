@@ -1,6 +1,5 @@
 package panicnot42.warpbook.commands;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import panicnot42.util.CommandUtils;
@@ -30,9 +29,9 @@ public class DeleteWaypointCommand extends CommandBase
       return;
     }
     if (storage.deleteWaypoint(var2[0]))
-      CommandUtils.info(var1, I18n.format("help.waypointdelete"));
+      CommandUtils.info(var1, "Poof!");
     else
-      CommandUtils.showError(var1, I18n.format("help.notawaypoint", var2[0]));
+      CommandUtils.showError(var1, String.format("'%s' is not a waypoint", var2[0]));
   }
 
   @Override

@@ -39,7 +39,7 @@ public class GuiBook extends GuiScreen
     items = entityPlayer.getHeldItem().getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
     if (items.tagCount() == 0)
     {
-      CommandUtils.showError(entityPlayer, I18n.format("help.nopages"));
+      CommandUtils.showError(entityPlayer, "There are no pages in this book.  Shift+right click to add bound pages");
       mc.displayGuiScreen((GuiScreen)null);
       return;
     }

@@ -2,7 +2,6 @@ package panicnot42.warpbook.item;
 
 import java.util.List;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -43,7 +42,7 @@ public class WarpBookItem extends Item
   {
     try
     {
-      list.add(I18n.format("warpbook.booktooltip", item.getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId()).tagCount()));
+      list.add(String.format("%d/54 pages", item.getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId()).tagCount()));
     }
     catch (Exception e)
     {
