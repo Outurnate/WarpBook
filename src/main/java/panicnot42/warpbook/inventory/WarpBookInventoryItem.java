@@ -1,5 +1,7 @@
 package panicnot42.warpbook.inventory;
 
+import com.sun.imageio.plugins.common.I18N;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -8,7 +10,7 @@ import net.minecraft.nbt.NBTTagList;
 
 public class WarpBookInventoryItem implements IInventory
 {
-  private String name = "Warp Book";
+  private String name = "warpbook.name";
 
   private final ItemStack stack;
 
@@ -80,7 +82,7 @@ public class WarpBookInventoryItem implements IInventory
   @Override
   public String getInventoryName()
   {
-    return name;
+    return I18N.getString(name);
   }
 
   @Override
