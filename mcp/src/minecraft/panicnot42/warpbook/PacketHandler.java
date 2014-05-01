@@ -8,9 +8,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -97,10 +99,13 @@ public class PacketHandler implements IPacketHandler
 	{
 		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
 		int pageSlot;
+		ItemStack stacki = new ItemStack(Block.dirt);
 		
 		try
 		{
 			pageSlot = inputStream.readInt();
+			NBTTagCompound tag = CompressedStreamTools.readCompressed(inputStream);
+			stacki.readFromNBT(tag);
 		}
 		catch(IOException e)
 		{
@@ -109,7 +114,7 @@ public class PacketHandler implements IPacketHandler
 		}
 		
 		EntityPlayerMP mpp = (EntityPlayerMP)player;
-		NBTTagList stack = mpp.getHeldItem().getTagCompound().getTagList("WarpPages");
+		NBTTagList stack = stacki.getTagCompound().getTagList("WarpPages");
 		NBTTagCompound page = ItemStack.loadItemStackFromNBT((NBTTagCompound)stack.tagAt(pageSlot)).getTagCompound();
 
 		Packet250CustomPayload packetRet;

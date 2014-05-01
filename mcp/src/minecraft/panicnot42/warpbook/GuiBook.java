@@ -15,6 +15,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -24,11 +25,13 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 public class GuiBook extends GuiScreen
 {
     private final EntityPlayer entityPlayer;
+    private final ItemStack stack;
     private NBTTagList items;
 
-    public GuiBook(EntityPlayer entityPlayer)
+    public GuiBook(EntityPlayer entityPlayer, ItemStack stack)
     {
     	this.entityPlayer = entityPlayer;
+    	this.stack = stack;
     }
 
     @Override
@@ -36,9 +39,9 @@ public class GuiBook extends GuiScreen
     {
         Keyboard.enableRepeatEvents(true);
         buttonList.clear();
-        if (!entityPlayer.getHeldItem().hasTagCompound())
-        	entityPlayer.getHeldItem().setTagCompound(new NBTTagCompound());
-        items = entityPlayer.getHeldItem().getTagCompound().getTagList("WarpPages");
+        if (!stack.hasTagCompound())
+          stack.setTagCompound(new NBTTagCompound());
+        items = stack.getTagCompound().getTagList("WarpPages");
         if (items.tagCount() == 0)
         {
         	WarpBook.proxy.printMessage("There are no pages in this book.  Shift+right click to add bound pages");
@@ -73,6 +76,9 @@ public class GuiBook extends GuiScreen
     	try
     	{
     		outputStream.writeInt(guiButton.id);
+    		NBTTagCompound tag = new NBTTagCompound();
+    		stack.writeToNBT(tag);
+    		CompressedStreamTools.writeCompressed(tag, outputStream);
     	}
     	catch(Exception e)
     	{
