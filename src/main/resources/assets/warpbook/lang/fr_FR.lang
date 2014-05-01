@@ -1,0 +1,16 @@
+item.warpbook.name=Livre de téléportation
+item.warppage.unbound.name=Livre de téléportation non lié
+item.warppage.bound.name=Livre de téléportation lié
+item.warppage.hyperbound.name=Page de téléportation puissante
+warpbook.dowarp=Téléportation
+warpbook.bindpage=Lier la page
+warpbook.namewaypoint=Entrer le nom du point de télépoprtation
+warpbook.booktooltip=%d/54 pages
+warpbook.name=Livre de téléportation
+help.nopages=Il n'y a pas de pages dans ce livre. Shift(ou maj.)+clic droit pour ajouter des pages de téléportation
+help.nowaypointsfound=Pas de points de téléportation trouvés
+help.noplayerspecified=Vous devez specifier le nom du joueur
+help.waypointdoesnotexist=Waypoint '%s' n'existe pas
+help.waypointdelete=Poof!
+help.notawaypoint='%s' n'est pas un point de téléportation
+help.waypointcreated=Point de téléportation créé
