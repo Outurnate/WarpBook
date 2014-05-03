@@ -1,6 +1,6 @@
 item.warpbook.name=Livre de téléportation
-item.warppage.unbound.name=Livre de téléportation non lié
-item.warppage.bound.name=Livre de téléportation lié
+item.warppage.unbound.name=Page de téléportation non lié
+item.warppage.bound.name=Page de téléportation lié
 item.warppage.hyperbound.name=Page de téléportation puissante
 warpbook.dowarp=Téléportation
 warpbook.bindpage=Lier la page
