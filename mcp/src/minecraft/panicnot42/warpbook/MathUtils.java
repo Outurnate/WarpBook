@@ -1,4 +1,4 @@
-package panicnot42.util;
+package panicnot42.warpbook;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
