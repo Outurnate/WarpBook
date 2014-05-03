@@ -1,5 +1,6 @@
 package panicnot42.warpbook;
 
+import java.math.RoundingMode;
 import java.util.List;
 
 import cpw.mods.fml.relauncher.Side;
@@ -66,9 +67,9 @@ public class WarpPageItem extends Item
 			if (!itemStack.hasTagCompound())
 				itemStack.setTagCompound(new NBTTagCompound());
 			itemStack.getTagCompound().setString("bindmsg", String.format("Bound to (%.0f, %.0f, %.0f) in dimension %d", player.posX, player.posY, player.posZ, player.dimension));
-			itemStack.getTagCompound().setInteger("posX", MathHelper.ceiling_double_int(player.posX));
-			itemStack.getTagCompound().setInteger("posY", MathHelper.ceiling_double_int(player.posY));
-			itemStack.getTagCompound().setInteger("posZ", MathHelper.ceiling_double_int(player.posZ));
+			itemStack.getTagCompound().setInteger("posX", MathUtils.round(player.posX, RoundingMode.DOWN));
+			itemStack.getTagCompound().setInteger("posY", MathUtils.round(player.posY, RoundingMode.DOWN));
+			itemStack.getTagCompound().setInteger("posZ", MathUtils.round(player.posZ, RoundingMode.DOWN));
 			itemStack.getTagCompound().setInteger("dim",  player.dimension);
 			player.openGui(WarpBook.instance, WarpBook.WarpBookWaypointGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
 		}
