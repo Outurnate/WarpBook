@@ -23,12 +23,10 @@ public class GuiBook extends GuiScreen
 {
   private final EntityPlayer entityPlayer;
   private NBTTagList items;
-  private ItemStack itemStack;
 
-  public GuiBook(EntityPlayer entityPlayer, ItemStack itemStack)
+  public GuiBook(EntityPlayer entityPlayer)
   {
     this.entityPlayer = entityPlayer;
-    this.itemStack = itemStack;
   }
 
   @SuppressWarnings("unchecked")
@@ -37,8 +35,8 @@ public class GuiBook extends GuiScreen
   {
     Keyboard.enableRepeatEvents(true);
     buttonList.clear();
-    if (!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
-    items = itemStack.getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
+    if (!entityPlayer.getHeldItem().hasTagCompound()) entityPlayer.getHeldItem().setTagCompound(new NBTTagCompound());
+    items = entityPlayer.getHeldItem().getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
     if (items.tagCount() == 0)
     {
       CommandUtils.showError(entityPlayer, I18n.format("help.nopages"));
@@ -69,9 +67,9 @@ public class GuiBook extends GuiScreen
   @Override
   protected void actionPerformed(GuiButton guiButton)
   {
-    PacketWarp packet = new PacketWarp(itemStack, guiButton.id);
-    ItemStack page = PacketWarp.getPageById(itemStack, guiButton.id);
-    WarpBookMod.proxy.handleWarp(entityPlayer, page);
+    PacketWarp packet = new PacketWarp(guiButton.id);
+    ItemStack page = PacketWarp.getPageById(entityPlayer, guiButton.id);
+    WarpBookMod.proxy.handleWarp(Minecraft.getMinecraft().thePlayer, page);
     WarpBookMod.packetPipeline.sendToServer(packet);
 
     mc.displayGuiScreen((GuiScreen)null);
