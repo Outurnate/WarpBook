@@ -8,7 +8,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -109,7 +111,7 @@ public class PacketHandler implements IPacketHandler
 		}
 		
 		EntityPlayerMP mpp = (EntityPlayerMP)player;
-		NBTTagList stack = mpp.getHeldItem().getTagCompound().getTagList("WarpPages");
+		NBTTagList stack = ((WarpBookWaypointContainer)mpp.openContainer).heldItem.getTagCompound().getTagList("WarpPages");
 		NBTTagCompound page = ItemStack.loadItemStackFromNBT((NBTTagCompound)stack.tagAt(pageSlot)).getTagCompound();
 
 		Packet250CustomPayload packetRet;
@@ -138,6 +140,9 @@ public class PacketHandler implements IPacketHandler
 		if (mpp.dimension != page.getInteger("dim"))
 			mpp.travelToDimension(page.getInteger("dim"));
 		mpp.setPositionAndUpdate(page.getInteger("posX") + 0.5f, page.getInteger("posY") + 0.5f, page.getInteger("posZ") + 0.5f);
+
+    mpp.closeContainer();
+    mpp.closeScreen();
 	}
 
 	private void handleWaypoint(Packet250CustomPayload packet, Player player)

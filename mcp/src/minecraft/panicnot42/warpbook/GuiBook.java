@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -42,8 +43,8 @@ public class GuiBook extends GuiScreen
         if (items.tagCount() == 0)
         {
         	WarpBook.proxy.printMessage("There are no pages in this book.  Shift+right click to add bound pages");
-            mc.displayGuiScreen((GuiScreen)null);
-            return;
+          mc.displayGuiScreen((GuiScreen)null);
+          return;
         }
     	for (int i = 0; i < items.tagCount(); ++i)
     	{
@@ -83,8 +84,8 @@ public class GuiBook extends GuiScreen
     	packet.data = bos.toByteArray();
     	packet.length = bos.size();
     	((EntityClientPlayerMP)entityPlayer).sendQueue.addToSendQueue(packet);
-
-        mc.displayGuiScreen((GuiScreen)null);
+    	
+      //mc.displayGuiScreen((GuiScreen)null);
     }
 
     @Override
@@ -93,5 +94,11 @@ public class GuiBook extends GuiScreen
         drawDefaultBackground();
         drawCenteredString(fontRenderer, I18n.getString("warpbook.dowarp"), width / 2, 6, 16777215);
         super.drawScreen(par1, par2, par3);
+    }
+    
+    @Override
+    public boolean doesGuiPauseGame()
+    {
+      return false;
     }
 }

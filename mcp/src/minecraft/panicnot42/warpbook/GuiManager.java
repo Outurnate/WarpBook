@@ -11,6 +11,8 @@ public class GuiManager implements IGuiHandler
 	{
 		if (ID == WarpBook.WarpBookInventoryGuiIndex)
 			return new WarpBookContainerItem(player, player.inventory, new WarpBookInventoryItem(player.getHeldItem()));
+    if (ID == WarpBook.WarpBookWarpGuiIndex)
+      return new WarpBookWaypointContainer(player.getHeldItem());
 		return null;
 	}
 
@@ -18,7 +20,7 @@ public class GuiManager implements IGuiHandler
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
 		if (ID == WarpBook.WarpBookWarpGuiIndex)
-			return new GuiBook(player);
+			return (player.getHeldItem().getItem() instanceof WarpBookItem) ? new GuiBook(player) : null;
 		if (ID == WarpBook.WarpBookInventoryGuiIndex)
 			return new GuiWarpBookItemInventory(new WarpBookContainerItem(player, player.inventory, new WarpBookInventoryItem(player.getHeldItem())));
 		if (ID == WarpBook.WarpBookWaypointGuiIndex)
