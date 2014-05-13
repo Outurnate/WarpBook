@@ -18,7 +18,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = "warpbook", name = "Warp Book", version = "0.0.200b")
+@Mod(modid = "warpbook", name = "Warp Book", version = "0.0.200c")
 @NetworkMod(clientSideRequired = true, channels = { "WarpBookWaypoint", "WarpBookWarp", "WarpBookParticle" }, packetHandler = PacketHandler.class)
 public class WarpBook
 {
