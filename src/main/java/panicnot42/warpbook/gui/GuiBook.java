@@ -72,7 +72,7 @@ public class GuiBook extends GuiScreen
     WarpBookMod.proxy.handleWarp(Minecraft.getMinecraft().thePlayer, page);
     WarpBookMod.packetPipeline.sendToServer(packet);
 
-    mc.displayGuiScreen((GuiScreen)null);
+    //mc.displayGuiScreen((GuiScreen)null);
   }
 
   @Override
@@ -81,5 +81,11 @@ public class GuiBook extends GuiScreen
     drawDefaultBackground();
     drawCenteredString(fontRendererObj, I18n.format("warpbook.dowarp"), width / 2, 6, 16777215);
     super.drawScreen(par1, par2, par3);
+  }
+  
+  @Override
+  public boolean doesGuiPauseGame()
+  {
+    return false;
   }
 }
