@@ -20,6 +20,7 @@ public class ClientProxy extends Proxy
   @Override
   public void handleWarp(EntityPlayer player, ItemStack page)
   {
+    if (page == null) return;
     Waypoint wp = extractWaypoint(player, page);
     if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
     {

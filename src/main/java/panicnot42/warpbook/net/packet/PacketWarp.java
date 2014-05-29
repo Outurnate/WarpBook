@@ -49,8 +49,15 @@ public class PacketWarp extends AbstractPacket
 
   public static ItemStack getPageById(EntityPlayer player, int pageSlot)
   {
-    NBTTagList stack = ((WarpBookWaypointContainer)player.openContainer).heldItem.getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
-    ItemStack page = ItemStack.loadItemStackFromNBT(stack.getCompoundTagAt(pageSlot));
-    return page;
+    try
+    {
+      NBTTagList stack = ((WarpBookWaypointContainer)player.openContainer).heldItem.getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
+      ItemStack page = ItemStack.loadItemStackFromNBT(stack.getCompoundTagAt(pageSlot));
+      return page;
+    }
+    catch (ClassCastException e)
+    {
+      return null;
+    }
   }
 }
