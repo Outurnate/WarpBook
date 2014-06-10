@@ -19,6 +19,13 @@ crash-reports/
 logs/
 options.txt
 saves/
-src/main/java/com/panicnot42/warpbook/Properties.java
+src/main/java/com/panicnot42/*/Properties.java
+banned-ips.txt
+banned-players.txt
+ops.txt
+screenshots/
+server.properties
+white-list.txt
+world/
 
 *~
