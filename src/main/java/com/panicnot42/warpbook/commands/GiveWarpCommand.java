@@ -1,0 +1,75 @@
+package com.panicnot42.warpbook.commands;
+
+import com.panicnot42.util.CommandUtils;
+import com.panicnot42.util.CommandUtils.ChatType;
+import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.WarpWorldStorage;
+import com.sun.org.apache.xml.internal.security.utils.I18n;
+
+public class GiveWarpCommand extends CommandBase
+{
+  @Override
+  public String getCommandName()
+  {
+    return "givewarp";
+  }
+
+  @Override
+  public String getCommandUsage(ICommandSender var1)
+  {
+    return "/givewarp name [player]";
+  }
+
+  @Override
+  public void processCommand(ICommandSender var1, String[] var2)
+  {
+    WarpWorldStorage storage = WarpWorldStorage.instance(var1.getEntityWorld());
+    String name;
+    EntityPlayer player;
+    switch (var2.length)
+    {
+      case 1:
+        name = var2[0];
+        if (var1 instanceof EntityPlayer)
+          player = (EntityPlayer)var1;
+        else
+        {
+          CommandUtils.showError(var1, I18n.format("help.noplayerspecified"));
+          return;
+        }
+        break;
+      case 2:
+        name = var2[0];
+        try
+        {
+          player = CommandBase.getPlayer(var1, var2[1]);
+        }
+        catch (PlayerNotFoundException e)
+        {
+          CommandUtils.showError(var1, ChatType.TYPE_player, var2[1]);
+          return;
+        }
+        break;
+      default:
+        CommandUtils.printUsage(var1, this);
+        return;
+    }
+    if (!storage.waypointExists(name))
+    {
+      CommandUtils.showError(var1, I18n.format("help.waypointdoesnotexist", name));
+      return;
+    }
+    ItemStack hyperStack = new ItemStack(WarpBookMod.warpPageItem);
+    hyperStack.setItemDamage(2);
+    NBTTagCompound compound = new NBTTagCompound();
+    compound.setString("hypername", name);
+    hyperStack.setTagCompound(compound);
+    player.inventory.addItemStackToInventory(hyperStack);
+  }
+
+  @Override
+  public int compareTo(Object o)
+  {
+    return 42; // TODO: actually implement this
+  }
+}
