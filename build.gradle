@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         mavenCentral()
+       	mavenLocal()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
@@ -15,14 +16,25 @@ buildscript {
     }
 }
 
+repositories {
+    maven {
+        name 'Forge'
+        url 'http://files.minecraftforge.net/maven'
+    }
+    maven {
+        name 'MinecraftS3'
+        url 'http://s3.amazonaws.com/Minecraft.Download/libraries'
+    }
+}
+
 apply plugin: 'forge'
 
-version = "1.0"
-group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "modid"
+version = "1.1"
+group= "com.panicnot42.warpbook" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "warpbook"
 
 minecraft {
-    version = "1.7.2-10.12.1.1079"
+    version = "1.7.2-10.12.1.1118"
     assetDir = "eclipse/assets"
 }
 
@@ -39,7 +51,7 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
+    compile project(":ImprobabilityDrive")
 }
 
 processResources
