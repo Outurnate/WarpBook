@@ -14,6 +14,7 @@ build
 .project
 .settings
 bin
+<<<<<<< HEAD
 config/
 crash-reports/
 logs/
@@ -27,5 +28,4 @@ screenshots/
 server.properties
 white-list.txt
 world/
-
 *~
