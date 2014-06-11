@@ -1,6 +1,5 @@
 eclipse
 gradle
-build.gradle
 CREDITS-fml.txt
 forge-*-changelog.txt
 gradlew*
@@ -14,13 +13,11 @@ build
 .project
 .settings
 bin
-<<<<<<< HEAD
 config/
 crash-reports/
 logs/
 options.txt
 saves/
-src/main/java/com/panicnot42/*/Properties.java
 banned-ips.txt
 banned-players.txt
 ops.txt
