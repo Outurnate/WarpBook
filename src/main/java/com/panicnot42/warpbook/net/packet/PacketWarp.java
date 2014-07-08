@@ -1,6 +1,6 @@
 package com.panicnot42.warpbook.net.packet;
 
-import com.panicnot42.util.AbstractPacket;
+import com.panicnot42.util.net.AbstractPacket;
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.inventory.container.WarpBookWaypointContainer;
 
@@ -25,24 +25,24 @@ public class PacketWarp extends AbstractPacket
   }
 
   @Override
-  public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
+  public void encode(ChannelHandlerContext ctx, ByteBuf buffer)
   {
     buffer.writeInt(pageSlot);
   }
 
   @Override
-  public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
+  public void decode(ChannelHandlerContext ctx, ByteBuf buffer)
   {
     pageSlot = buffer.readInt();
   }
 
   @Override
-  public void handleClientSide(EntityPlayer player)
+  public void handleClient(EntityPlayer player)
   {
   }
 
   @Override
-  public void handleServerSide(EntityPlayer player)
+  public void handleServer(EntityPlayer player)
   {
     ItemStack page = getPageById(player, this.pageSlot);
     WarpBookMod.proxy.handleWarp(player, page);

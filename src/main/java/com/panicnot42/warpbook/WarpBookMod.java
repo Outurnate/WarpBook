@@ -12,7 +12,7 @@ import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.panicnot42.util.PacketPipeline;
+import com.panicnot42.util.net.PacketPipeline;
 import com.panicnot42.warpbook.commands.CreateWaypointCommand;
 import com.panicnot42.warpbook.commands.DeleteWaypointCommand;
 import com.panicnot42.warpbook.commands.GiveWarpCommand;
@@ -47,7 +47,7 @@ public class WarpBookMod
   public static WarpBookItem warpBookItem;
   public static WarpPageItem warpPageItem;
 
-  @SidedProxy(clientSide = "panicnot42.warpbook.client.ClientProxy", serverSide = "panicnot42.warpbook.Proxy")
+  @SidedProxy(clientSide = "com.panicnot42.warpbook.client.ClientProxy", serverSide = "com.panicnot42.warpbook.Proxy")
   public static Proxy proxy;
 
   private static int guiIndex = 42;
@@ -92,7 +92,7 @@ public class WarpBookMod
   {
     proxy.registerRenderers();
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
-    packetPipeline.initalise();
+    packetPipeline.initalize();
   }
 
   @EventHandler
@@ -101,7 +101,7 @@ public class WarpBookMod
     WarpWorldStorage.postInit();
     packetPipeline.registerPacket(PacketWarp.class);
     packetPipeline.registerPacket(PacketWaypointName.class);
-    packetPipeline.postInitialise();
+    packetPipeline.postInitialize();
   }
 
   @EventHandler

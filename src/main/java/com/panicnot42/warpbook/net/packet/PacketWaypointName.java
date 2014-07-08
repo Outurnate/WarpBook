@@ -1,6 +1,6 @@
 package com.panicnot42.warpbook.net.packet;
 
-import com.panicnot42.util.AbstractPacket;
+import com.panicnot42.util.net.AbstractPacket;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -20,13 +20,13 @@ public class PacketWaypointName extends AbstractPacket
   }
 
   @Override
-  public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
+  public void encode(ChannelHandlerContext ctx, ByteBuf buffer)
   {
     buffer.writeBytes(name.getBytes());
   }
 
   @Override
-  public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
+  public void decode(ChannelHandlerContext ctx, ByteBuf buffer)
   {
     byte[] data = new byte[buffer.readableBytes()];
     buffer.readBytes(data);
@@ -34,12 +34,12 @@ public class PacketWaypointName extends AbstractPacket
   }
 
   @Override
-  public void handleClientSide(EntityPlayer player)
+  public void handleClient(EntityPlayer player)
   {
   }
 
   @Override
-  public void handleServerSide(EntityPlayer player)
+  public void handleServer(EntityPlayer player)
   {
     player.getHeldItem().getTagCompound().setString("name", name);
   }

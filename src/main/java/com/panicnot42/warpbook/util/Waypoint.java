@@ -1,6 +1,6 @@
 package com.panicnot42.warpbook.util;
 
-import com.panicnot42.util.INBTSerializable;
+import com.panicnot42.util.nbt.INBTSerializable;
 
 import net.minecraft.nbt.NBTTagCompound;
 
