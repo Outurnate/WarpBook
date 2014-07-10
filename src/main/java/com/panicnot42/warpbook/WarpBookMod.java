@@ -12,6 +12,7 @@ import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.panicnot42.Properties;
 import com.panicnot42.util.net.PacketPipeline;
 import com.panicnot42.warpbook.commands.CreateWaypointCommand;
 import com.panicnot42.warpbook.commands.DeleteWaypointCommand;
@@ -41,8 +42,8 @@ public class WarpBookMod
   @Instance(value = Properties.modid)
   public static WarpBookMod instance;
 
-  public static final Logger logger = LogManager.getLogger("warpbook");
-  public static final PacketPipeline packetPipeline = new PacketPipeline(logger, "warpbook");
+  public static final Logger logger = LogManager.getLogger(Properties.modid);
+  public static final PacketPipeline packetPipeline = new PacketPipeline(logger, Properties.modid);
 
   public static WarpBookItem warpBookItem;
   public static WarpPageItem warpPageItem;
