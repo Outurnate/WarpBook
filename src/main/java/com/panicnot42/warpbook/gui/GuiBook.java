@@ -73,7 +73,7 @@ public class GuiBook extends GuiScreen
     WarpBookMod.proxy.handleWarp(Minecraft.getMinecraft().thePlayer, page);
     WarpBookMod.packetPipeline.sendToServer(packet);
 
-    //mc.displayGuiScreen((GuiScreen)null);
+    mc.displayGuiScreen((GuiScreen)null);
   }
 
   @Override
