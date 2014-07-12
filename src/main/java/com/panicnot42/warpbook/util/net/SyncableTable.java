@@ -9,7 +9,6 @@ import java.util.Set;
 
 import javax.swing.event.EventListenerList;
 
-import com.panicnot42.ImprobabilityDriveMod;
 import com.panicnot42.warpbook.util.nbt.INBTSerializable;
 import com.panicnot42.warpbook.util.nbt.NBTUtils;
 
@@ -106,9 +105,9 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
   private EventListenerList updateTableListeners = new EventListenerList();
   private String rootTagName;
 
-  public SyncableTable(Class<T> clazz, String rootTagName)
+  public SyncableTable(PacketPipeline pipeline, Class<T> clazz, String rootTagName)
   {
-    this.pipeline = ImprobabilityDriveMod.pipeline;
+    this.pipeline = pipeline;
     this.clazz = clazz;
     this.table = new HashMap<String, T>();
     this.rootTagName = rootTagName;
