@@ -1,6 +1,6 @@
 package com.panicnot42.warpbook.net.packet;
 
-import com.panicnot42.util.net.AbstractPacket;
+import com.panicnot42.warpbook.util.net.AbstractPacket;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

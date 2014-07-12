@@ -12,8 +12,7 @@ import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.panicnot42.Properties;
-import com.panicnot42.util.net.PacketPipeline;
+import com.panicnot42.warpbook.Properties;
 import com.panicnot42.warpbook.commands.CreateWaypointCommand;
 import com.panicnot42.warpbook.commands.DeleteWaypointCommand;
 import com.panicnot42.warpbook.commands.GiveWarpCommand;
@@ -24,6 +23,7 @@ import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.item.WarpPageItem;
 import com.panicnot42.warpbook.net.packet.PacketWarp;
 import com.panicnot42.warpbook.net.packet.PacketWaypointName;
+import com.panicnot42.warpbook.util.net.PacketPipeline;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;

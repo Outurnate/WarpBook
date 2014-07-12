@@ -1,0 +1,42 @@
+package com.panicnot42.warpbook;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.panicnot42.warpbook.util.net.PacketPipeline;
+import com.panicnot42.warpbook.util.net.SyncableTable;
+
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+
+@Mod(modid = Properties.modid, name = Properties.name, version = Properties.version)
+public class ImprobabilityDriveMod
+{
+  @Instance(value = Properties.modid)
+  public static ImprobabilityDriveMod instance;
+
+  public static final Logger logger = LogManager.getLogger(Properties.modid);
+  public static PacketPipeline pipeline = new PacketPipeline(null, Properties.modid);
+
+  @EventHandler
+  public void preInit(FMLPreInitializationEvent event)
+  {
+  }
+
+  @EventHandler
+  public void init(FMLInitializationEvent event)
+  {
+    pipeline.initalize();
+  }
+
+  @EventHandler
+  public void postInit(FMLPostInitializationEvent event)
+  {
+    pipeline.registerPacket(SyncableTable.TablePacket.class);
+    pipeline.postInitialize();
+  }
+}

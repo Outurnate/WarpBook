@@ -11,10 +11,10 @@ import net.minecraft.nbt.NBTTagList;
 
 import org.lwjgl.input.Keyboard;
 
-import com.panicnot42.util.CommandUtils;
-import com.panicnot42.util.StringUtils;
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.net.packet.PacketWarp;
+import com.panicnot42.warpbook.util.CommandUtils;
+import com.panicnot42.warpbook.util.StringUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

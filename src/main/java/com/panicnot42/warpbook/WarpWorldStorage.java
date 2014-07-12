@@ -1,9 +1,9 @@
 package com.panicnot42.warpbook;
 
-import com.panicnot42.util.net.SyncableTable;
-import com.panicnot42.util.net.UpdateTableEvent;
-import com.panicnot42.util.net.UpdateTableListener;
 import com.panicnot42.warpbook.util.Waypoint;
+import com.panicnot42.warpbook.util.net.SyncableTable;
+import com.panicnot42.warpbook.util.net.UpdateTableEvent;
+import com.panicnot42.warpbook.util.net.UpdateTableListener;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;

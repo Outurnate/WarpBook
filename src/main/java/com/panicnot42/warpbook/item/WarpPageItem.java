@@ -3,9 +3,9 @@ package com.panicnot42.warpbook.item;
 import java.math.RoundingMode;
 import java.util.List;
 
-import com.panicnot42.util.MathUtils;
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.WarpWorldStorage;
+import com.panicnot42.warpbook.util.MathUtils;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;

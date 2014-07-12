@@ -1,9 +1,9 @@
 package com.panicnot42.warpbook.commands;
 
-import com.panicnot42.util.CommandUtils;
-import com.panicnot42.util.CommandUtils.ChatType;
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.WarpWorldStorage;
+import com.panicnot42.warpbook.util.CommandUtils;
+import com.panicnot42.warpbook.util.CommandUtils.ChatType;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;

@@ -1,6 +1,6 @@
 package com.panicnot42.warpbook;
 
-import com.panicnot42.util.CommandUtils;
+import com.panicnot42.warpbook.util.CommandUtils;
 import com.panicnot42.warpbook.util.Waypoint;
 
 import net.minecraft.entity.player.EntityPlayer;
