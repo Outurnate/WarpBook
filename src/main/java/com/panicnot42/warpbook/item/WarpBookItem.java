@@ -3,7 +3,6 @@ package com.panicnot42.warpbook.item;
 import java.util.List;
 
 import com.panicnot42.warpbook.WarpBookMod;
-import com.panicnot42.warpbook.inventory.container.WarpBookWaypointContainer;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
@@ -33,18 +32,11 @@ public class WarpBookItem extends Item
   @Override
   public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
   {
+    WarpBookMod.lastHeldBooks.put(player, itemStack);
     if (player.isSneaking())
       player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookInventoryGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
     else
-    {
-      if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
-        player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWarpGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
-      else
-      {
-        player.openContainer = new WarpBookWaypointContainer(player.getHeldItem());
-        player.openContainer.addCraftingToCrafters((EntityPlayerMP)player);
-      }
-    }
+      player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWarpGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
     return itemStack;
   }
 

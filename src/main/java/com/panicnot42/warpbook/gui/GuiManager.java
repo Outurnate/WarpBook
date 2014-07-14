@@ -3,7 +3,6 @@ package com.panicnot42.warpbook.gui;
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.inventory.WarpBookInventoryItem;
 import com.panicnot42.warpbook.inventory.container.WarpBookContainerItem;
-import com.panicnot42.warpbook.inventory.container.WarpBookWaypointContainer;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;

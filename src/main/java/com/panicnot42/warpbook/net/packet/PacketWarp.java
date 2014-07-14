@@ -1,7 +1,6 @@
 package com.panicnot42.warpbook.net.packet;
 
 import com.panicnot42.warpbook.WarpBookMod;
-import com.panicnot42.warpbook.inventory.container.WarpBookWaypointContainer;
 import com.panicnot42.warpbook.util.net.AbstractPacket;
 
 import io.netty.buffer.ByteBuf;
@@ -52,7 +51,7 @@ public class PacketWarp extends AbstractPacket
   {
     try
     {
-      NBTTagList stack = ((WarpBookWaypointContainer)player.openContainer).heldItem.getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
+      NBTTagList stack = WarpBookMod.lastHeldBooks.get(player).getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
       ItemStack page = ItemStack.loadItemStackFromNBT(stack.getCompoundTagAt(pageSlot));
       return page;
     }
