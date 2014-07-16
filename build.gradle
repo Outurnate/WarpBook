@@ -1,27 +1,35 @@
-buildscript {
-    repositories {
+buildscript
+{
+    repositories
+    {
         mavenCentral()
        	mavenLocal()
-        maven {
+        maven
+        {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven {
+        maven
+        {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
-    dependencies {
+    dependencies
+    {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
 }
 
-repositories {
-    maven {
+repositories
+{
+    maven
+    {
         name 'Forge'
         url 'http://files.minecraftforge.net/maven'
     }
-    maven {
+    maven
+    {
         name 'MinecraftS3'
         url 'http://s3.amazonaws.com/Minecraft.Download/libraries'
     }
@@ -29,46 +37,39 @@ repositories {
 
 apply plugin: 'forge'
 
-version = "1.1"
-group= "com.panicnot42.warpbook" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "warpbook"
+version = "1.2.${System.env.BUILD_NUMBER}"
+group = "com.panicnot42.warpbook"
+archivesBaseName = "warp-book"
+modid = "warpbook"
 
-minecraft {
+minecraft
+{
     version = "1.7.10-10.13.0.1178"
     runDir = "eclipse/assets"
 }
 
-dependencies {
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-      
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+dependencies
+{
 }
 
 processResources
 {
-    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
+    // replace stuff in mcmod.info, and Properties.java
+    from(sourceSets.main.resources.srcDirs)
+    {
         include 'mcmod.info'
-                
+        include 'Properties.java'
+        
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version':project.version, 'mcversion':project.minecraft.version, 'modid':project.modid
     }
         
     // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
+    from(sourceSets.main.resources.srcDirs)
+    {
         exclude 'mcmod.info'
     }
 }
