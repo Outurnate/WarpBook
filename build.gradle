@@ -39,8 +39,7 @@ apply plugin: 'forge'
 
 version = "1.2.${System.env.BUILD_NUMBER}"
 group = "com.panicnot42.warpbook"
-archivesBaseName = "warp-book"
-modid = "warpbook"
+archivesBaseName = "warpbook"
 
 minecraft
 {
@@ -64,7 +63,7 @@ processResources
         include 'Properties.java'
         
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version, 'modid':project.modid
+        expand 'version':project.version, 'mcversion':project.minecraft.version, 'modid':project.archivesBaseName
     }
         
     // copy everything else, thats not the mcmod.info
