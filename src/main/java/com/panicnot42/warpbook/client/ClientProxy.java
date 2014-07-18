@@ -35,5 +35,7 @@ public class ClientProxy extends Proxy
             (player.worldObj.rand.nextDouble() / 10) - 0.05D);
     }
     super.handleWarp(player, page);
+    if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+      Minecraft.getMinecraft().renderGlobal.loadRenderers();
   }
 }

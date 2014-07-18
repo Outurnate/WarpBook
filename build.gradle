@@ -72,3 +72,61 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+uploadArchives
+{
+    dependsOn 'reobf'
+    repositories
+    {
+        mavenDeployer
+        {
+            pom
+            {
+                groupId = project.group
+                // Force the maven upload to use the <mcversion>-<version> syntax preferred at files
+                version = "${project.minecraft.version}-${project.version}"
+                artifactId = project.archivesBaseName
+                project
+                {
+                    name project.archivesBaseName
+                    packaging 'jar'
+                    description 'WarpBook'
+                    url 'https://github.com/josephd/WarpBook'
+
+                    scm
+                    {
+                        url 'https://github.com/josephd/WarpBook'
+                        connection 'scm:git:git://github.com/josephd/WarpBook.git'
+                        developerConnection 'scm:git:git@github.com:josephd/WarpBook.git'
+                    }
+
+                    issueManagement
+                    {
+                        system 'github'
+                        url 'https://github.com/josephd/WarpBook/issues'
+                    }
+
+                    licenses
+                    {
+                        license
+                        {
+                            name 'GNU General Public License (GPL), Version 3.0'
+                            url 'https://www.gnu.org/licenses/gpl-3.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+
+                    developers
+                    {
+                        developer
+                        {
+                            id 'panicnot42'
+                            name 'panicnot42'
+                            roles { role 'developer' }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
