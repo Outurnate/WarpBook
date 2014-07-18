@@ -15,6 +15,7 @@ import com.panicnot42.warpbook.util.nbt.NBTUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraftforge.common.util.Constants;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -184,14 +185,14 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
   @Override
   public void readFromNBT(NBTTagCompound var1)
   {
-    NBTUtils.readHashMapFromNBT(var1.getTagList(rootTagName, new NBTTagCompound().getId()), (Class<INBTSerializable>)clazz);
+    NBTUtils.readHashMapFromNBT(var1.getTagList(rootTagName, Constants.NBT.TAG_COMPOUND), (Class<INBTSerializable>)clazz);
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public void writeToNBT(NBTTagCompound var1)
   {
-    NBTUtils.writeHashMapToNBT(var1.getTagList(rootTagName, new NBTTagCompound().getId()), (HashMap<String, INBTSerializable>)table);
+    NBTUtils.writeHashMapToNBT(var1.getTagList(rootTagName, Constants.NBT.TAG_COMPOUND), (HashMap<String, INBTSerializable>)table);
   }
 
   public boolean contains(String name)
