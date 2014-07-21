@@ -1,0 +1,18 @@
+item.warpbook.name=传送之书
+item.warppage.unbound.name=未绑定的传送书页
+item.warppage.bound.name=绑定的传送书页
+item.warppage.hyperbound.name=可视传送书页
+
+warpbook.dowarp=传送坐标
+warpbook.bindpage=绑定书页
+warpbook.namewaypoint=输入坐标点的名称
+warpbook.booktooltip=%d/54 页
+warpbook.name=传送之书
+
+help.nopages=这本书里面没有书页. Shift+右击添加已经绑定的书页
+help.nowaypointsfound=未找到坐标
+help.noplayerspecified=必须指定特定玩家名称
+help.waypointdoesnotexist=坐标点 '%s' 不存在
+help.waypointdelete=忽忽!
+help.notawaypoint='%s' 不是一个坐标点
+help.waypointcreated=坐标点已创建
