@@ -45,6 +45,9 @@ minecraft
 {
     version = "1.7.10-10.13.0.1178"
     runDir = "run"
+    
+    replaceIn "com/panicnot42/warpbook/Properties.java"
+    replace "@VERSION@", rootProject.mod_version
 }
 
 dependencies
@@ -60,7 +63,6 @@ processResources
     from(sourceSets.main.resources.srcDirs)
     {
         include 'mcmod.info'
-        include 'Properties.java'
         
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version, 'modid':project.archivesBaseName
