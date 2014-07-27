@@ -47,7 +47,7 @@ minecraft
     runDir = "run"
     
     replaceIn "com/panicnot42/warpbook/Properties.java"
-    replace "@VERSION@", rootProject.mod_version
+    replace "@VERSION@", rootProject.version
 }
 
 dependencies
