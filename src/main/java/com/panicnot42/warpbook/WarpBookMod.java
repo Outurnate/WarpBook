@@ -25,7 +25,6 @@ import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.item.WarpPageItem;
 import com.panicnot42.warpbook.net.packet.PacketWarp;
 import com.panicnot42.warpbook.net.packet.PacketWaypointName;
-import com.panicnot42.warpbook.util.net.PacketPipeline;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -36,7 +35,9 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = Properties.modid, name = Properties.name, version = Properties.version)
 public class WarpBookMod
@@ -45,7 +46,8 @@ public class WarpBookMod
   public static WarpBookMod instance;
 
   public static final Logger logger = LogManager.getLogger(Properties.modid);
-  public static final PacketPipeline packetPipeline = new PacketPipeline(logger, Properties.modid);
+  //public static final PacketPipeline packetPipeline = new PacketPipeline(logger, Properties.modid);
+  public static final SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel(Properties.modid);
 
   public static WarpBookItem warpBookItem;
   public static WarpPageItem warpPageItem;
@@ -97,16 +99,14 @@ public class WarpBookMod
   {
     proxy.registerRenderers();
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
-    packetPipeline.initalize();
   }
 
   @EventHandler
   public void postInit(FMLPostInitializationEvent event)
   {
     WarpWorldStorage.postInit();
-    packetPipeline.registerPacket(PacketWarp.class);
-    packetPipeline.registerPacket(PacketWaypointName.class);
-    packetPipeline.postInitialize();
+    network.registerMessage(PacketWarp.class, PacketWarp.class, 1, Side.SERVER);
+    network.registerMessage(PacketWaypointName.class, PacketWaypointName.class, 2, Side.CLIENT);
   }
 
   @EventHandler

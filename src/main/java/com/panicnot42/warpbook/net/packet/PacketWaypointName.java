@@ -1,12 +1,13 @@
 package com.panicnot42.warpbook.net.packet;
 
-import com.panicnot42.warpbook.util.net.AbstractPacket;
+import com.panicnot42.warpbook.util.net.NetUtils;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
-import net.minecraft.entity.player.EntityPlayer;
 
-public class PacketWaypointName extends AbstractPacket
+public class PacketWaypointName implements IMessage, IMessageHandler<PacketWaypointName, IMessage>
 {
   String name;
 
@@ -18,15 +19,16 @@ public class PacketWaypointName extends AbstractPacket
   {
     this.name = name;
   }
-
+  
   @Override
-  public void encode(ChannelHandlerContext ctx, ByteBuf buffer)
+  public IMessage onMessage(PacketWaypointName message, MessageContext ctx)
   {
-    buffer.writeBytes(name.getBytes());
+    NetUtils.getPlayerFromContext(ctx).getHeldItem().getTagCompound().setString("name", name);
+    return null;
   }
 
   @Override
-  public void decode(ChannelHandlerContext ctx, ByteBuf buffer)
+  public void fromBytes(ByteBuf buffer)
   {
     byte[] data = new byte[buffer.readableBytes()];
     buffer.readBytes(data);
@@ -34,13 +36,8 @@ public class PacketWaypointName extends AbstractPacket
   }
 
   @Override
-  public void handleClient(EntityPlayer player)
+  public void toBytes(ByteBuf buffer)
   {
-  }
-
-  @Override
-  public void handleServer(EntityPlayer player)
-  {
-    player.getHeldItem().getTagCompound().setString("name", name);
+    buffer.writeBytes(name.getBytes());
   }
 }

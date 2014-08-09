@@ -9,30 +9,34 @@ import java.util.Set;
 
 import javax.swing.event.EventListenerList;
 
+import com.panicnot42.warpbook.Properties;
+import com.panicnot42.warpbook.net.packet.PacketWarp;
 import com.panicnot42.warpbook.util.nbt.INBTSerializable;
 import com.panicnot42.warpbook.util.nbt.NBTUtils;
+import com.panicnot42.warpbook.util.net.SyncableTable.TablePacket;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraftforge.common.util.Constants;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.ByteBufUtils;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import cpw.mods.fml.relauncher.Side;
 
-public class SyncableTable<T extends INBTSerializable> implements INBTSerializable // TODO:
-// is
-// this
-// threadsafe?
-// research
-// netty/forge
-// communication
+public class SyncableTable<T extends INBTSerializable> implements INBTSerializable, IMessageHandler<SyncableTable<T>.TablePacket, IMessage>
 {
-  public class TablePacket extends AbstractPacket
+  public class TablePacket implements IMessage
   {
     private HashMap<String, T> payload;
 
@@ -42,7 +46,7 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
     }
 
     @Override
-    public void encode(ChannelHandlerContext ctx, ByteBuf buffer)
+    public void fromBytes(ByteBuf buffer)
     {
       NBTTagCompound tag = new NBTTagCompound();
       for (Entry<String, T> e : this.payload.entrySet())
@@ -56,7 +60,7 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
 
     @SuppressWarnings("unchecked")
     @Override
-    public void decode(ChannelHandlerContext ctx, ByteBuf buffer)
+    public void toBytes(ByteBuf buffer)
     {
       NBTTagCompound tag = ByteBufUtils.readTag(buffer);
       for (String e : (Set<String>)tag.func_150296_c())
@@ -79,36 +83,19 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
         this.payload.put(e, obj);
       }
     }
-
-    @Override
-    public void handleClient(EntityPlayer player)
-    {
-      copyParent();
-    }
-
-    @Override
-    public void handleServer(EntityPlayer player)
-    {
-      copyParent();
-    }
-
-    private void copyParent()
-    {
-      table = new HashMap<String, T>(payload); // here's where I may need sync
-      dirty = false;
-    }
   }
 
-  private PacketPipeline pipeline;
+  private SimpleNetworkWrapper pipeline;
   private HashMap<String, T> table;
   private Class<T> clazz;
   private boolean dirty = false;
-  private EventListenerList updateTableListeners = new EventListenerList();
   private String rootTagName;
+  private static int disc = 1;
 
-  public SyncableTable(PacketPipeline pipeline, Class<T> clazz, String rootTagName)
+  public SyncableTable(Class<T> clazz, String rootTagName)
   {
-    this.pipeline = pipeline;
+    this.pipeline = NetworkRegistry.INSTANCE.newSimpleChannel(rootTagName);
+    this.pipeline.registerMessage(SyncableTable.class, TablePacket.class, disc++, Side.CLIENT);
     this.clazz = clazz;
     this.table = new HashMap<String, T>();
     this.rootTagName = rootTagName;
@@ -130,23 +117,6 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
   {
     return table.remove(waypoint);
   }
-
-  public void addUpdateTableListener(UpdateTableListener listener)
-  {
-    updateTableListeners.add(UpdateTableListener.class, listener);
-  }
-
-  public void removeUpdateTableListener(UpdateTableListener listener)
-  {
-    updateTableListeners.remove(UpdateTableListener.class, listener);
-  }
-
-  protected void fireUpdate(UpdateTableEvent updateTableEvent)
-  {
-    for (UpdateTableListener listener : updateTableListeners.getListeners(UpdateTableListener.class))
-      listener.tableUpdated(updateTableEvent);
-  }
-
 
   @SubscribeEvent
   public void tick(TickEvent e)
@@ -205,5 +175,18 @@ public class SyncableTable<T extends INBTSerializable> implements INBTSerializab
     String[] keySet = new String[table.size()];
     table.keySet().toArray(keySet);
     return keySet;
+  }
+
+  private void copyParent(TablePacket message)
+  {
+    table = new HashMap<String, T>(message.payload);
+    dirty = false;
+  }
+
+  @Override
+  public IMessage onMessage(TablePacket message, MessageContext ctx)
+  {
+    copyParent(message);
+    return null;
   }
 }
