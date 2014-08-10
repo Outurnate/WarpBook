@@ -91,6 +91,7 @@ public class WarpBookMod
     recipe.add(boundpage);
     recipe.add(new ItemStack(warpPageItem));
     GameRegistry.addRecipe(new WarpPageShapeless(boundpage, recipe));
+    
     config.save();
   }
 

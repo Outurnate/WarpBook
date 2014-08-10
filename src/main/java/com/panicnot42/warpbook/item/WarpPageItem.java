@@ -16,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -100,6 +101,7 @@ public class WarpPageItem extends Item
         case 3: // do nothing
           break;
         case 4:
+          itemStack = new ItemStack(GameRegistry.findItem("minecraft", "poisonous_potato"), 1);
           WarpBookMod.proxy.goFullPotato(player, itemStack);
       }
     }

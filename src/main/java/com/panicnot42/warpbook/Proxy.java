@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.EnumDifficulty;
 
 public class Proxy
@@ -67,6 +68,13 @@ public class Proxy
 
   public void goFullPotato(EntityPlayer player, ItemStack itemStack)
   {
-    //player.attackEntityFrom(new DamageSource)
+    DamageSource potato = new DamageSource("potato");
+    potato.setDamageAllowedInCreativeMode();
+    potato.setDamageBypassesArmor();
+    potato.setDamageIsAbsolute();
+    
+    player.worldObj.newExplosion(null, player.posX, player.posY, player.posZ, 12, true, true);
+    
+    player.attackEntityFrom(potato, player.getMaxHealth());
   }
 }
