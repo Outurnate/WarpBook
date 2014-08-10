@@ -21,8 +21,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class WarpPageItem extends Item
 {
-  private static final String[] itemMetaNames = new String[] { "unbound", "bound", "hyperbound" };
-  private static final String[] itemTextures = new String[] { "unboundwarppage", "boundwarppage", "hyperboundwarppage" };
+  private static final String[] itemMetaNames = new String[] { "unbound", "bound", "hyperbound", "deathly", "potato" };
+  private static final String[] itemTextures = new String[] { "unboundwarppage", "boundwarppage", "hyperboundwarppage", "deathlywarppage", "spudpage" };
 
   @SideOnly(Side.CLIENT)
   private IIcon[] itemIcons;
@@ -36,13 +36,13 @@ public class WarpPageItem extends Item
   @Override
   public IIcon getIconFromDamage(int meta)
   {
-    return itemIcons[MathHelper.clamp_int(meta, 0, 2)];
+    return itemIcons[MathHelper.clamp_int(meta, 0, 4)];
   }
 
   @Override
   public String getUnlocalizedName(ItemStack itemStack)
   {
-    return super.getUnlocalizedName() + "." + itemMetaNames[MathHelper.clamp_int(itemStack.getItemDamage(), 0, 2)];
+    return super.getUnlocalizedName() + "." + itemMetaNames[MathHelper.clamp_int(itemStack.getItemDamage(), 0, 4)];
   }
 
   @Override
@@ -69,8 +69,12 @@ public class WarpPageItem extends Item
         case 0:
           break;
         case 1:
+        case 3:
+        case 4:
           itemStack.setItemDamage(0);
           itemStack.setTagCompound(new NBTTagCompound());
+          break;
+        case 2: // do not clear
           break;
       }
     }
@@ -93,6 +97,10 @@ public class WarpPageItem extends Item
           WarpBookMod.proxy.handleWarp(player, itemStack);
           if (!player.capabilities.isCreativeMode) --itemStack.stackSize;
           break;
+        case 3: // do nothing
+          break;
+        case 4:
+          WarpBookMod.proxy.goFullPotato(player, itemStack);
       }
     }
     return itemStack;

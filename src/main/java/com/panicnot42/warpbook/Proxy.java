@@ -64,4 +64,9 @@ public class Proxy
     }
     return exhaustionCoefficient * scaleFactor * (crossDim ? 2.0f : 1.0f);
   }
+
+  public void goFullPotato(EntityPlayer player, ItemStack itemStack)
+  {
+    //player.attackEntityFrom(new DamageSource)
+  }
 }

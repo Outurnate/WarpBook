@@ -1,17 +1,18 @@
 package com.panicnot42.warpbook;
 
+import java.util.HashMap;
+
 import com.panicnot42.warpbook.util.Waypoint;
-import com.panicnot42.warpbook.util.net.SyncableTable;
-import com.panicnot42.warpbook.util.net.UpdateTableEvent;
-import com.panicnot42.warpbook.util.net.UpdateTableListener;
+import com.panicnot42.warpbook.util.nbt.NBTUtils;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
+import net.minecraftforge.common.util.Constants;
 
 public class WarpWorldStorage extends WorldSavedData
 {
-  private static SyncableTable<Waypoint> table;
+  private static HashMap<String, Waypoint> table;
 
   private final static String IDENTIFIER = "WarpBook";
 
@@ -28,24 +29,24 @@ public class WarpWorldStorage extends WorldSavedData
 
   public static void postInit()
   {
-    table = new SyncableTable<Waypoint>(Waypoint.class, "waypointTable");
+    table = new HashMap<String, Waypoint>();
   }
 
   @Override
   public void readFromNBT(NBTTagCompound var1)
   {
-    table.readFromNBT(var1);
+    table = NBTUtils.readHashMapFromNBT(var1.getTagList("data", Constants.NBT.TAG_COMPOUND), Waypoint.class);
   }
 
   @Override
   public void writeToNBT(NBTTagCompound var1)
   {
-    table.writeToNBT(var1);
+    NBTUtils.writeHashMapToNBT(var1.getTagList("data", Constants.NBT.TAG_COMPOUND), table);
   }
 
   public boolean waypointExists(String name)
   {
-    return table.contains(name);
+    return table.containsKey(name);
   }
 
   public Waypoint getWaypoint(String name)
@@ -55,13 +56,13 @@ public class WarpWorldStorage extends WorldSavedData
 
   public void addWaypoint(Waypoint point)
   {
-    table.set(point.name, point);
+    table.put(point.name, point);
     this.markDirty();
   }
 
   public String[] listWaypoints()
   {
-    return table.keyList();
+    return (String[])table.keySet().toArray();
   }
 
   public boolean deleteWaypoint(String waypoint)
