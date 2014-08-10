@@ -19,6 +19,10 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class PacketSyncWaypoints implements IMessage, IMessageHandler<PacketSyncWaypoints, IMessage>
 {
   public HashMap<String, Waypoint> table;
+
+  public PacketSyncWaypoints()
+  {
+  }
   
   public PacketSyncWaypoints(HashMap<String, Waypoint> table)
   {
