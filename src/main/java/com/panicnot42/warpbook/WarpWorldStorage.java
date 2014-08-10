@@ -2,17 +2,24 @@ package com.panicnot42.warpbook;
 
 import java.util.HashMap;
 
+import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
 import com.panicnot42.warpbook.util.Waypoint;
 import com.panicnot42.warpbook.util.nbt.NBTUtils;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.minecraftforge.common.util.Constants;
 
 public class WarpWorldStorage extends WorldSavedData
 {
-  private static HashMap<String, Waypoint> table;
+  public static HashMap<String, Waypoint> table;
 
   private final static String IDENTIFIER = "WarpBook";
 
@@ -42,6 +49,12 @@ public class WarpWorldStorage extends WorldSavedData
   public void writeToNBT(NBTTagCompound var1)
   {
     NBTUtils.writeHashMapToNBT(var1.getTagList("data", Constants.NBT.TAG_COMPOUND), table);
+  }
+  
+  @SubscribeEvent
+  public void clientJoined(ServerConnectionFromClientEvent e)
+  {
+    WarpBookMod.network.sendTo(new PacketSyncWaypoints(table), ((NetHandlerPlayServer)e.handler).playerEntity);
   }
 
   public boolean waypointExists(String name)

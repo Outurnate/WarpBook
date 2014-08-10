@@ -23,6 +23,7 @@ import com.panicnot42.warpbook.crafting.WarpPageShapeless;
 import com.panicnot42.warpbook.gui.GuiManager;
 import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.item.WarpPageItem;
+import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
 import com.panicnot42.warpbook.net.packet.PacketWarp;
 import com.panicnot42.warpbook.net.packet.PacketWaypointName;
 
@@ -46,7 +47,6 @@ public class WarpBookMod
   public static WarpBookMod instance;
 
   public static final Logger logger = LogManager.getLogger(Properties.modid);
-  //public static final PacketPipeline packetPipeline = new PacketPipeline(logger, Properties.modid);
   public static final SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel(Properties.modid);
 
   public static WarpBookItem warpBookItem;
@@ -106,7 +106,8 @@ public class WarpBookMod
   {
     WarpWorldStorage.postInit();
     network.registerMessage(PacketWarp.class, PacketWarp.class, 1, Side.SERVER);
-    network.registerMessage(PacketWaypointName.class, PacketWaypointName.class, 2, Side.CLIENT);
+    network.registerMessage(PacketWaypointName.class, PacketWaypointName.class, 2, Side.SERVER);
+    network.registerMessage(PacketSyncWaypoints.class, PacketSyncWaypoints.class, 3, Side.CLIENT);
   }
 
   @EventHandler

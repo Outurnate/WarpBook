@@ -22,7 +22,7 @@ public class NetUtils
         break;
   
       case SERVER:
-        INetHandler netHandler = ctx.getServerHandler().netManager.channel().attr(NetworkRegistry.NET_HANDLER).get();
+        INetHandler netHandler = ctx.netHandler; // holy derp
         player = ((NetHandlerPlayServer)netHandler).playerEntity;
         break;
   
