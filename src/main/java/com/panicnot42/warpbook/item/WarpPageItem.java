@@ -2,10 +2,12 @@ package com.panicnot42.warpbook.item;
 
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.UUID;
 
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.WarpWorldStorage;
 import com.panicnot42.warpbook.util.MathUtils;
+import com.panicnot42.warpbook.util.PlayerUtils;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -16,14 +18,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class WarpPageItem extends Item
 {
-  private static final String[] itemMetaNames = new String[] { "unbound", "bound", "hyperbound", "deathly", "potato" };
-  private static final String[] itemTextures = new String[] { "unboundwarppage", "boundwarppage", "hyperboundwarppage", "deathlywarppage", "spudpage" };
+  private static final String[] itemMetaNames = new String[] { "unbound", "bound", "hyperbound", "deathly", "potato", "player" };
+  private static final String[] itemTextures = new String[] { "unboundwarppage", "boundwarppage", "hyperboundwarppage", "deathlywarppage", "spudpage", "playerpage" };
 
   @SideOnly(Side.CLIENT)
   private IIcon[] itemIcons;
@@ -37,13 +40,13 @@ public class WarpPageItem extends Item
   @Override
   public IIcon getIconFromDamage(int meta)
   {
-    return itemIcons[MathHelper.clamp_int(meta, 0, 4)];
+    return itemIcons[MathHelper.clamp_int(meta, 0, itemMetaNames.length - 1)];
   }
 
   @Override
   public String getUnlocalizedName(ItemStack itemStack)
   {
-    return super.getUnlocalizedName() + "." + itemMetaNames[MathHelper.clamp_int(itemStack.getItemDamage(), 0, 4)];
+    return super.getUnlocalizedName() + "." + itemMetaNames[MathHelper.clamp_int(itemStack.getItemDamage(), 0, itemMetaNames.length - 1)];
   }
 
   @Override
@@ -68,10 +71,15 @@ public class WarpPageItem extends Item
       switch (itemStack.getItemDamage())
       {
         case 0:
+          itemStack.setItemDamage(5);
+          itemStack.setTagCompound(new NBTTagCompound());
+          if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+            itemStack.getTagCompound().setString("playeruuid", player.getGameProfile().getId().toString());
           break;
         case 1:
         case 3:
         case 4:
+        case 5:
           itemStack.setItemDamage(0);
           itemStack.setTagCompound(new NBTTagCompound());
           break;
@@ -95,6 +103,7 @@ public class WarpPageItem extends Item
           break;
         case 1:
         case 2:
+        case 5:
           WarpBookMod.proxy.handleWarp(player, itemStack);
           if (!player.capabilities.isCreativeMode) --itemStack.stackSize;
           break;
@@ -103,6 +112,7 @@ public class WarpPageItem extends Item
         case 4:
           itemStack = new ItemStack(GameRegistry.findItem("minecraft", "poisonous_potato"), 1);
           WarpBookMod.proxy.goFullPotato(player, itemStack);
+          break;
       }
     }
     return itemStack;
@@ -130,6 +140,13 @@ public class WarpPageItem extends Item
         String name = item.getTagCompound().getString("hypername");
         list.add(name);
         list.add(WarpWorldStorage.instance(player.worldObj).getWaypoint(name).friendlyName);
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+      case 5:
+        list.add(PlayerUtils.getNameByUUID(UUID.fromString(item.getTagCompound().getString("playeruuid"))));
         break;
     }
   }

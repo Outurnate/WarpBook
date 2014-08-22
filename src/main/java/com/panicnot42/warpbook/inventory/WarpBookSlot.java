@@ -14,7 +14,7 @@ public class WarpBookSlot extends Slot
 
   public static boolean itemValid(ItemStack itemStack)
   {
-    return itemStack.getItem() instanceof WarpPageItem && (itemStack.getItemDamage() == 1 || itemStack.getItemDamage() == 2);
+    return itemStack.getItem() instanceof WarpPageItem && itemStack.getItemDamage() != 0;
   }
 
   @Override

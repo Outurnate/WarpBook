@@ -1,6 +1,11 @@
 package com.panicnot42.warpbook;
 
+import java.math.RoundingMode;
+import java.util.UUID;
+
 import com.panicnot42.warpbook.util.CommandUtils;
+import com.panicnot42.warpbook.util.MathUtils;
+import com.panicnot42.warpbook.util.PlayerUtils;
 import com.panicnot42.warpbook.util.Waypoint;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,11 +33,7 @@ public class Proxy
     boolean crossDim = player.dimension != wp.dim;
     player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
     if (crossDim)
-    {
-      //player.travelToDimension(wp.dim);
-      if (player instanceof EntityPlayerMP)
-        ((EntityPlayerMP)player).mcServer.getConfigurationManager().transferPlayerToDimension((EntityPlayerMP)player, wp.dim, new WarpBookTeleporter(((EntityPlayerMP)player).mcServer.worldServerForDimension(wp.dim)));
-    }
+      ((EntityPlayerMP)player).mcServer.getConfigurationManager().transferPlayerToDimension((EntityPlayerMP)player, wp.dim, new WarpBookTeleporter(((EntityPlayerMP)player).mcServer.worldServerForDimension(wp.dim)));
     player.setPositionAndUpdate(wp.x + 0.5f, wp.y + 0.5f, wp.z + 0.5f);
   }
 
@@ -40,8 +41,16 @@ public class Proxy
   {
     NBTTagCompound pageTagCompound = page.getTagCompound();
     WarpWorldStorage storage = WarpWorldStorage.instance(player.getEntityWorld());
-    Waypoint wp = pageTagCompound.hasKey("hypername") ? storage.getWaypoint(pageTagCompound.getString("hypername")) : new Waypoint("", "", pageTagCompound.getInteger("posX"),
-        pageTagCompound.getInteger("posY"), pageTagCompound.getInteger("posZ"), pageTagCompound.getInteger("dim"));
+    Waypoint wp;
+    if (pageTagCompound.hasKey("hypername"))
+      wp = storage.getWaypoint(pageTagCompound.getString("hypername"));
+    else if (pageTagCompound.hasKey("playeruuid") && PlayerUtils.isPlayerOnline(UUID.fromString(pageTagCompound.getString("playeruuid"))))
+    {
+      EntityPlayer playerTo = PlayerUtils.getPlayerByUUID(UUID.fromString(pageTagCompound.getString("playeruuid")));
+      wp = (playerTo != player) ? new Waypoint("", "", MathUtils.round(playerTo.posX, RoundingMode.DOWN), MathUtils.round(playerTo.posY, RoundingMode.DOWN), MathUtils.round(playerTo.posZ, RoundingMode.DOWN), playerTo.dimension) : null;
+    }
+    else
+      wp = new Waypoint("", "", pageTagCompound.getInteger("posX"), pageTagCompound.getInteger("posY"), pageTagCompound.getInteger("posZ"), pageTagCompound.getInteger("dim"));
     return wp;
   }
 

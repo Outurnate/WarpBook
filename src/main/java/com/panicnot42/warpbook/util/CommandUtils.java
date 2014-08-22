@@ -70,9 +70,7 @@ public class CommandUtils
       builder.append(var2[i]);
       builder.append(" ");
     }
-    if (var2.length > 0) builder.deleteCharAt(builder.length() - 1); // remove
-                                                                     // last
-                                                                     // space
+    if (var2.length > 0) builder.deleteCharAt(builder.length() - 1); // remove last space
     return builder.toString();
   }
 

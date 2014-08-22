@@ -23,7 +23,7 @@ public class PacketWaypointName implements IMessage, IMessageHandler<PacketWaypo
   @Override
   public IMessage onMessage(PacketWaypointName message, MessageContext ctx)
   {
-    NetUtils.getPlayerFromContext(ctx).getHeldItem().getTagCompound().setString("name", name);
+    NetUtils.getPlayerFromContext(ctx).getHeldItem().getTagCompound().setString("name", message.name);
     return null;
   }
 

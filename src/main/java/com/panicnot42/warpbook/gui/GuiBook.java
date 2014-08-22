@@ -1,5 +1,7 @@
 package com.panicnot42.warpbook.gui;
 
+import java.util.UUID;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -14,6 +16,7 @@ import org.lwjgl.input.Keyboard;
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.net.packet.PacketWarp;
 import com.panicnot42.warpbook.util.CommandUtils;
+import com.panicnot42.warpbook.util.PlayerUtils;
 import com.panicnot42.warpbook.util.StringUtils;
 
 import cpw.mods.fml.relauncher.Side;
@@ -49,14 +52,25 @@ public class GuiBook extends GuiScreen
       NBTTagCompound compound = ItemStack.loadItemStackFromNBT(items.getCompoundTagAt(i)).getTagCompound();
       try
       {
-        buttonList.add(new GuiButton(i, ((width - 404) / 2) + ((i % 6) * 68), 16 + (24 * (i / 6)), 64, 16, StringUtils.shorten(compound.hasKey("hypername") ? compound.getString("hypername")
-            : compound.getString("name"), 10)));
+        buttonList.add(new GuiButton(i, ((width - 404) / 2) + ((i % 6) * 68), 16 + (24 * (i / 6)), 64, 16, getButtonText(compound)));
       }
       catch (Exception e)
       {
         // old page
       }
     }
+  }
+  
+  private static String getButtonText(NBTTagCompound compound)
+  {
+    if (compound.hasKey("hypername"))
+      return StringUtils.shorten(compound.getString("hypername"), 10);
+    else if (compound.hasKey("name"))
+      return StringUtils.shorten(compound.getString("name"), 10);
+    else if (compound.hasKey("playeruuid"))
+      return StringUtils.shorten(PlayerUtils.getNameByUUID(UUID.fromString(compound.getString("playeruuid"))), 10);
+    else
+      return "";
   }
 
   @Override
