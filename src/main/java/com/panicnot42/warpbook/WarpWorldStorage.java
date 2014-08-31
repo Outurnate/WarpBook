@@ -1,6 +1,7 @@
 package com.panicnot42.warpbook;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
 import com.panicnot42.warpbook.util.Waypoint;
@@ -79,5 +80,11 @@ public class WarpWorldStorage extends WorldSavedData
   {
     this.markDirty();
     return table.remove(waypoint) != null;
+  }
+
+  public void setLastDeath(UUID id, double posX, double posY, double posZ)
+  {
+    // TODO Auto-generated method stub
+    
   }
 }

@@ -52,4 +52,16 @@ public class WarpBookItem extends Item
       // no pages
     }
   }
+
+  public static int getRespawnsLeft(ItemStack item)
+  {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  public static void decrRespawnsLeft(ItemStack item)
+  {
+    // TODO Auto-generated method stub
+    
+  }
 }
