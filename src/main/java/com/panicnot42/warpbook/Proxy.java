@@ -12,7 +12,6 @@ import com.panicnot42.warpbook.util.Waypoint;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,6 +37,7 @@ public class Proxy
 
   public void handleWarp(EntityPlayer player, ItemStack page)
   {
+    System.out.println(page);
     if (page == null) return;
     Waypoint wp = extractWaypoint(player, page);
     if (wp == null)
@@ -45,9 +45,11 @@ public class Proxy
       CommandUtils.showError(player, I18n.format(page.getItemDamage() == 2 ? "help.waypointnotexist" : "help.selfaport"));
       return; // kind of important....
     }
+    System.out.println(page.getTagCompound().getString("bindmsg").toString());
+    System.out.println(FMLCommonHandler.instance().getEffectiveSide());
     boolean crossDim = player.dimension != wp.dim;
     player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
-    if (crossDim && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+    if (crossDim)
       /*((EntityPlayerMP)player).mcServer.getConfigurationManager().transferPlayerToDimension((EntityPlayerMP)player, wp.dim,
           new WarpBookTeleporter(((EntityPlayerMP)player).mcServer.worldServerForDimension(wp.dim)));*/
       transferPlayerToDimension((EntityPlayerMP)player, wp.dim, ((EntityPlayerMP)player).mcServer.getConfigurationManager());

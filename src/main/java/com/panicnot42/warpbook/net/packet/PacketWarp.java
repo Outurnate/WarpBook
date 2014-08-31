@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.Constants;
 
 public class PacketWarp implements IMessage, IMessageHandler<PacketWarp, IMessage>
 {
@@ -29,7 +30,7 @@ public class PacketWarp implements IMessage, IMessageHandler<PacketWarp, IMessag
   {
     try
     {
-      NBTTagList stack = WarpBookMod.lastHeldBooks.get(player).getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
+      NBTTagList stack = WarpBookMod.lastHeldBooks.get(player).getTagCompound().getTagList("WarpPages", Constants.NBT.TAG_COMPOUND);
       ItemStack page = ItemStack.loadItemStackFromNBT(stack.getCompoundTagAt(pageSlot));
       return page;
     }
@@ -43,7 +44,7 @@ public class PacketWarp implements IMessage, IMessageHandler<PacketWarp, IMessag
   public IMessage onMessage(PacketWarp message, MessageContext ctx)
   {
     EntityPlayer player = NetUtils.getPlayerFromContext(ctx);
-    ItemStack page = getPageById(player, this.pageSlot);
+    ItemStack page = getPageById(player, message.pageSlot);
     WarpBookMod.proxy.handleWarp(player, page);
     
     return null;
