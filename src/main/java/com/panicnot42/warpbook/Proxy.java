@@ -8,12 +8,15 @@ import com.panicnot42.warpbook.util.MathUtils;
 import com.panicnot42.warpbook.util.PlayerUtils;
 import com.panicnot42.warpbook.util.Waypoint;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.EnumDifficulty;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class Proxy
 {
@@ -27,14 +30,14 @@ public class Proxy
     Waypoint wp = extractWaypoint(player, page);
     if (wp == null)
     {
-      CommandUtils.showError(player, "This waypoint no longer exists");
+      CommandUtils.showError(player, I18n.format(page.getItemDamage() == 2 ? "help.waypointnotexist" : "help.selfaport"));
       return; // kind of important....
     }
     boolean crossDim = player.dimension != wp.dim;
     player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
     if (crossDim)
       ((EntityPlayerMP)player).mcServer.getConfigurationManager().transferPlayerToDimension((EntityPlayerMP)player, wp.dim, new WarpBookTeleporter(((EntityPlayerMP)player).mcServer.worldServerForDimension(wp.dim)));
-    player.setPositionAndUpdate(wp.x + 0.5f, wp.y + 0.5f, wp.z + 0.5f);
+    player.setPositionAndUpdate(wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
   }
 
   protected Waypoint extractWaypoint(EntityPlayer player, ItemStack page)
@@ -85,5 +88,10 @@ public class Proxy
     player.worldObj.newExplosion(null, player.posX, player.posY, player.posZ, 12, true, true);
     
     player.attackEntityFrom(potato, player.getMaxHealth());
+  }
+  
+  @SubscribeEvent
+  public void onDeath(LivingDeathEvent event)
+  {
   }
 }

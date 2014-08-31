@@ -11,7 +11,7 @@ public class PlayerUtils
   public static EntityPlayer getPlayerByUUID(UUID uuid)
   {
     for(Object player : MinecraftServer.getServer().getConfigurationManager().playerEntityList)
-      if (((EntityPlayerMP)player).getGameProfile().getId().compareTo(uuid) == 0)
+      if (((EntityPlayerMP)player).getGameProfile().getId().equals(uuid))
         return (EntityPlayer)player;
     return null;
   }
@@ -23,6 +23,6 @@ public class PlayerUtils
   
   public static String getNameByUUID(UUID uuid)
   {
-    return getPlayerByUUID(uuid).getDisplayName();
+    return MinecraftServer.getServer().func_152358_ax().func_152652_a(uuid).getName();
   }
 }

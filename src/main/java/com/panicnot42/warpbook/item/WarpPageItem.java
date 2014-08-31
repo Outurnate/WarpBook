@@ -95,9 +95,9 @@ public class WarpPageItem extends Item
           itemStack.setItemDamage(1);
           if (!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
           itemStack.getTagCompound().setString("bindmsg", String.format("Bound to (%.0f, %.0f, %.0f) in dimension %d", player.posX, player.posY, player.posZ, player.dimension));
-          itemStack.getTagCompound().setInteger("posX", MathUtils.round(player.posX, RoundingMode.DOWN));
-          itemStack.getTagCompound().setInteger("posY", MathUtils.round(player.posY, RoundingMode.DOWN));
-          itemStack.getTagCompound().setInteger("posZ", MathUtils.round(player.posZ, RoundingMode.DOWN));
+          itemStack.getTagCompound().setInteger("posX", MathUtils.round(player.posX, RoundingMode.HALF_DOWN));
+          itemStack.getTagCompound().setInteger("posY", MathUtils.round(player.posY, RoundingMode.HALF_DOWN));
+          itemStack.getTagCompound().setInteger("posZ", MathUtils.round(player.posZ, RoundingMode.HALF_DOWN));
           itemStack.getTagCompound().setInteger("dim", player.dimension);
           player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWaypointGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
           break;
