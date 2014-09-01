@@ -8,8 +8,10 @@ import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.WarpWorldStorage;
 import com.panicnot42.warpbook.util.MathUtils;
 import com.panicnot42.warpbook.util.PlayerUtils;
+import com.panicnot42.warpbook.util.Waypoint;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -92,13 +94,7 @@ public class WarpPageItem extends Item
       switch (itemStack.getItemDamage())
       {
         case 0:
-          itemStack.setItemDamage(1);
-          if (!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
-          itemStack.getTagCompound().setString("bindmsg", String.format("Bound to (%.0f, %.0f, %.0f) in dimension %d", player.posX, player.posY, player.posZ, player.dimension));
-          itemStack.getTagCompound().setInteger("posX", MathUtils.round(player.posX, RoundingMode.HALF_DOWN));
-          itemStack.getTagCompound().setInteger("posY", MathUtils.round(player.posY, RoundingMode.HALF_DOWN));
-          itemStack.getTagCompound().setInteger("posZ", MathUtils.round(player.posZ, RoundingMode.HALF_DOWN));
-          itemStack.getTagCompound().setInteger("dim", player.dimension);
+          writeWaypointToPage(itemStack, MathUtils.round(player.posX, RoundingMode.HALF_DOWN), MathUtils.round(player.posY, RoundingMode.HALF_DOWN), MathUtils.round(player.posZ, RoundingMode.HALF_DOWN), player.dimension);
           player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWaypointGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
           break;
         case 1:
@@ -116,6 +112,23 @@ public class WarpPageItem extends Item
       }
     }
     return itemStack;
+  }
+
+  public static void writeWaypointToPage(ItemStack page, int x, int y, int z, int dim)
+  {
+    page.setItemDamage(1);
+    if (!page.hasTagCompound()) page.setTagCompound(new NBTTagCompound());
+    page.getTagCompound().setString("bindmsg", I18n.format("warpbook.bindmsg", x, y, z, dim));
+    page.getTagCompound().setInteger("posX", x);
+    page.getTagCompound().setInteger("posY", y);
+    page.getTagCompound().setInteger("posZ", z);
+    page.getTagCompound().setInteger("dim", dim);
+  }
+  
+  public static void writeWaypointToPage(ItemStack page, Waypoint wp)
+  {
+    writeWaypointToPage(page, wp.x, wp.y, wp.z, wp.dim);
+    page.getTagCompound().setString("name", wp.friendlyName);
   }
 
   @SuppressWarnings("unchecked")
@@ -149,6 +162,16 @@ public class WarpPageItem extends Item
         list.add(PlayerUtils.getNameByUUID(UUID.fromString(item.getTagCompound().getString("playeruuid"))));
         break;
     }
+  }
+  
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  @Override
+  @SideOnly(Side.CLIENT)
+  public void getSubItems(Item item, CreativeTabs tab, List items)
+  {
+    items.add(new ItemStack(item, 1, 0));
+    items.add(new ItemStack(item, 1, 3));
+    items.add(new ItemStack(item, 1, 4));
   }
 
   @Override

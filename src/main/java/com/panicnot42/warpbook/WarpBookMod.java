@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 
 import org.apache.logging.log4j.LogManager;
@@ -27,6 +28,7 @@ import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
 import com.panicnot42.warpbook.net.packet.PacketWarp;
 import com.panicnot42.warpbook.net.packet.PacketWaypointName;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -109,6 +111,8 @@ public class WarpBookMod
     network.registerMessage(PacketWarp.class, PacketWarp.class, 1, Side.SERVER);
     network.registerMessage(PacketWaypointName.class, PacketWaypointName.class, 2, Side.SERVER);
     network.registerMessage(PacketSyncWaypoints.class, PacketSyncWaypoints.class, 3, Side.CLIENT);
+    MinecraftForge.EVENT_BUS.register(proxy);
+    FMLCommonHandler.instance().bus().register(proxy);
   }
 
   @EventHandler

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.UUID;
 
 import com.panicnot42.warpbook.item.WarpBookItem;
+import com.panicnot42.warpbook.item.WarpPageItem;
 import com.panicnot42.warpbook.util.CommandUtils;
 import com.panicnot42.warpbook.util.MathUtils;
 import com.panicnot42.warpbook.util.PlayerUtils;
@@ -12,6 +13,7 @@ import com.panicnot42.warpbook.util.Waypoint;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,7 +29,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 public class Proxy
 {
@@ -45,13 +47,9 @@ public class Proxy
       CommandUtils.showError(player, I18n.format(page.getItemDamage() == 2 ? "help.waypointnotexist" : "help.selfaport"));
       return; // kind of important....
     }
-    System.out.println(page.getTagCompound().getString("bindmsg").toString());
-    System.out.println(FMLCommonHandler.instance().getEffectiveSide());
     boolean crossDim = player.dimension != wp.dim;
     player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
     if (crossDim)
-      /*((EntityPlayerMP)player).mcServer.getConfigurationManager().transferPlayerToDimension((EntityPlayerMP)player, wp.dim,
-          new WarpBookTeleporter(((EntityPlayerMP)player).mcServer.worldServerForDimension(wp.dim)));*/
       transferPlayerToDimension((EntityPlayerMP)player, wp.dim, ((EntityPlayerMP)player).mcServer.getConfigurationManager());
     player.setPositionAndUpdate(wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
   }
@@ -108,18 +106,29 @@ public class Proxy
   }
 
   @SubscribeEvent
-  public void onDeath(LivingDeathEvent event)
+  public void onHurt(LivingHurtEvent event)
   {
     if (event.entity instanceof EntityPlayer)
     {
       EntityPlayer player = (EntityPlayer)event.entity;
-      WarpWorldStorage.instance(player.worldObj).setLastDeath(player.getGameProfile().getId(), player.posX, player.posY, player.posZ);
-      for (ItemStack item : player.inventory.mainInventory)
-        if (item.getItem() instanceof WarpBookItem && WarpBookItem.getRespawnsLeft(item) > 0)
-        {
-          WarpBookItem.decrRespawnsLeft(item);
-        }
+      if (event.source != DamageSource.outOfWorld && player.getHealth() <= event.ammount)
+        for (ItemStack item : player.inventory.mainInventory)
+          if (item != null && item.getItem() instanceof WarpBookItem && WarpBookItem.getRespawnsLeft(item) > 0)
+          {
+            WarpBookItem.decrRespawnsLeft(item);
+            WarpWorldStorage.instance(player.worldObj).setLastDeath(player.getGameProfile().getId(), player.posX, player.posY, player.posZ, player.dimension);
+            break;
+          }
     }
+  }
+  
+  @SubscribeEvent
+  public void onPlayerRespawn(PlayerRespawnEvent event)
+  {
+    ItemStack page = new ItemStack(WarpBookMod.warpPageItem, 1);
+    WarpPageItem.writeWaypointToPage(page, WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId()));
+    event.player.inventory.addItemStackToInventory(page);
+    WarpWorldStorage.instance(event.player.worldObj).clearLastDeath(event.player.getGameProfile().getId());
   }
 
   // These next two methods are from https://github.com/CoFH/CoFHLib/blob/master/src/main/java/cofh/lib/util/helpers/EntityHelper.java

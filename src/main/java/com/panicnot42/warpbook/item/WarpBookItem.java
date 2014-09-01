@@ -56,7 +56,7 @@ public class WarpBookItem extends Item
   public static int getRespawnsLeft(ItemStack item)
   {
     // TODO Auto-generated method stub
-    return 0;
+    return 1;
   }
 
   public static void decrRespawnsLeft(ItemStack item)
