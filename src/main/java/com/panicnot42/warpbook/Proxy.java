@@ -14,6 +14,7 @@ import com.panicnot42.warpbook.util.Waypoint;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,7 +50,7 @@ public class Proxy
     }
     boolean crossDim = player.dimension != wp.dim;
     player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
-    if (crossDim)
+    if (crossDim && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
       transferPlayerToDimension((EntityPlayerMP)player, wp.dim, ((EntityPlayerMP)player).mcServer.getConfigurationManager());
     player.setPositionAndUpdate(wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
   }
