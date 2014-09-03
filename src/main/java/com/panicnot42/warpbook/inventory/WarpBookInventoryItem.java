@@ -44,14 +44,14 @@ public class WarpBookInventoryItem implements IInventory
   }
 
   @Override
-  public ItemStack decrStackSize(int slot, int qty)
+  public ItemStack decrStackSize(int slot, int quantity)
   {
     ItemStack stack = getStackInSlot(slot);
     if (stack != null)
     {
-      if (stack.stackSize > qty)
+      if (stack.stackSize > quantity)
       {
-        stack = stack.splitStack(qty);
+        stack = stack.splitStack(quantity);
         markDirty();
       }
       else
@@ -71,10 +71,10 @@ public class WarpBookInventoryItem implements IInventory
   }
 
   @Override
-  public void setInventorySlotContents(int slot, ItemStack itemstack)
+  public void setInventorySlotContents(int slot, ItemStack itemStack)
   {
-    inventory[slot] = itemstack;
-    if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()) itemstack.stackSize = getInventoryStackLimit();
+    inventory[slot] = itemStack;
+    if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) itemStack.stackSize = getInventoryStackLimit();
     markDirty();
   }
 

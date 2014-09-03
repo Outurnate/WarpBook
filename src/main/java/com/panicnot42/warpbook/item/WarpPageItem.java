@@ -35,7 +35,7 @@ public class WarpPageItem extends Item
 
   public WarpPageItem()
   {
-    super.setHasSubtypes(true).setMaxStackSize(1).setCreativeTab(CreativeTabs.tabTransport).setMaxDamage(0).setUnlocalizedName("warppage");
+    super.setHasSubtypes(true).setMaxStackSize(16).setCreativeTab(CreativeTabs.tabTransport).setMaxDamage(0).setUnlocalizedName("warppage");
   }
 
   @SideOnly(Side.CLIENT)
@@ -94,8 +94,10 @@ public class WarpPageItem extends Item
       switch (itemStack.getItemDamage())
       {
         case 0:
-          writeWaypointToPage(itemStack, MathUtils.round(player.posX, RoundingMode.HALF_DOWN), MathUtils.round(player.posY, RoundingMode.HALF_DOWN), MathUtils.round(player.posZ, RoundingMode.HALF_DOWN), player.dimension);
+          ItemStack newStack = new ItemStack(WarpBookMod.warpPageItem, 1, 1);
+          writeWaypointToPage(newStack, MathUtils.round(player.posX, RoundingMode.HALF_DOWN), MathUtils.round(player.posY, RoundingMode.HALF_DOWN), MathUtils.round(player.posZ, RoundingMode.HALF_DOWN), player.dimension);
           player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWaypointGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
+          WarpBookMod.formingPages.put(player, newStack);
           break;
         case 1:
         case 2:

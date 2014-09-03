@@ -18,7 +18,7 @@ public class WarpBookItem extends Item
 {
   public WarpBookItem()
   {
-    this.setMaxStackSize(1).setCreativeTab(CreativeTabs.tabTransport).setUnlocalizedName("warpbook").setTextureName("warpbook:warpbook");
+    this.setMaxStackSize(1).setCreativeTab(CreativeTabs.tabTransport).setUnlocalizedName("warpbook").setTextureName("warpbook:warpbook").setMaxDamage(16);
   }
 
   @Override
@@ -55,13 +55,33 @@ public class WarpBookItem extends Item
 
   public static int getRespawnsLeft(ItemStack item)
   {
-    // TODO Auto-generated method stub
-    return 1;
+    if (item.getTagCompound() == null) item.setTagCompound(new NBTTagCompound());
+    return item.getTagCompound().getShort("deathPages");
+  }
+
+  public static int getFuelLeft(ItemStack item)
+  {
+    return 16 - item.getItemDamage();
+  }
+  
+  public static void setRespawnsLeft(ItemStack item, int deaths)
+  {
+    if (item.getTagCompound() == null) item.setTagCompound(new NBTTagCompound());
+    item.getTagCompound().setShort("deathPages", (short)deaths);
+  }
+
+  public static void setFuelLeft(ItemStack item, int fuel)
+  {
+    item.setItemDamage(16 - fuel);
   }
 
   public static void decrRespawnsLeft(ItemStack item)
   {
-    // TODO Auto-generated method stub
-    
+    setRespawnsLeft(item, getRespawnsLeft(item) - 1);
+  }
+
+  public static void decrFuelLeft(ItemStack item)
+  {
+    setFuelLeft(item, getFuelLeft(item) - 1);
   }
 }

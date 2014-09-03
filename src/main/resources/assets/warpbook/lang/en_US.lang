@@ -8,6 +8,7 @@ warpbook.bindpage=Bind Page
 warpbook.namewaypoint=Enter waypoint name
 warpbook.booktooltip=%d/54 pages
 warpbook.name=Warp Book
+warpbook.bindmsg=Bound to (%.0f, %.0f, %.0f) in dimension %d
 
 help.nopages=There are no pages in this book.  Shift+right click to add bound pages
 help.nowaypointsfound=No waypoints found
@@ -16,3 +17,4 @@ help.waypointdoesnotexist=Waypoint '%s' does not exist
 help.waypointdelete=Poof!
 help.notawaypoint='%s' is not a waypoint
 help.waypointcreated=Waypoint created
+help.selfaport=Congratulations!  You just teleported to yourself

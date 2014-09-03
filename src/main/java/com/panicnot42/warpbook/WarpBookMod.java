@@ -60,12 +60,15 @@ public class WarpBookMod
   private static int guiIndex = 42;
 
   public static float exhaustionCoefficient;
+  public static boolean deathPagesEnabled = true;
+  public static boolean fuelEnabled = true;
 
   public static final int WarpBookWarpGuiIndex = guiIndex++;
   public static final int WarpBookWaypointGuiIndex = guiIndex++;
   public static final int WarpBookInventoryGuiIndex = guiIndex++;
   
   public static HashMap<EntityPlayer, ItemStack> lastHeldBooks = new HashMap<EntityPlayer, ItemStack>();
+  public static HashMap<EntityPlayer, ItemStack> formingPages  = new HashMap<EntityPlayer, ItemStack>();
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent event)

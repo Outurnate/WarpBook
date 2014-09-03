@@ -1,6 +1,7 @@
 package com.panicnot42.warpbook.net.packet;
 
 import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.util.net.NetUtils;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -29,6 +30,13 @@ public class PacketWarp implements IMessage, IMessageHandler<PacketWarp, IMessag
   {
     try
     {
+      if (WarpBookMod.fuelEnabled)
+      {
+        if (WarpBookItem.getFuelLeft(WarpBookMod.lastHeldBooks.get(player)) > 0)
+          WarpBookItem.decrFuelLeft(WarpBookMod.lastHeldBooks.get(player));
+        else
+          return null;
+      }
       NBTTagList stack = WarpBookMod.lastHeldBooks.get(player).getTagCompound().getTagList("WarpPages", Constants.NBT.TAG_COMPOUND);
       ItemStack page = ItemStack.loadItemStackFromNBT(stack.getCompoundTagAt(pageSlot));
       return page;
