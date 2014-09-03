@@ -20,6 +20,7 @@ import com.panicnot42.warpbook.commands.CreateWaypointCommand;
 import com.panicnot42.warpbook.commands.DeleteWaypointCommand;
 import com.panicnot42.warpbook.commands.GiveWarpCommand;
 import com.panicnot42.warpbook.commands.ListWaypointCommand;
+import com.panicnot42.warpbook.crafting.WarpBookShapeless;
 import com.panicnot42.warpbook.crafting.WarpPageShapeless;
 import com.panicnot42.warpbook.gui.GuiManager;
 import com.panicnot42.warpbook.item.WarpBookItem;
@@ -60,8 +61,8 @@ public class WarpBookMod
   private static int guiIndex = 42;
 
   public static float exhaustionCoefficient;
-  public static boolean deathPagesEnabled = true;
-  public static boolean fuelEnabled = true;
+  public static boolean deathPagesEnabled = false;
+  public static boolean fuelEnabled = false;
 
   public static final int WarpBookWarpGuiIndex = guiIndex++;
   public static final int WarpBookWaypointGuiIndex = guiIndex++;
@@ -75,27 +76,33 @@ public class WarpBookMod
   {
     Configuration config = new Configuration(event.getSuggestedConfigurationFile());
     config.load();
-    exhaustionCoefficient = (float)config.get("tweaks", "exhaustion coefficient", 20.0f).getDouble(20.0);
+    exhaustionCoefficient = (float)config.get("tweaks", "exhaustion coefficient", 10.0f).getDouble(10.0);
+    deathPagesEnabled = config.get("features", "death pages", false).getBoolean(true);
+    fuelEnabled = config.get("features", "fuel", false).getBoolean(false);
     warpBookItem = new WarpBookItem();
     warpPageItem = new WarpPageItem();
     GameRegistry.registerItem(warpBookItem, "warpbook");
     GameRegistry.registerItem(warpPageItem, "warppage");
+    List<ItemStack> bookRecipe = new ArrayList<ItemStack>();
     if (config.get("tweaks", "hard recipes", false).getBoolean(false))
     {
-      GameRegistry.addShapelessRecipe(new ItemStack(warpBookItem), new ItemStack(Items.book), new ItemStack(Items.nether_star));
+      bookRecipe.add(new ItemStack(Items.book));
+      bookRecipe.add(new ItemStack(Items.nether_star));
       GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem), new ItemStack(Items.paper), new ItemStack(Items.ender_eye));
     }
     else
     {
-      GameRegistry.addShapelessRecipe(new ItemStack(warpBookItem), new ItemStack(Items.book), new ItemStack(Items.ender_pearl));
+      bookRecipe.add(new ItemStack(Items.book));
+      bookRecipe.add(new ItemStack(Items.ender_pearl));
       GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem), new ItemStack(Items.paper), new ItemStack(Items.ender_pearl));
     }
-    ItemStack boundpage = new ItemStack(warpPageItem);
-    boundpage.setItemDamage(1);
+    ItemStack emptyBook = new ItemStack(warpBookItem);
+    ItemStack boundpage = new ItemStack(warpPageItem, 1, 1);
     List<ItemStack> recipe = new ArrayList<ItemStack>();
     recipe.add(boundpage);
     recipe.add(new ItemStack(warpPageItem));
     GameRegistry.addRecipe(new WarpPageShapeless(boundpage, recipe));
+    GameRegistry.addRecipe(new WarpBookShapeless(emptyBook, bookRecipe));
     
     config.save();
   }

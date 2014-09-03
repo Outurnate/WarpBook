@@ -18,7 +18,7 @@ public class WarpBookItem extends Item
 {
   public WarpBookItem()
   {
-    this.setMaxStackSize(1).setCreativeTab(CreativeTabs.tabTransport).setUnlocalizedName("warpbook").setTextureName("warpbook:warpbook").setMaxDamage(16);
+    this.setMaxStackSize(1).setCreativeTab(CreativeTabs.tabTransport).setUnlocalizedName("warpbook").setTextureName("warpbook:warpbook").setMaxDamage(WarpBookMod.fuelEnabled ? 16 : 0);
   }
 
   @Override

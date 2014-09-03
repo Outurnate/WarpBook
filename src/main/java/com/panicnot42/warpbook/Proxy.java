@@ -109,7 +109,7 @@ public class Proxy
   @SubscribeEvent
   public void onHurt(LivingHurtEvent event)
   {
-    if (event.entity instanceof EntityPlayer)
+    if (WarpBookMod.deathPagesEnabled && event.entity instanceof EntityPlayer)
     {
       EntityPlayer player = (EntityPlayer)event.entity;
       if (event.source != DamageSource.outOfWorld && player.getHealth() <= event.ammount)
@@ -128,7 +128,8 @@ public class Proxy
   {
     ItemStack page = new ItemStack(WarpBookMod.warpPageItem, 1);
     WarpPageItem.writeWaypointToPage(page, WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId()));
-    event.player.inventory.addItemStackToInventory(page);
+    if (WarpBookMod.deathPagesEnabled)
+      event.player.inventory.addItemStackToInventory(page);
     WarpWorldStorage.instance(event.player.worldObj).clearLastDeath(event.player.getGameProfile().getId());
   }
 
