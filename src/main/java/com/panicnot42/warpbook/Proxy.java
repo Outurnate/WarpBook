@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.item.WarpPageItem;
+import com.panicnot42.warpbook.net.packet.PacketEffect;
 import com.panicnot42.warpbook.util.CommandUtils;
 import com.panicnot42.warpbook.util.MathUtils;
 import com.panicnot42.warpbook.util.PlayerUtils;
@@ -14,7 +15,7 @@ import com.panicnot42.warpbook.util.Waypoint;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
-import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,10 +50,16 @@ public class Proxy
       return; // kind of important....
     }
     boolean crossDim = player.dimension != wp.dim;
+    PacketEffect oldDim = new PacketEffect(true, MathUtils.round(player.posX, RoundingMode.DOWN), MathUtils.round(player.posY, RoundingMode.DOWN), MathUtils.round(player.posZ, RoundingMode.DOWN));
+    PacketEffect newDim = new PacketEffect(false, wp.x, wp.y, wp.z);
+    NetworkRegistry.TargetPoint oldPoint = new NetworkRegistry.TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 64);
+    NetworkRegistry.TargetPoint newPoint = new NetworkRegistry.TargetPoint(wp.dim, wp.x, wp.y, wp.z, 64);
     player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
-    if (crossDim && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+    if (crossDim && !player.worldObj.isRemote)
       transferPlayerToDimension((EntityPlayerMP)player, wp.dim, ((EntityPlayerMP)player).mcServer.getConfigurationManager());
     player.setPositionAndUpdate(wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
+    WarpBookMod.network.sendToAllAround(oldDim, oldPoint);
+    WarpBookMod.network.sendToAllAround(newDim, newPoint);
   }
 
   protected Waypoint extractWaypoint(EntityPlayer player, ItemStack page)

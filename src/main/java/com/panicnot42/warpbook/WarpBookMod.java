@@ -25,6 +25,7 @@ import com.panicnot42.warpbook.crafting.WarpPageShapeless;
 import com.panicnot42.warpbook.gui.GuiManager;
 import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.item.WarpPageItem;
+import com.panicnot42.warpbook.net.packet.PacketEffect;
 import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
 import com.panicnot42.warpbook.net.packet.PacketWarp;
 import com.panicnot42.warpbook.net.packet.PacketWaypointName;
@@ -117,10 +118,12 @@ public class WarpBookMod
   @EventHandler
   public void postInit(FMLPostInitializationEvent event)
   {
+    int disc = 0;
     WarpWorldStorage.postInit();
-    network.registerMessage(PacketWarp.class, PacketWarp.class, 1, Side.SERVER);
-    network.registerMessage(PacketWaypointName.class, PacketWaypointName.class, 2, Side.SERVER);
-    network.registerMessage(PacketSyncWaypoints.class, PacketSyncWaypoints.class, 3, Side.CLIENT);
+    network.registerMessage(PacketWarp.class, PacketWarp.class, disc++, Side.SERVER);
+    network.registerMessage(PacketWaypointName.class, PacketWaypointName.class, disc++, Side.SERVER);
+    network.registerMessage(PacketSyncWaypoints.class, PacketSyncWaypoints.class, disc++, Side.CLIENT);
+    network.registerMessage(PacketEffect.class, PacketEffect.class, disc++, Side.CLIENT);
     MinecraftForge.EVENT_BUS.register(proxy);
     FMLCommonHandler.instance().bus().register(proxy);
   }
