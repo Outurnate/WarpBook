@@ -13,7 +13,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketSyncPlayers implements IMessage, IMessageHandler<PacketSyncPlayers, IMessage>
 {
-  ArrayList<GameProfile> profiles;
+  ArrayList<GameProfile> profiles = new ArrayList<GameProfile>();
 
   public PacketSyncPlayers()
   {

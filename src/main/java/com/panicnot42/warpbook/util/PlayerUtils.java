@@ -1,15 +1,24 @@
 package com.panicnot42.warpbook.util;
 
+import io.netty.channel.ChannelFutureListener;
+
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.mojang.authlib.GameProfile;
+import com.panicnot42.warpbook.Properties;
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.WarpWorldStorage;
 import com.panicnot42.warpbook.net.packet.PacketSyncPlayers;
+import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.FMLEmbeddedChannel;
+import cpw.mods.fml.common.network.FMLOutboundHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
+import cpw.mods.fml.common.network.handshake.NetworkDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,7 +27,6 @@ import net.minecraft.server.MinecraftServer;
 public class PlayerUtils
 {
   private ArrayList<GameProfile> profiles = new ArrayList<GameProfile>();
-  private ReentrantLock lock = new ReentrantLock();
   
   private static PlayerUtils instance;
   
@@ -31,21 +39,21 @@ public class PlayerUtils
   {
   }
 
-  public void updateClient(EntityPlayerMP player)
+  public void updateClient(EntityPlayerMP player, ServerConnectionFromClientEvent e)
   {
-    lock.lock();
     profiles.add(player.getGameProfile());
     WarpWorldStorage.profiles.add(player.getGameProfile());
     WarpWorldStorage.instance(player.worldObj).markDirty();
-    WarpBookMod.network.sendTo(new PacketSyncPlayers(profiles), player);
-    lock.unlock();
+    FMLEmbeddedChannel channel = NetworkRegistry.INSTANCE.getChannel(Properties.modid, Side.SERVER);
+    channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DISPATCHER);
+    channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(NetworkDispatcher.get(e.manager));
+    channel.writeAndFlush(new PacketSyncPlayers(profiles)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+    //WarpBookMod.network.sendTo(new PacketSyncPlayers(profiles), player);
   }
 
   public void removeClient(EntityPlayerMP player)
   {
-    lock.lock();
     profiles.remove(player.getGameProfile());
-    lock.unlock();
   }
   
   public static EntityPlayer getPlayerByUUID(UUID uuid)
@@ -59,34 +67,22 @@ public class PlayerUtils
 
   public static boolean isPlayerOnline(UUID uuid)
   {
-    instance().lock.lock();
     for (GameProfile profile : instance().profiles)
       if (profile.getId().equals(uuid))
-      {
-        instance().lock.unlock();
         return true;
-      }
-    instance().lock.unlock();
     return false;
   }
   
   public static String getNameByUUID(UUID uuid)
   {
-    instance().lock.lock();
     for (GameProfile profile : WarpWorldStorage.profiles)
       if (profile.getId().equals(uuid))
-      {
-        instance().lock.unlock();
         return profile.getName();
-      }
-    instance().lock.unlock();
     return "Unknown Name";
   }
 
   public void setProfiles(ArrayList<GameProfile> profiles)
   {
-    lock.lock();
     this.profiles = profiles;
-    lock.unlock();
   }
 }

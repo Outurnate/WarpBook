@@ -2,15 +2,16 @@
 {
   "modid": "warpbook",
   "name": "Warp Book",
-  "description": "A simple book for warping between waypoints",
+  "description": "A multipurpose teleporting mod that's high in fibre and low in calories",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "http://www.minecraftforum.net/topic/2266303-164-warp-book-mod/",
   "updateUrl": "http://minecraft.curseforge.com/mc-mods/warp-book/",
-  "authors": [ "panicnot42" ],
-  "credits": "FalcoTheGreat (French translation), sb023612 (Chinese translation)",
+  "authorList": [
+    "panicnot42"
+  ],
+  "credits": "panicnot42 (Developer), FalcoTheGreat (French translation), sb023612 (Chinese translation)",
   "logoFile": "assets/warpbook/logo.png",
-  "screenshots": [ "assets/warpbook/screenshots/screen1.png", "assets/warpbook/screenshots/screen2.png" ],
   "dependencies": [
      "mod_MinecraftForge"
   ]

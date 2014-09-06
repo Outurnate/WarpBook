@@ -37,7 +37,7 @@ repositories
 
 apply plugin: 'forge'
 
-version = "1.2.${System.env.BUILD_NUMBER}"
+version = "2.0.${System.env.BUILD_NUMBER}"
 group = "com.panicnot42.warpbook"
 archivesBaseName = "warpbook"
 

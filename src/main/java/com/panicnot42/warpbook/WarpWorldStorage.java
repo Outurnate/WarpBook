@@ -1,7 +1,10 @@
 package com.panicnot42.warpbook;
 
+import io.netty.channel.ChannelFutureListener;
+
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -12,6 +15,12 @@ import com.panicnot42.warpbook.util.MathUtils;
 import com.panicnot42.warpbook.util.Waypoint;
 import com.panicnot42.warpbook.util.nbt.NBTUtils;
 
+import cpw.mods.fml.common.network.FMLEmbeddedChannel;
+import cpw.mods.fml.common.network.FMLOutboundHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
+import cpw.mods.fml.common.network.handshake.NetworkDispatcher;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -81,9 +90,13 @@ public class WarpWorldStorage extends WorldSavedData
     var1.setTag("players", players);
   }
 
-  void updateClient(EntityPlayerMP player)
+  void updateClient(EntityPlayerMP player, ServerConnectionFromClientEvent e)
   {
-    WarpBookMod.network.sendTo(new PacketSyncWaypoints(table), player);
+    FMLEmbeddedChannel channel = NetworkRegistry.INSTANCE.getChannel(Properties.modid, Side.SERVER);
+    channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DISPATCHER);
+    channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(NetworkDispatcher.get(e.manager));
+    channel.writeAndFlush(new PacketSyncWaypoints(table)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+    //WarpBookMod.network.sendTo(new PacketSyncWaypoints(table), player);
   }
 
   public boolean waypointExists(String name)
