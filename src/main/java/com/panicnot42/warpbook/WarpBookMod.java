@@ -3,13 +3,13 @@ package com.panicnot42.warpbook;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import net.minecraft.command.ServerCommandManager;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.server.MinecraftServer;
@@ -52,6 +52,7 @@ import cpw.mods.fml.common.network.FMLNetworkEvent.ServerDisconnectionFromClient
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid = Properties.modid, name = Properties.name, version = Properties.version)
 public class WarpBookMod
@@ -71,7 +72,7 @@ public class WarpBookMod
   private static int guiIndex = 42;
 
   public static float exhaustionCoefficient;
-  public static boolean deathPagesEnabled = false;
+  public static boolean deathPagesEnabled = true;
   public static boolean fuelEnabled = false;
 
   public static final int WarpBookWarpGuiIndex = guiIndex++;
@@ -80,8 +81,15 @@ public class WarpBookMod
   
   public static HashMap<EntityPlayer, ItemStack> lastHeldBooks = new HashMap<EntityPlayer, ItemStack>();
   public static HashMap<EntityPlayer, ItemStack> formingPages  = new HashMap<EntityPlayer, ItemStack>();
-
-  ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
+  
+  public static CreativeTabs tabBook = new CreativeTabs("tabWarpBook")
+  {
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Item getTabIconItem() {
+        return warpBookItem;
+    }
+  };
 
   @EventHandler
   public void preInit(FMLPreInitializationEvent event)
@@ -89,7 +97,7 @@ public class WarpBookMod
     Configuration config = new Configuration(event.getSuggestedConfigurationFile());
     config.load();
     exhaustionCoefficient = (float)config.get("tweaks", "exhaustion coefficient", 10.0f).getDouble(10.0);
-    deathPagesEnabled = config.get("features", "death pages", false).getBoolean(true);
+    deathPagesEnabled = config.get("features", "death pages", true).getBoolean(true);
     fuelEnabled = config.get("features", "fuel", false).getBoolean(false);
     warpBookItem = new WarpBookItem();
     warpPageItem = new WarpPageItem();
@@ -115,6 +123,7 @@ public class WarpBookMod
     recipe.add(new ItemStack(warpPageItem));
     GameRegistry.addRecipe(new WarpPageShapeless(boundpage, recipe));
     GameRegistry.addRecipe(new WarpBookShapeless(emptyBook, bookRecipe));
+    GameRegistry.addShapedRecipe(new ItemStack(warpPageItem, 1, 3), " x ", "yzy", "   ", 'z', new ItemStack(warpPageItem, 1), 'y', new ItemStack(Items.diamond), 'x', new ItemStack(Items.fermented_spider_eye));
     
     config.save();
   }

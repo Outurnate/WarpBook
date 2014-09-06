@@ -5,7 +5,6 @@ import java.util.List;
 import com.panicnot42.warpbook.WarpBookMod;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,7 +17,7 @@ public class WarpBookItem extends Item
 {
   public WarpBookItem()
   {
-    this.setMaxStackSize(1).setCreativeTab(CreativeTabs.tabTransport).setUnlocalizedName("warpbook").setTextureName("warpbook:warpbook").setMaxDamage(WarpBookMod.fuelEnabled ? 16 : 0);
+    this.setMaxStackSize(1).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName("warpbook").setTextureName("warpbook:warpbook").setMaxDamage(WarpBookMod.fuelEnabled ? 16 : 0);
   }
 
   @Override

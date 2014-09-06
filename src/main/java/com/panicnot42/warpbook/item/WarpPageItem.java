@@ -35,7 +35,7 @@ public class WarpPageItem extends Item
 
   public WarpPageItem()
   {
-    super.setHasSubtypes(true).setMaxStackSize(16).setCreativeTab(CreativeTabs.tabTransport).setMaxDamage(0).setUnlocalizedName("warppage");
+    super.setHasSubtypes(true).setMaxStackSize(16).setCreativeTab(WarpBookMod.tabBook).setMaxDamage(0).setUnlocalizedName("warppage");
   }
 
   @SideOnly(Side.CLIENT)
@@ -158,6 +158,8 @@ public class WarpPageItem extends Item
       case 3:
         break;
       case 4:
+        list.add(I18n.format("help.potato.flavour1"));
+        list.add(I18n.format("help.potato.flavour2"));
         break;
       case 5:
         list.add(PlayerUtils.getNameByUUID(UUID.fromString(item.getTagCompound().getString("playeruuid"))));

@@ -4,6 +4,9 @@ item.warppage.bound.name=Bound Warp Page
 item.warppage.hyperbound.name=Hyper Warp Page
 item.warppage.potato.name=Potato Page
 item.warppage.player.name=Player Page
+item.warppage.deathly.name=Deathly Warp Page
+
+itemGroup.tabWarpBook=Warp Book
 
 warpbook.dowarp=Warp to Waypoint
 warpbook.bindpage=Bind Page
@@ -20,5 +23,7 @@ help.waypointdelete=Poof!
 help.notawaypoint='%s' is not a waypoint
 help.waypointcreated=Waypoint created
 help.selfaport=Congratulations!  You just teleported to yourself
+help.potato.flavour1=Harnesses the awesome power latent within a potato
+help.potato.flavour2=(may or may not produce crater)
 
-death.attack.potato=TEST
+death.attack.potato=%1$s was fried with tuberous energy
