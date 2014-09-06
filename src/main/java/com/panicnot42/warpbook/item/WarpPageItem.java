@@ -120,7 +120,6 @@ public class WarpPageItem extends Item
   {
     page.setItemDamage(1);
     if (!page.hasTagCompound()) page.setTagCompound(new NBTTagCompound());
-    page.getTagCompound().setString("bindmsg", I18n.format("warpbook.bindmsg", x, y, z, dim));
     page.getTagCompound().setInteger("posX", x);
     page.getTagCompound().setInteger("posY", y);
     page.getTagCompound().setInteger("posZ", z);
@@ -144,7 +143,7 @@ public class WarpPageItem extends Item
         try
         {
           list.add(item.getTagCompound().getString("name"));
-          list.add(item.getTagCompound().getString("bindmsg"));
+          list.add(I18n.format("warpbook.bindmsg", item.getTagCompound().getInteger("posX"), item.getTagCompound().getInteger("posY"), item.getTagCompound().getInteger("posZ"), item.getTagCompound().getInteger("dim")));
         }
         catch (Exception e)
         {

@@ -46,7 +46,8 @@ public class Proxy
     Waypoint wp = extractWaypoint(player, page);
     if (wp == null)
     {
-      CommandUtils.showError(player, I18n.format(page.getItemDamage() == 2 ? "help.waypointnotexist" : "help.selfaport"));
+      if (player.worldObj.isRemote)
+        CommandUtils.showError(player, I18n.format(page.getItemDamage() == 2 ? "help.waypointnotexist" : "help.selfaport"));
       return; // kind of important....
     }
     boolean crossDim = player.dimension != wp.dim;
@@ -58,8 +59,11 @@ public class Proxy
     if (crossDim && !player.worldObj.isRemote)
       transferPlayerToDimension((EntityPlayerMP)player, wp.dim, ((EntityPlayerMP)player).mcServer.getConfigurationManager());
     player.setPositionAndUpdate(wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
-    WarpBookMod.network.sendToAllAround(oldDim, oldPoint);
-    WarpBookMod.network.sendToAllAround(newDim, newPoint);
+    if (!player.worldObj.isRemote)
+    {
+      WarpBookMod.network.sendToAllAround(oldDim, oldPoint);
+      WarpBookMod.network.sendToAllAround(newDim, newPoint);
+    }
   }
 
   protected Waypoint extractWaypoint(EntityPlayer player, ItemStack page)
@@ -133,11 +137,15 @@ public class Proxy
   @SubscribeEvent
   public void onPlayerRespawn(PlayerRespawnEvent event)
   {
-    ItemStack page = new ItemStack(WarpBookMod.warpPageItem, 1);
-    WarpPageItem.writeWaypointToPage(page, WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId()));
     if (WarpBookMod.deathPagesEnabled)
+    {
+      ItemStack page = new ItemStack(WarpBookMod.warpPageItem, 1);
+      Waypoint death = WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId());
+      if (death != null)
+        WarpPageItem.writeWaypointToPage(page, WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId()));
       event.player.inventory.addItemStackToInventory(page);
-    WarpWorldStorage.instance(event.player.worldObj).clearLastDeath(event.player.getGameProfile().getId());
+      WarpWorldStorage.instance(event.player.worldObj).clearLastDeath(event.player.getGameProfile().getId());
+    }
   }
 
   // These next two methods are from https://github.com/CoFH/CoFHLib/blob/master/src/main/java/cofh/lib/util/helpers/EntityHelper.java

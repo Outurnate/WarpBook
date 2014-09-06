@@ -1,28 +1,29 @@
 package com.panicnot42.warpbook;
 
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import com.mojang.authlib.GameProfile;
 import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
 import com.panicnot42.warpbook.util.MathUtils;
 import com.panicnot42.warpbook.util.Waypoint;
 import com.panicnot42.warpbook.util.nbt.NBTUtils;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
 
 public class WarpWorldStorage extends WorldSavedData
 {
   public static HashMap<String, Waypoint> table;
   public static HashMap<UUID, Waypoint> deaths;
+  public static ArrayList<GameProfile> profiles;
 
   private final static String IDENTIFIER = "WarpBook";
 
@@ -35,7 +36,6 @@ public class WarpWorldStorage extends WorldSavedData
   {
     if (world.mapStorage.loadData(WarpWorldStorage.class, IDENTIFIER) == null) world.mapStorage.setData(IDENTIFIER, new WarpWorldStorage(IDENTIFIER));
     WarpWorldStorage storage = (WarpWorldStorage)world.mapStorage.loadData(WarpWorldStorage.class, IDENTIFIER);
-    MinecraftForge.EVENT_BUS.register(storage);
     return storage;
   }
 
@@ -43,6 +43,7 @@ public class WarpWorldStorage extends WorldSavedData
   {
     table = new HashMap<String, Waypoint>();
     deaths = new HashMap<UUID, Waypoint>();
+    profiles = new ArrayList<GameProfile>();
   }
 
   @Override
@@ -53,6 +54,12 @@ public class WarpWorldStorage extends WorldSavedData
     WarpWorldStorage.deaths = new HashMap<UUID, Waypoint>();
     for (Entry<String, Waypoint> death : deaths.entrySet())
       WarpWorldStorage.deaths.put(UUID.fromString(death.getKey()), death.getValue());
+    NBTTagList players = var1.getTagList("players", Constants.NBT.TAG_COMPOUND);
+    for (int i = 0; i < players.tagCount(); ++i)
+    {
+      NBTTagCompound tag = players.getCompoundTagAt(i);
+      profiles.add(new GameProfile(new UUID(tag.getLong("least"), tag.getLong("most")), tag.getString("name")));
+    }
   }
 
   @Override
@@ -63,12 +70,20 @@ public class WarpWorldStorage extends WorldSavedData
     for (Entry<UUID, Waypoint> death : WarpWorldStorage.deaths.entrySet())
       deaths.put(death.getKey().toString(), death.getValue());
     NBTUtils.writeHashMapToNBT(var1.getTagList("deaths", Constants.NBT.TAG_COMPOUND), deaths);
+    NBTTagList players = new NBTTagList();
+    for (GameProfile profile : profiles)
+    {
+      NBTTagCompound profTag = new NBTTagCompound();
+      profTag.setLong("least", profile.getId().getLeastSignificantBits());
+      profTag.setLong("most",  profile.getId().getMostSignificantBits());
+      profTag.setString("name", profile.getName());
+    }
+    var1.setTag("players", players);
   }
-  
-  @SubscribeEvent
-  public void clientJoined(ServerConnectionFromClientEvent e)
+
+  void updateClient(EntityPlayerMP player)
   {
-    WarpBookMod.network.sendTo(new PacketSyncWaypoints(table), ((NetHandlerPlayServer)e.handler).playerEntity);
+    WarpBookMod.network.sendTo(new PacketSyncWaypoints(table), player);
   }
 
   public boolean waypointExists(String name)

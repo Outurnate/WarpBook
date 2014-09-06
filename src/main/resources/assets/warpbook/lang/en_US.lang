@@ -2,6 +2,8 @@ item.warpbook.name=Warp Book
 item.warppage.unbound.name=Unbound Warp Page
 item.warppage.bound.name=Bound Warp Page
 item.warppage.hyperbound.name=Hyper Warp Page
+item.warppage.potato.name=Potato Page
+item.warppage.player.name=Player Page
 
 warpbook.dowarp=Warp to Waypoint
 warpbook.bindpage=Bind Page
@@ -18,3 +20,5 @@ help.waypointdelete=Poof!
 help.notawaypoint='%s' is not a waypoint
 help.waypointcreated=Waypoint created
 help.selfaport=Congratulations!  You just teleported to yourself
+
+death.attack.potato=TEST
