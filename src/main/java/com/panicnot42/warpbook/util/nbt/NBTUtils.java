@@ -45,7 +45,7 @@ public class NBTUtils
       tag.appendTag(comp);
     }
   }
-  
+
   public static <T extends INBTSerializable> ArrayList<T> readArrayListFromNBT(NBTTagList tag, Class<T> clazz)
   {
     ArrayList<T> array = new ArrayList<T>();

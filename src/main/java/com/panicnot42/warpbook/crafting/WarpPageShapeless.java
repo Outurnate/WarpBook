@@ -2,11 +2,11 @@ package com.panicnot42.warpbook.crafting;
 
 import java.util.List;
 
-import com.panicnot42.warpbook.item.WarpPageItem;
-
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapelessRecipes;
+
+import com.panicnot42.warpbook.item.WarpPageItem;
 
 public class WarpPageShapeless extends ShapelessRecipes
 {

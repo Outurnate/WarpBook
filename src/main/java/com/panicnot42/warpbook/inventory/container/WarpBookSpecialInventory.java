@@ -1,29 +1,28 @@
 package com.panicnot42.warpbook.inventory.container;
 
-import com.panicnot42.warpbook.WarpBookMod;
-import com.panicnot42.warpbook.item.WarpBookItem;
-import com.panicnot42.warpbook.item.WarpPageItem;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemStack;
 
+import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.item.WarpBookItem;
+import com.panicnot42.warpbook.item.WarpPageItem;
+
 public class WarpBookSpecialInventory implements IInventory
 {
   ItemStack fuel, deathly, heldItem;
-  
+
   public WarpBookSpecialInventory(ItemStack heldItem)
   {
     int deaths = WarpBookItem.getRespawnsLeft(heldItem), damage = WarpBookItem.getFuelLeft(heldItem);
     fuel = damage == 0 ? null : new ItemStack(Items.ender_pearl, damage);
     deathly = deaths == 0 ? null : new ItemStack(WarpBookMod.warpPageItem, deaths);
-    if (deathly != null)
-      deathly.setItemDamage(3);
+    if (deathly != null) deathly.setItemDamage(3);
     this.heldItem = heldItem;
   }
-  
+
   @Override
   public int getSizeInventory()
   {
@@ -70,8 +69,7 @@ public class WarpBookSpecialInventory implements IInventory
       fuel = itemStack;
     else
       deathly = itemStack;
-    if (itemStack != null && itemStack.stackSize > getInventoryStackLimit())
-      itemStack.stackSize = getInventoryStackLimit();
+    if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) itemStack.stackSize = getInventoryStackLimit();
     markDirty();
   }
 

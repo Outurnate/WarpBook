@@ -4,12 +4,6 @@ import java.math.RoundingMode;
 import java.util.List;
 import java.util.UUID;
 
-import com.panicnot42.warpbook.WarpBookMod;
-import com.panicnot42.warpbook.WarpWorldStorage;
-import com.panicnot42.warpbook.util.MathUtils;
-import com.panicnot42.warpbook.util.PlayerUtils;
-import com.panicnot42.warpbook.util.Waypoint;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
@@ -20,6 +14,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.WarpWorldStorage;
+import com.panicnot42.warpbook.util.MathUtils;
+import com.panicnot42.warpbook.util.PlayerUtils;
+import com.panicnot42.warpbook.util.Waypoint;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -75,8 +76,7 @@ public class WarpPageItem extends Item
         case 0:
           itemStack.setItemDamage(5);
           itemStack.setTagCompound(new NBTTagCompound());
-          if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
-            itemStack.getTagCompound().setString("playeruuid", player.getGameProfile().getId().toString());
+          if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) itemStack.getTagCompound().setString("playeruuid", player.getGameProfile().getId().toString());
           break;
         case 1:
         case 3:
@@ -95,7 +95,8 @@ public class WarpPageItem extends Item
       {
         case 0:
           ItemStack newStack = new ItemStack(WarpBookMod.warpPageItem, 1, 1);
-          writeWaypointToPage(newStack, MathUtils.round(player.posX, RoundingMode.HALF_DOWN), MathUtils.round(player.posY, RoundingMode.HALF_DOWN), MathUtils.round(player.posZ, RoundingMode.HALF_DOWN), player.dimension);
+          writeWaypointToPage(newStack, MathUtils.round(player.posX, RoundingMode.HALF_DOWN), MathUtils.round(player.posY, RoundingMode.HALF_DOWN),
+              MathUtils.round(player.posZ, RoundingMode.HALF_DOWN), player.dimension);
           player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWaypointGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
           WarpBookMod.formingPages.put(player, newStack);
           break;
@@ -125,7 +126,7 @@ public class WarpPageItem extends Item
     page.getTagCompound().setInteger("posZ", z);
     page.getTagCompound().setInteger("dim", dim);
   }
-  
+
   public static void writeWaypointToPage(ItemStack page, Waypoint wp)
   {
     writeWaypointToPage(page, wp.x, wp.y, wp.z, wp.dim);
@@ -143,7 +144,8 @@ public class WarpPageItem extends Item
         try
         {
           list.add(item.getTagCompound().getString("name"));
-          list.add(I18n.format("warpbook.bindmsg", item.getTagCompound().getInteger("posX"), item.getTagCompound().getInteger("posY"), item.getTagCompound().getInteger("posZ"), item.getTagCompound().getInteger("dim")));
+          list.add(I18n.format("warpbook.bindmsg", item.getTagCompound().getInteger("posX"), item.getTagCompound().getInteger("posY"), item.getTagCompound().getInteger("posZ"), item.getTagCompound()
+              .getInteger("dim")));
         }
         catch (Exception e)
         {
@@ -166,7 +168,7 @@ public class WarpPageItem extends Item
         break;
     }
   }
-  
+
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
   @SideOnly(Side.CLIENT)

@@ -23,7 +23,7 @@ public class PacketSyncWaypoints implements IMessage, IMessageHandler<PacketSync
   public PacketSyncWaypoints()
   {
   }
-  
+
   public PacketSyncWaypoints(HashMap<String, Waypoint> table)
   {
     this.table = table;

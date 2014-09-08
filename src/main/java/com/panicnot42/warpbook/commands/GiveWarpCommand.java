@@ -1,10 +1,5 @@
 package com.panicnot42.warpbook.commands;
 
-import com.panicnot42.warpbook.WarpBookMod;
-import com.panicnot42.warpbook.WarpWorldStorage;
-import com.panicnot42.warpbook.util.CommandUtils;
-import com.panicnot42.warpbook.util.CommandUtils.ChatType;
-
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -12,6 +7,11 @@ import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.WarpWorldStorage;
+import com.panicnot42.warpbook.util.CommandUtils;
+import com.panicnot42.warpbook.util.CommandUtils.ChatType;
 
 public class GiveWarpCommand extends CommandBase
 {

@@ -2,14 +2,15 @@ package com.panicnot42.warpbook.item;
 
 import java.util.List;
 
-import com.panicnot42.warpbook.WarpBookMod;
-
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+
+import com.panicnot42.warpbook.WarpBookMod;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -62,7 +63,7 @@ public class WarpBookItem extends Item
   {
     return 16 - item.getItemDamage();
   }
-  
+
   public static void setRespawnsLeft(ItemStack item, int deaths)
   {
     if (item.getTagCompound() == null) item.setTagCompound(new NBTTagCompound());

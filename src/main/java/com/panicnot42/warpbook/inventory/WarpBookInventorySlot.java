@@ -1,10 +1,10 @@
 package com.panicnot42.warpbook.inventory;
 
-import com.panicnot42.warpbook.item.WarpBookItem;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
+
+import com.panicnot42.warpbook.item.WarpBookItem;
 
 public class WarpBookInventorySlot extends Slot
 {

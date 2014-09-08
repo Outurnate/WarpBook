@@ -19,7 +19,6 @@ import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.panicnot42.warpbook.Properties;
 import com.panicnot42.warpbook.commands.CreateWaypointCommand;
 import com.panicnot42.warpbook.commands.DeleteWaypointCommand;
 import com.panicnot42.warpbook.commands.GiveWarpCommand;
@@ -46,11 +45,9 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.network.FMLOutboundHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ServerDisconnectionFromClientEvent;
-import cpw.mods.fml.common.network.handshake.NetworkDispatcher;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -80,16 +77,17 @@ public class WarpBookMod
   public static final int WarpBookWarpGuiIndex = guiIndex++;
   public static final int WarpBookWaypointGuiIndex = guiIndex++;
   public static final int WarpBookInventoryGuiIndex = guiIndex++;
-  
+
   public static HashMap<EntityPlayer, ItemStack> lastHeldBooks = new HashMap<EntityPlayer, ItemStack>();
-  public static HashMap<EntityPlayer, ItemStack> formingPages  = new HashMap<EntityPlayer, ItemStack>();
-  
+  public static HashMap<EntityPlayer, ItemStack> formingPages = new HashMap<EntityPlayer, ItemStack>();
+
   public static CreativeTabs tabBook = new CreativeTabs("tabWarpBook")
   {
     @Override
     @SideOnly(Side.CLIENT)
-    public Item getTabIconItem() {
-        return warpBookItem;
+    public Item getTabIconItem()
+    {
+      return warpBookItem;
     }
   };
 
@@ -126,9 +124,10 @@ public class WarpBookMod
     GameRegistry.addRecipe(new WarpPageShapeless(boundpage, recipe));
     GameRegistry.addRecipe(new WarpBookShapeless(emptyBook, bookRecipe));
     if (deathPagesEnabled)
-      GameRegistry.addShapedRecipe(new ItemStack(warpPageItem, 1, 3), " x ", "yzy", "   ", 'z', new ItemStack(warpPageItem, 1), 'y', new ItemStack(Items.diamond), 'x', new ItemStack(Items.fermented_spider_eye));
+      GameRegistry.addShapedRecipe(new ItemStack(warpPageItem, 1, 3), " x ", "yzy", "   ", 'z', new ItemStack(warpPageItem, 1), 'y', new ItemStack(Items.diamond), 'x', new ItemStack(
+          Items.fermented_spider_eye));
     GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem, 1, 5), new ItemStack(warpPageItem, 1), new ItemStack(Items.potato));
-    
+
     config.save();
   }
 
@@ -164,7 +163,7 @@ public class WarpBookMod
     manager.registerCommand(new DeleteWaypointCommand());
     manager.registerCommand(new GiveWarpCommand());
   }
-  
+
   @SubscribeEvent
   public void clientJoined(ServerConnectionFromClientEvent e)
   {
@@ -175,7 +174,7 @@ public class WarpBookMod
       PlayerUtils.instance().updateClient(player, e);
     }
   }
-  
+
   @SubscribeEvent
   public void clientLeft(ServerDisconnectionFromClientEvent e)
   {

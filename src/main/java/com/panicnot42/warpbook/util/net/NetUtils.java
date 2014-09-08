@@ -19,17 +19,17 @@ public class NetUtils
       case CLIENT:
         player = getClientPlayer();
         break;
-  
+
       case SERVER:
         INetHandler netHandler = ctx.netHandler; // holy derp
         player = ((NetHandlerPlayServer)netHandler).playerEntity;
         break;
-  
+
       default:
     }
     return player;
   }
-  
+
   @SideOnly(Side.CLIENT)
   private static EntityPlayer getClientPlayer()
   {

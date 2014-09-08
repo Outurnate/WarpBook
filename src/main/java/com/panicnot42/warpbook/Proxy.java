@@ -3,20 +3,7 @@ package com.panicnot42.warpbook;
 import java.math.RoundingMode;
 import java.util.Iterator;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.panicnot42.warpbook.item.WarpBookItem;
-import com.panicnot42.warpbook.item.WarpPageItem;
-import com.panicnot42.warpbook.net.packet.PacketEffect;
-import com.panicnot42.warpbook.util.CommandUtils;
-import com.panicnot42.warpbook.util.MathUtils;
-import com.panicnot42.warpbook.util.PlayerUtils;
-import com.panicnot42.warpbook.util.Waypoint;
-
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,6 +21,19 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
+import com.panicnot42.warpbook.item.WarpBookItem;
+import com.panicnot42.warpbook.item.WarpPageItem;
+import com.panicnot42.warpbook.net.packet.PacketEffect;
+import com.panicnot42.warpbook.util.CommandUtils;
+import com.panicnot42.warpbook.util.MathUtils;
+import com.panicnot42.warpbook.util.PlayerUtils;
+import com.panicnot42.warpbook.util.Waypoint;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+
 public class Proxy
 {
   public void registerRenderers()
@@ -46,25 +46,22 @@ public class Proxy
     Waypoint wp = extractWaypoint(player, page);
     if (wp == null)
     {
-      if (player.worldObj.isRemote && page.getItemDamage() != 5)
-        CommandUtils.showError(player, I18n.format("help.waypointnotexist"));
+      if (player.worldObj.isRemote && page.getItemDamage() != 5) CommandUtils.showError(player, I18n.format("help.waypointnotexist"));
       return;
     }
-    /*if (wp == null && wasTargetFound.get()) return;
-    if (wp == null)
-    {
-      if (player.worldObj.isRemote)
-        CommandUtils.showError(player, I18n.format(page.getItemDamage() == 2 ? "help.waypointnotexist" : "help.selfaport"));
-      return; // kind of important....
-    }*/
+    /*
+     * if (wp == null && wasTargetFound.get()) return; if (wp == null) { if
+     * (player.worldObj.isRemote) CommandUtils.showError(player,
+     * I18n.format(page.getItemDamage() == 2 ? "help.waypointnotexist" :
+     * "help.selfaport")); return; // kind of important.... }
+     */
     boolean crossDim = player.dimension != wp.dim;
     PacketEffect oldDim = new PacketEffect(true, MathUtils.round(player.posX, RoundingMode.DOWN), MathUtils.round(player.posY, RoundingMode.DOWN), MathUtils.round(player.posZ, RoundingMode.DOWN));
     PacketEffect newDim = new PacketEffect(false, wp.x, wp.y, wp.z);
     NetworkRegistry.TargetPoint oldPoint = new NetworkRegistry.TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 64);
     NetworkRegistry.TargetPoint newPoint = new NetworkRegistry.TargetPoint(wp.dim, wp.x, wp.y, wp.z, 64);
     player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
-    if (crossDim && !player.worldObj.isRemote)
-      transferPlayerToDimension((EntityPlayerMP)player, wp.dim, ((EntityPlayerMP)player).mcServer.getConfigurationManager());
+    if (crossDim && !player.worldObj.isRemote) transferPlayerToDimension((EntityPlayerMP)player, wp.dim, ((EntityPlayerMP)player).mcServer.getConfigurationManager());
     player.setPositionAndUpdate(wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
     if (!player.worldObj.isRemote)
     {
@@ -82,13 +79,11 @@ public class Proxy
       wp = storage.getWaypoint(pageTagCompound.getString("hypername"));
     else if (pageTagCompound.hasKey("playeruuid") && PlayerUtils.isPlayerOnline(UUID.fromString(pageTagCompound.getString("playeruuid"))))
     {
-      if (player.worldObj.isRemote)
-        return null;
+      if (player.worldObj.isRemote) return null;
       EntityPlayer playerTo = PlayerUtils.getPlayerByUUID(UUID.fromString(pageTagCompound.getString("playeruuid")));
-      if (player == playerTo)
-        return null;
-      wp = new Waypoint("", "", MathUtils.round(playerTo.posX, RoundingMode.DOWN), MathUtils.round(playerTo.posY, RoundingMode.DOWN), MathUtils.round(playerTo.posZ,
-          RoundingMode.DOWN), playerTo.dimension);
+      if (player == playerTo) return null;
+      wp = new Waypoint("", "", MathUtils.round(playerTo.posX, RoundingMode.DOWN), MathUtils.round(playerTo.posY, RoundingMode.DOWN), MathUtils.round(playerTo.posZ, RoundingMode.DOWN),
+          playerTo.dimension);
     }
     else
       wp = new Waypoint("", "", pageTagCompound.getInteger("posX"), pageTagCompound.getInteger("posY"), pageTagCompound.getInteger("posZ"), pageTagCompound.getInteger("dim"));
@@ -134,17 +129,16 @@ public class Proxy
     if (WarpBookMod.deathPagesEnabled && event.entity instanceof EntityPlayer)
     {
       EntityPlayer player = (EntityPlayer)event.entity;
-      if (event.source != DamageSource.outOfWorld && player.getHealth() <= event.ammount)
-        for (ItemStack item : player.inventory.mainInventory)
-          if (item != null && item.getItem() instanceof WarpBookItem && WarpBookItem.getRespawnsLeft(item) > 0)
-          {
-            WarpBookItem.decrRespawnsLeft(item);
-            WarpWorldStorage.instance(player.worldObj).setLastDeath(player.getGameProfile().getId(), player.posX, player.posY, player.posZ, player.dimension);
-            break;
-          }
+      if (event.source != DamageSource.outOfWorld && player.getHealth() <= event.ammount) for (ItemStack item : player.inventory.mainInventory)
+        if (item != null && item.getItem() instanceof WarpBookItem && WarpBookItem.getRespawnsLeft(item) > 0)
+        {
+          WarpBookItem.decrRespawnsLeft(item);
+          WarpWorldStorage.instance(player.worldObj).setLastDeath(player.getGameProfile().getId(), player.posX, player.posY, player.posZ, player.dimension);
+          break;
+        }
     }
   }
-  
+
   @SubscribeEvent
   public void onPlayerRespawn(PlayerRespawnEvent event)
   {
@@ -152,15 +146,16 @@ public class Proxy
     {
       ItemStack page = new ItemStack(WarpBookMod.warpPageItem, 1);
       Waypoint death = WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId());
-      if (death != null)
-        WarpPageItem.writeWaypointToPage(page, WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId()));
+      if (death != null) WarpPageItem.writeWaypointToPage(page, WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId()));
       event.player.inventory.addItemStackToInventory(page);
       WarpWorldStorage.instance(event.player.worldObj).clearLastDeath(event.player.getGameProfile().getId());
     }
   }
 
-  // These next two methods are from https://github.com/CoFH/CoFHLib/blob/master/src/main/java/cofh/lib/util/helpers/EntityHelper.java
-  // Two methods isn't justification for inclusion as a dependency, so I'm opting to copy/paste
+  // These next two methods are from
+  // https://github.com/CoFH/CoFHLib/blob/master/src/main/java/cofh/lib/util/helpers/EntityHelper.java
+  // Two methods isn't justification for inclusion as a dependency, so I'm
+  // opting to copy/paste
   //
   // Thanks skyboy!
   public static void transferEntityToWorld(Entity entity, WorldServer oldWorld, WorldServer newWorld)

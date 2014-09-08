@@ -1,8 +1,8 @@
 package com.panicnot42.warpbook.util;
 
-import com.panicnot42.warpbook.util.nbt.INBTSerializable;
-
 import net.minecraft.nbt.NBTTagCompound;
+
+import com.panicnot42.warpbook.util.nbt.INBTSerializable;
 
 public class Waypoint implements INBTSerializable
 {

@@ -1,5 +1,6 @@
 package com.panicnot42.warpbook.net.packet;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -10,7 +11,6 @@ import com.panicnot42.warpbook.util.net.NetUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import io.netty.buffer.ByteBuf;
 
 public class PacketWaypointName implements IMessage, IMessageHandler<PacketWaypointName, IMessage>
 {
@@ -24,14 +24,13 @@ public class PacketWaypointName implements IMessage, IMessageHandler<PacketWaypo
   {
     this.name = name;
   }
-  
+
   @Override
   public IMessage onMessage(PacketWaypointName message, MessageContext ctx)
   {
     EntityPlayer player = NetUtils.getPlayerFromContext(ctx);
     --player.getHeldItem().stackSize;
-    if (player.getHeldItem().stackSize == 0)
-      player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+    if (player.getHeldItem().stackSize == 0) player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
     ItemStack newPage = WarpBookMod.formingPages.get(player);
     newPage.getTagCompound().setString("name", message.name);
     EntityItem item = new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, newPage);

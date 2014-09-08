@@ -1,12 +1,12 @@
 package com.panicnot42.warpbook.commands;
 
-import com.panicnot42.warpbook.WarpWorldStorage;
-import com.panicnot42.warpbook.util.CommandUtils;
-
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
+
+import com.panicnot42.warpbook.WarpWorldStorage;
+import com.panicnot42.warpbook.util.CommandUtils;
 
 public class ListWaypointCommand extends CommandBase
 {

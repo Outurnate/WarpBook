@@ -1,13 +1,13 @@
 package com.panicnot42.warpbook.commands;
 
-import com.panicnot42.warpbook.WarpWorldStorage;
-import com.panicnot42.warpbook.util.CommandUtils;
-import com.panicnot42.warpbook.util.Waypoint;
-
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
+
+import com.panicnot42.warpbook.WarpWorldStorage;
+import com.panicnot42.warpbook.util.CommandUtils;
+import com.panicnot42.warpbook.util.Waypoint;
 
 public class CreateWaypointCommand extends CommandBase
 {

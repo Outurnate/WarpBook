@@ -60,7 +60,7 @@ public class GuiBook extends GuiScreen
       }
     }
   }
-  
+
   private static String getButtonText(NBTTagCompound compound)
   {
     if (compound.hasKey("hypername"))
@@ -97,7 +97,7 @@ public class GuiBook extends GuiScreen
     drawCenteredString(fontRendererObj, I18n.format("warpbook.dowarp"), width / 2, 6, 16777215);
     super.drawScreen(par1, par2, par3);
   }
-  
+
   @Override
   public boolean doesGuiPauseGame()
   {

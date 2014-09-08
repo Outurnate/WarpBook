@@ -12,8 +12,8 @@ import com.panicnot42.warpbook.inventory.container.WarpBookContainerItem;
 public class GuiWarpBookItemInventory extends GuiContainer
 {
   private static final ResourceLocation iconLocation = new ResourceLocation("warpbook", "textures/gui/warpinv.png");
-  private static final ResourceLocation deathBox     = new ResourceLocation("warpbook", "textures/gui/deathbox.png");
-  private static final ResourceLocation pearlBox     = new ResourceLocation("warpbook", "textures/gui/pearlbox.png");
+  private static final ResourceLocation deathBox = new ResourceLocation("warpbook", "textures/gui/deathbox.png");
+  private static final ResourceLocation pearlBox = new ResourceLocation("warpbook", "textures/gui/pearlbox.png");
 
   private final WarpBookInventoryItem inventory;
 
@@ -24,7 +24,7 @@ public class GuiWarpBookItemInventory extends GuiContainer
     xSize = 194;
     ySize = 222;
   }
-  
+
   @Override
   protected void drawGuiContainerForegroundLayer(int par1, int par2)
   {

@@ -1,12 +1,13 @@
 package com.panicnot42.warpbook.net.packet;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
 import com.mojang.authlib.GameProfile;
 import com.panicnot42.warpbook.util.PlayerUtils;
 
-import io.netty.buffer.ByteBuf;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
