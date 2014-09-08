@@ -43,16 +43,13 @@ public class Proxy
   public void handleWarp(EntityPlayer player, ItemStack page)
   {
     if (page == null) return;
-    AtomicBoolean wasTargetFound = new AtomicBoolean();
-    Waypoint wp = extractWaypoint(player, page, wasTargetFound);
+    Waypoint wp = extractWaypoint(player, page);
     if (wp == null)
     {
       if (player.worldObj.isRemote && page.getItemDamage() != 5)
         CommandUtils.showError(player, I18n.format("help.waypointnotexist"));
       return;
     }
-    else if (!wasTargetFound.get() && player.worldObj.isRemote)
-      CommandUtils.showError(player, I18n.format("help.selfaport"));
     /*if (wp == null && wasTargetFound.get()) return;
     if (wp == null)
     {
@@ -76,12 +73,11 @@ public class Proxy
     }
   }
 
-  protected Waypoint extractWaypoint(EntityPlayer player, ItemStack page, AtomicBoolean wasTargetFound)
+  protected Waypoint extractWaypoint(EntityPlayer player, ItemStack page)
   {
     NBTTagCompound pageTagCompound = page.getTagCompound();
     WarpWorldStorage storage = WarpWorldStorage.instance(player.getEntityWorld());
     Waypoint wp;
-    wasTargetFound.set(true);
     if (pageTagCompound.hasKey("hypername"))
       wp = storage.getWaypoint(pageTagCompound.getString("hypername"));
     else if (pageTagCompound.hasKey("playeruuid") && PlayerUtils.isPlayerOnline(UUID.fromString(pageTagCompound.getString("playeruuid"))))
@@ -89,8 +85,7 @@ public class Proxy
       if (player.worldObj.isRemote)
         return null;
       EntityPlayer playerTo = PlayerUtils.getPlayerByUUID(UUID.fromString(pageTagCompound.getString("playeruuid")));
-      wasTargetFound.set(player != playerTo);
-      if (playerTo == null)
+      if (player == playerTo)
         return null;
       wp = new Waypoint("", "", MathUtils.round(playerTo.posX, RoundingMode.DOWN), MathUtils.round(playerTo.posY, RoundingMode.DOWN), MathUtils.round(playerTo.posZ,
           RoundingMode.DOWN), playerTo.dimension);

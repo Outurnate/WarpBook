@@ -36,7 +36,7 @@ public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMe
         player.worldObj.spawnParticle("largesmoke", message.x, message.y + (player.worldObj.rand.nextDouble() * 2), message.z, (player.worldObj.rand.nextDouble() / 10) - 0.05D, 0D, (player.worldObj.rand.nextDouble() / 10) - 0.05D);
     else
       for (int i = 0; i < particles; ++i)
-        player.worldObj.spawnParticle("portal", message.x + 0.5D, message.y + (player.worldObj.rand.nextDouble() * 2), message.z + 0.5D, player.worldObj.rand.nextDouble() - 0.5D, player.worldObj.rand.nextDouble() - 0.5D, player.worldObj.rand.nextDouble() - 0.5D);
+        player.worldObj.spawnParticle("portal", message.x - 0.5D, message.y + (player.worldObj.rand.nextDouble() * 2), message.z - 0.5D, player.worldObj.rand.nextDouble() - 0.5D, player.worldObj.rand.nextDouble() - 0.5D, player.worldObj.rand.nextDouble() - 0.5D);
     
     return null;
   }
