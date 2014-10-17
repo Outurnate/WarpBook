@@ -49,12 +49,6 @@ public class Proxy
       if (player.worldObj.isRemote && page.getItemDamage() != 5) CommandUtils.showError(player, I18n.format("help.waypointnotexist"));
       return;
     }
-    /*
-     * if (wp == null && wasTargetFound.get()) return; if (wp == null) { if
-     * (player.worldObj.isRemote) CommandUtils.showError(player,
-     * I18n.format(page.getItemDamage() == 2 ? "help.waypointnotexist" :
-     * "help.selfaport")); return; // kind of important.... }
-     */
     boolean crossDim = player.dimension != wp.dim;
     PacketEffect oldDim = new PacketEffect(true, MathUtils.round(player.posX, RoundingMode.DOWN), MathUtils.round(player.posY, RoundingMode.DOWN), MathUtils.round(player.posZ, RoundingMode.DOWN));
     PacketEffect newDim = new PacketEffect(false, wp.x, wp.y, wp.z);
@@ -146,9 +140,12 @@ public class Proxy
     {
       ItemStack page = new ItemStack(WarpBookMod.warpPageItem, 1);
       Waypoint death = WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId());
-      if (death != null) WarpPageItem.writeWaypointToPage(page, WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId()));
-      event.player.inventory.addItemStackToInventory(page);
-      WarpWorldStorage.instance(event.player.worldObj).clearLastDeath(event.player.getGameProfile().getId());
+      if (death != null)
+      {
+        WarpPageItem.writeWaypointToPage(page, WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId()));
+        event.player.inventory.addItemStackToInventory(page);
+        WarpWorldStorage.instance(event.player.worldObj).clearLastDeath(event.player.getGameProfile().getId());
+      }
     }
   }
 
