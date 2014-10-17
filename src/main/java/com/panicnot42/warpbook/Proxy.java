@@ -55,6 +55,13 @@ public class Proxy
     NetworkRegistry.TargetPoint oldPoint = new NetworkRegistry.TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 64);
     NetworkRegistry.TargetPoint newPoint = new NetworkRegistry.TargetPoint(wp.dim, wp.x, wp.y, wp.z, 64);
     player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
+    
+    net.minecraft.world.Chunk chunk = player.worldObj.getChunkFromBlockCoords(wp.x, wp.z); // get the chunk from x and z coords
+    if (!chunk.isChunkLoaded()) // will only run if that chunk is not already loaded
+    {
+      player.worldObj.getChunkProvider().loadChunk(chunk.xPosition, chunk.zPosition); // load the destination chunk
+    }
+    
     if (crossDim && !player.worldObj.isRemote) transferPlayerToDimension((EntityPlayerMP)player, wp.dim, ((EntityPlayerMP)player).mcServer.getConfigurationManager());
     player.setPositionAndUpdate(wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
     if (!player.worldObj.isRemote)
