@@ -1,0 +1,29 @@
+item.warpbook.name=Libro del Teletrasporto
+item.warppage.unbound.name=Pagina Bianca del Teletrasporto
+item.warppage.bound.name=Pagina Rilegata del Teletrasporto
+item.warppage.hyperbound.name=Super Pagina del Teletrasporto
+item.warppage.potato.name=Pagina della Patata
+item.warppage.player.name=Pagina del Giocatore
+item.warppage.deathly.name=Pagina Mortale del Teletrasporto
+
+itemGroup.tabWarpBook=Libro del Teletrasporto
+
+warpbook.dowarp=Teletrasportati al Punto di Via.
+warpbook.bindpage=Rilega la Pagina.
+warpbook.namewaypoint=Inserire il nome del Punto di Via.
+warpbook.booktooltip=%d/54 Pagine.
+warpbook.name=Libro del Teletrasporto
+warpbook.bindmsg=Rilegata alle coordinate (%.0f, %.0f, %.0f) nella Dimensione %d.
+
+help.nopages=In questo Libro non c'è nessuna Pagina.  Shift+tasto destro per aggiungere Pagine Rilegate.
+help.nowaypointsfound=Nessun Punto di Via trovato.
+help.noplayerspecified=Nessun giocatore specificato.
+help.waypointdoesnotexist=Il Punto di Via '%s' non esiste.
+help.waypointdelete=Puff!
+help.notawaypoint='%s' non è un Punto di Via.
+help.waypointcreated=Punto di Via creato.
+help.selfaport=Congratulazioni!  Ti sei appena Teletrasportato da te stesso.
+help.potato.flavour1=Imbriglia l'incredibile potere latente all'interno di una patata
+help.potato.flavour2=(gli effetti collaterali possono includere o non includere la formazione di un cratere)
+
+death.attack.potato=%1$s è stato fritto dall'energia tuberosa.
