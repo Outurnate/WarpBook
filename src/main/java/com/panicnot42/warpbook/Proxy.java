@@ -42,32 +42,29 @@ public class Proxy
 
   public void handleWarp(EntityPlayer player, ItemStack page)
   {
-    if (page == null) return;
-    Waypoint wp = extractWaypoint(player, page);
-    if (wp == null)
-    {
-      if (player.worldObj.isRemote && page.getItemDamage() != 5) CommandUtils.showError(player, I18n.format("help.waypointnotexist"));
-      return;
-    }
-    boolean crossDim = player.dimension != wp.dim;
-    PacketEffect oldDim = new PacketEffect(true, MathUtils.round(player.posX, RoundingMode.DOWN), MathUtils.round(player.posY, RoundingMode.DOWN), MathUtils.round(player.posZ, RoundingMode.DOWN));
-    PacketEffect newDim = new PacketEffect(false, wp.x, wp.y, wp.z);
-    NetworkRegistry.TargetPoint oldPoint = new NetworkRegistry.TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 64);
-    NetworkRegistry.TargetPoint newPoint = new NetworkRegistry.TargetPoint(wp.dim, wp.x, wp.y, wp.z, 64);
-    player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
-    
-    net.minecraft.world.chunk.Chunk chunk = player.worldObj.getChunkFromBlockCoords(wp.x, wp.z); // get the chunk from x and z coords
-    if (!(chunk.isChunkLoaded)) // will only run if that chunk is not already loaded
-    {
-      player.worldObj.getChunkProvider().loadChunk(chunk.xPosition, chunk.zPosition); // load the destination chunk
-    }
-    
-    if (crossDim && !player.worldObj.isRemote) transferPlayerToDimension((EntityPlayerMP)player, wp.dim, ((EntityPlayerMP)player).mcServer.getConfigurationManager());
-    player.setPositionAndUpdate(wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
     if (!player.worldObj.isRemote)
     {
-      WarpBookMod.network.sendToAllAround(oldDim, oldPoint);
-      WarpBookMod.network.sendToAllAround(newDim, newPoint);
+      if (page == null) return;
+      Waypoint wp = extractWaypoint(player, page);
+      if (wp == null)
+      {
+        if (player.worldObj.isRemote && page.getItemDamage() != 5) CommandUtils.showError(player, I18n.format("help.waypointnotexist"));
+        return;
+      }
+      boolean crossDim = player.dimension != wp.dim;
+      PacketEffect oldDim = new PacketEffect(true, MathUtils.round(player.posX, RoundingMode.DOWN), MathUtils.round(player.posY, RoundingMode.DOWN), MathUtils.round(player.posZ, RoundingMode.DOWN));
+      PacketEffect newDim = new PacketEffect(false, wp.x, wp.y, wp.z);
+      NetworkRegistry.TargetPoint oldPoint = new NetworkRegistry.TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 64);
+      NetworkRegistry.TargetPoint newPoint = new NetworkRegistry.TargetPoint(wp.dim, wp.x, wp.y, wp.z, 64);
+      player.addExhaustion(calculateExhaustion(player.getEntityWorld().difficultySetting, WarpBookMod.exhaustionCoefficient, crossDim));
+      
+      if (crossDim && !player.worldObj.isRemote) transferPlayerToDimension((EntityPlayerMP)player, wp.dim, ((EntityPlayerMP)player).mcServer.getConfigurationManager());
+      player.setPositionAndUpdate(wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
+      //if (!player.worldObj.isRemote)
+      //{
+        WarpBookMod.network.sendToAllAround(oldDim, oldPoint);
+        WarpBookMod.network.sendToAllAround(newDim, newPoint);
+      //}
     }
   }
 

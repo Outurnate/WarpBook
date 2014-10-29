@@ -10,7 +10,7 @@
   "authorList": [
     "panicnot42"
   ],
-  "credits": "panicnot42 (Developer), FalcoTheGreat (French translation), sb023612 (Chinese translation)",
+  "credits": "panicnot42 (Developer), FalcoTheGreat (French translation), sb023612 (Chinese translation), FreddyHair (Italian translation)",
   "logoFile": "assets/warpbook/logo.png",
   "dependencies": [
      "mod_MinecraftForge"
