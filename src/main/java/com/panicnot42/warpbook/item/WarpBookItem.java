@@ -53,6 +53,11 @@ public class WarpBookItem extends Item
     }
   }
 
+  public boolean getIsRepairable(ItemStack p_82789_1_, ItemStack p_82789_2_)
+  {
+    return false;
+  }
+
   public static int getRespawnsLeft(ItemStack item)
   {
     if (item.getTagCompound() == null) item.setTagCompound(new NBTTagCompound());
