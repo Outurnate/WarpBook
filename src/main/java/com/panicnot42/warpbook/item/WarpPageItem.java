@@ -4,14 +4,12 @@ import java.math.RoundingMode;
 import java.util.List;
 import java.util.UUID;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -21,43 +19,24 @@ import com.panicnot42.warpbook.util.MathUtils;
 import com.panicnot42.warpbook.util.PlayerUtils;
 import com.panicnot42.warpbook.util.Waypoint;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class WarpPageItem extends Item
 {
   private static final String[] itemMetaNames = new String[] { "unbound", "bound", "hyperbound", "deathly", "potato", "player" };
-  private static final String[] itemTextures = new String[] { "unboundwarppage", "boundwarppage", "hyperboundwarppage", "deathlywarppage", "spudpage", "playerpage" };
-
-  @SideOnly(Side.CLIENT)
-  private IIcon[] itemIcons;
 
   public WarpPageItem()
   {
     super.setHasSubtypes(true).setMaxStackSize(16).setCreativeTab(WarpBookMod.tabBook).setMaxDamage(0).setUnlocalizedName("warppage");
   }
 
-  @SideOnly(Side.CLIENT)
-  @Override
-  public IIcon getIconFromDamage(int meta)
-  {
-    return itemIcons[MathHelper.clamp_int(meta, 0, itemMetaNames.length - 1)];
-  }
-
   @Override
   public String getUnlocalizedName(ItemStack itemStack)
   {
     return super.getUnlocalizedName() + "." + itemMetaNames[MathHelper.clamp_int(itemStack.getItemDamage(), 0, itemMetaNames.length - 1)];
-  }
-
-  @Override
-  public void registerIcons(IIconRegister iconRegister)
-  {
-    itemIcons = new IIcon[itemTextures.length];
-    for (int i = 0; i < itemTextures.length; ++i)
-      itemIcons[i] = iconRegister.registerIcon("warpbook:" + itemTextures[i]);
   }
 
   @Override

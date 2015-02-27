@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.item.WarpPageItem;
+import net.minecraft.util.IChatComponent;
 
 public class WarpBookSpecialInventory implements IInventory
 {
@@ -74,18 +75,6 @@ public class WarpBookSpecialInventory implements IInventory
   }
 
   @Override
-  public String getInventoryName()
-  {
-    return null;
-  }
-
-  @Override
-  public boolean hasCustomInventoryName()
-  {
-    return false;
-  }
-
-  @Override
   public int getInventoryStackLimit()
   {
     return 16;
@@ -104,19 +93,54 @@ public class WarpBookSpecialInventory implements IInventory
     return true;
   }
 
-  @Override
-  public void openInventory()
-  {
-  }
+    @Override
+    public void openInventory(EntityPlayer player) {
 
-  @Override
-  public void closeInventory()
-  {
-  }
+    }
+
+    @Override
+    public void closeInventory(EntityPlayer player) {
+
+    }
 
   @Override
   public boolean isItemValidForSlot(int slot, ItemStack itemStack)
   {
     return slot == 0 ? itemStack.getItem() instanceof ItemEnderPearl : itemStack.getItem() instanceof WarpPageItem && itemStack.getItemDamage() == 3;
   }
+
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return false;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
+    }
 }

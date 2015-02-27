@@ -6,9 +6,10 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import com.panicnot42.warpbook.util.net.NetUtils;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMessage>
 {
@@ -34,11 +35,11 @@ public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMe
     int particles = (2 - Minecraft.getMinecraft().gameSettings.particleSetting) * 50;
     if (message.enter)
       for (int i = 0; i < (5 * particles); ++i)
-        player.worldObj.spawnParticle("largesmoke", message.x, message.y + (player.worldObj.rand.nextDouble() * 2), message.z, (player.worldObj.rand.nextDouble() / 10) - 0.05D, 0D,
+        player.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, message.x, message.y + (player.worldObj.rand.nextDouble() * 2), message.z, (player.worldObj.rand.nextDouble() / 10) - 0.05D, 0D,
             (player.worldObj.rand.nextDouble() / 10) - 0.05D);
     else
       for (int i = 0; i < particles; ++i)
-        player.worldObj.spawnParticle("portal", message.x - 0.5D, message.y + (player.worldObj.rand.nextDouble() * 2), message.z - 0.5D, player.worldObj.rand.nextDouble() - 0.5D,
+        player.worldObj.spawnParticle(EnumParticleTypes.PORTAL, message.x - 0.5D, message.y + (player.worldObj.rand.nextDouble() * 2), message.z - 0.5D, player.worldObj.rand.nextDouble() - 0.5D,
             player.worldObj.rand.nextDouble() - 0.5D, player.worldObj.rand.nextDouble() - 0.5D);
 
     return null;

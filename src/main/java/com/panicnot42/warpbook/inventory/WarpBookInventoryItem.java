@@ -6,6 +6,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.IChatComponent;
 
 public class WarpBookInventoryItem implements IInventory
 {
@@ -78,13 +79,7 @@ public class WarpBookInventoryItem implements IInventory
     markDirty();
   }
 
-  @Override
-  public String getInventoryName()
-  {
-    return I18n.format(name);
-  }
-
-  @Override
+    @Override
   public int getInventoryStackLimit()
   {
     return 64;
@@ -96,21 +91,41 @@ public class WarpBookInventoryItem implements IInventory
     return true;
   }
 
-  @Override
+    @Override
+    public void openInventory(EntityPlayer playerIn) {
+
+    }
+
+    @Override
+    public void closeInventory(EntityPlayer playerIn) {
+
+    }
+
+    @Override
   public boolean isItemValidForSlot(int i, ItemStack itemstack)
   {
     return WarpBookSlot.itemValid(itemstack);
   }
 
-  @Override
-  public void openInventory()
-  {
-  }
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
 
-  @Override
-  public void closeInventory()
-  {
-  }
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
+    }
 
   @Override
   public void markDirty()
@@ -133,9 +148,18 @@ public class WarpBookInventoryItem implements IInventory
     stack.getTagCompound().setTag("WarpPages", items);
   }
 
-  @Override
-  public boolean hasCustomInventoryName()
-  {
-    return false;
-  }
+    @Override
+    public String getName() {
+        return I18n.format(name);
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return true;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
+    }
 }

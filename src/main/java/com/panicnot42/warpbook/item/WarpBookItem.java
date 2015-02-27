@@ -11,14 +11,14 @@ import net.minecraft.world.World;
 
 import com.panicnot42.warpbook.WarpBookMod;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class WarpBookItem extends Item
 {
   public WarpBookItem()
   {
-    this.setMaxStackSize(1).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName("warpbook").setTextureName("warpbook:warpbook").setMaxDamage(WarpBookMod.fuelEnabled ? 16 : 0);
+    this.setMaxStackSize(1).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName("warpbook").setMaxDamage(WarpBookMod.fuelEnabled ? 16 : 0);
   }
 
   @Override
