@@ -43,7 +43,7 @@ archivesBaseName = "warpbook"
 
 minecraft
 {
-    version = "1.7.10-10.13.2.1232"
+    version = "1.8-11.14.0.1297"
     runDir = "run"
     
     replaceIn "com/panicnot42/warpbook/Properties.java"

@@ -11,8 +11,10 @@ import org.lwjgl.input.Keyboard;
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.net.packet.PacketWaypointName;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public class GuiWaypointName extends GuiScreen
@@ -38,7 +40,7 @@ public class GuiWaypointName extends GuiScreen
     Keyboard.enableRepeatEvents(true);
     buttonList.clear();
     buttonList.add(doneButton = new GuiButton(0, width / 2 - 100, height / 4 + 96 + 12, I18n.format("gui.done")));
-    waypointName = new GuiTextField(fontRendererObj, this.width / 2 - 150, 60, 300, 20);
+    waypointName = new GuiTextField(0, fontRendererObj, this.width / 2 - 150, 60, 300, 20);
     waypointName.setMaxStringLength(128);
     waypointName.setFocused(true);
     waypointName.setText("");
@@ -78,7 +80,11 @@ public class GuiWaypointName extends GuiScreen
   @Override
   protected void mouseClicked(int par1, int par2, int par3)
   {
-    super.mouseClicked(par1, par2, par3);
+      try {
+          super.mouseClicked(par1, par2, par3);
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
     waypointName.mouseClicked(par1, par2, par3);
   }
 
