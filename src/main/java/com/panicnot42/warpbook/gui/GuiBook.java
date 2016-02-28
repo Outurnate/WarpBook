@@ -103,4 +103,14 @@ public class GuiBook extends GuiScreen
   {
     return false;
   }
+
+  @Override
+  protected void keyTyped(char c, int keyCode)
+  {
+    super.keyTyped(c, keyCode);
+    if (c == 1 || c == 'e') // if the player rebinds, this won't work. I don't care
+    {
+      mc.thePlayer.closeScreen();
+    }
+  }
 }
