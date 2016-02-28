@@ -8,7 +8,7 @@ import com.panicnot42.warpbook.inventory.WarpBookInventoryItem;
 import com.panicnot42.warpbook.inventory.container.WarpBookContainerItem;
 import com.panicnot42.warpbook.inventory.container.WarpBookSpecialInventory;
 
-import cpw.mods.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GuiManager implements IGuiHandler
 {

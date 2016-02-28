@@ -3,6 +3,7 @@ package com.panicnot42.warpbook.commands;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommand;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,21 +17,19 @@ import com.panicnot42.warpbook.util.CommandUtils.ChatType;
 
 public class GiveWarpCommand extends CommandBase
 {
-  @Override
-  public String getCommandName()
-  {
-    return "givewarp";
-  }
+    @Override
+    public String getCommandName() {
+        return "givewarp";
+    }
 
-  @Override
+    @Override
   public String getCommandUsage(ICommandSender var1)
   {
     return "/givewarp name [player]";
   }
 
-  @Override
-  public void processCommand(ICommandSender var1, String[] var2)
-  {
+    @Override
+    public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
     WarpWorldStorage storage = WarpWorldStorage.instance(var1.getEntityWorld());
     String name;
     EntityPlayer player;

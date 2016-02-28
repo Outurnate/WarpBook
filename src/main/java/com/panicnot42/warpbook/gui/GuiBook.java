@@ -1,5 +1,6 @@
 package com.panicnot42.warpbook.gui;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
@@ -19,8 +20,8 @@ import com.panicnot42.warpbook.util.CommandUtils;
 import com.panicnot42.warpbook.util.PlayerUtils;
 import com.panicnot42.warpbook.util.StringUtils;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiBook extends GuiScreen
@@ -105,7 +106,7 @@ public class GuiBook extends GuiScreen
   }
 
   @Override
-  protected void keyTyped(char c, int keyCode)
+  protected void keyTyped(char c, int keyCode) throws IOException
   {
     super.keyTyped(c, keyCode);
     if (c == 1 || c == 'e') // if the player rebinds, this won't work. I don't care

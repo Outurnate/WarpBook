@@ -21,12 +21,12 @@ import com.panicnot42.warpbook.util.MathUtils;
 import com.panicnot42.warpbook.util.Waypoint;
 import com.panicnot42.warpbook.util.nbt.NBTUtils;
 
-import cpw.mods.fml.common.network.FMLEmbeddedChannel;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
-import cpw.mods.fml.common.network.FMLOutboundHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.handshake.NetworkDispatcher;
-import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
+import net.minecraftforge.fml.common.network.FMLOutboundHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.handshake.NetworkDispatcher;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class WarpWorldStorage extends WorldSavedData
 {
@@ -43,8 +43,8 @@ public class WarpWorldStorage extends WorldSavedData
 
   public static WarpWorldStorage instance(World world)
   {
-    if (world.mapStorage.loadData(WarpWorldStorage.class, IDENTIFIER) == null) world.mapStorage.setData(IDENTIFIER, new WarpWorldStorage(IDENTIFIER));
-    WarpWorldStorage storage = (WarpWorldStorage)world.mapStorage.loadData(WarpWorldStorage.class, IDENTIFIER);
+    if (world.func_175693_T().loadData(WarpWorldStorage.class, IDENTIFIER) == null) world.func_175693_T().setData(IDENTIFIER, new WarpWorldStorage(IDENTIFIER));
+    WarpWorldStorage storage = (WarpWorldStorage)world.func_175693_T().loadData(WarpWorldStorage.class, IDENTIFIER);
     return storage;
   }
 

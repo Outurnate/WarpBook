@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack;
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.util.net.NetUtils;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketWaypointName implements IMessage, IMessageHandler<PacketWaypointName, IMessage>
 {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +18,20 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,28 +51,11 @@ import com.panicnot42.warpbook.net.packet.PacketWarp;
 import com.panicnot42.warpbook.net.packet.PacketWaypointName;
 import com.panicnot42.warpbook.util.PlayerUtils;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ServerDisconnectionFromClientEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid = Properties.modid, name = Properties.name, version = Properties.version)
 public class WarpBookMod
 {
-  @Instance(value = Properties.modid)
+  @Mod.Instance(value = Properties.modid)
   public static WarpBookMod instance;
 
   public static final Logger logger = LogManager.getLogger(Properties.modid);
@@ -91,7 +90,7 @@ public class WarpBookMod
     }
   };
 
-  @EventHandler
+  @Mod.EventHandler
   public void preInit(FMLPreInitializationEvent event)
   {
     Configuration config = new Configuration(event.getSuggestedConfigurationFile());
@@ -131,14 +130,14 @@ public class WarpBookMod
     config.save();
   }
 
-  @EventHandler
+  @Mod.EventHandler
   public void init(FMLInitializationEvent event)
   {
     proxy.registerRenderers();
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
   }
 
-  @EventHandler
+  @Mod.EventHandler
   public void postInit(FMLPostInitializationEvent event)
   {
     int disc = 0;
@@ -152,9 +151,12 @@ public class WarpBookMod
     MinecraftForge.EVENT_BUS.register(this);
     FMLCommonHandler.instance().bus().register(proxy);
     FMLCommonHandler.instance().bus().register(this);
+
+    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(warpBookItem, 0, new ModelResourceLocation(Properties.modid.toLowerCase() + ":warpbook", "inventory"));
+    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(warpPageItem, 0, new ModelResourceLocation(Properties.modid.toLowerCase() + ":warppage", "inventory"));
   }
 
-  @EventHandler
+  @Mod.EventHandler
   public void serverStarting(FMLServerStartingEvent event)
   {
     ServerCommandManager manager = ((ServerCommandManager)MinecraftServer.getServer().getCommandManager());
@@ -165,7 +167,7 @@ public class WarpBookMod
   }
 
   @SubscribeEvent
-  public void clientJoined(ServerConnectionFromClientEvent e)
+  public void clientJoined(FMLNetworkEvent.ServerConnectionFromClientEvent e)
   {
     EntityPlayerMP player = ((NetHandlerPlayServer)e.handler).playerEntity;
     if (!player.worldObj.isRemote)
@@ -176,7 +178,7 @@ public class WarpBookMod
   }
 
   @SubscribeEvent
-  public void clientLeft(ServerDisconnectionFromClientEvent e)
+  public void clientLeft(FMLNetworkEvent.ServerDisconnectionFromClientEvent e)
   {
     EntityPlayerMP player = ((NetHandlerPlayServer)e.handler).playerEntity;
     PlayerUtils.instance().removeClient(player);
