@@ -2,6 +2,7 @@ package com.panicnot42.warpbook.commands;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
@@ -75,8 +76,8 @@ public class GiveWarpCommand extends CommandBase
   }
 
   @Override
-  public int compareTo(Object o)
+  public int compareTo(Object command)
   {
-    return 42; // TODO: actually implement this
+    return this.getCommandName().compareTo(((ICommand)command).getCommandName());
   }
 }
