@@ -100,6 +100,7 @@ public class WarpBookMod
     fuelEnabled = config.get("features", "fuel", false).getBoolean(false);
     warpBookItem = new WarpBookItem();
     warpPageItem = new WarpPageItem();
+    proxy.registerModels();
     GameRegistry.registerItem(warpBookItem, "warpbook");
     GameRegistry.registerItem(warpPageItem, "warppage");
     List<ItemStack> bookRecipe = new ArrayList<ItemStack>();

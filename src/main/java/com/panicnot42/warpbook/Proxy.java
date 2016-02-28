@@ -40,6 +40,10 @@ public class Proxy
   {
   }
 
+  public void registerModels()
+  {
+  }
+
   public void handleWarp(EntityPlayer player, ItemStack page)
   {
     if (!player.worldObj.isRemote)
