@@ -43,8 +43,8 @@ public class WarpWorldStorage extends WorldSavedData
 
   public static WarpWorldStorage instance(World world)
   {
-    if (world.func_175693_T().loadData(WarpWorldStorage.class, IDENTIFIER) == null) world.func_175693_T().setData(IDENTIFIER, new WarpWorldStorage(IDENTIFIER));
-    WarpWorldStorage storage = (WarpWorldStorage)world.func_175693_T().loadData(WarpWorldStorage.class, IDENTIFIER);
+    if (world.getMapStorage().loadData(WarpWorldStorage.class, IDENTIFIER) == null) world.getMapStorage().setData(IDENTIFIER, new WarpWorldStorage(IDENTIFIER));
+    WarpWorldStorage storage = (WarpWorldStorage)world.getMapStorage().loadData(WarpWorldStorage.class, IDENTIFIER);
     return storage;
   }
 

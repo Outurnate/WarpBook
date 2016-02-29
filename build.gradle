@@ -2,40 +2,20 @@ buildscript
 {
     repositories
     {
-        mavenCentral()
-       	mavenLocal()
+        jcenter()
         maven
         {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven
-        {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
     }
     dependencies
     {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
     }
 }
 
-repositories
-{
-    maven
-    {
-        name 'Forge'
-        url 'http://files.minecraftforge.net/maven'
-    }
-    maven
-    {
-        name 'MinecraftS3'
-        url 'http://s3.amazonaws.com/Minecraft.Download/libraries'
-    }
-}
-
-apply plugin: 'forge'
+apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "2.0.${System.env.BUILD_NUMBER}"
 group = "com.panicnot42.warpbook"
@@ -43,8 +23,10 @@ archivesBaseName = "warpbook"
 
 minecraft
 {
-    version = "1.8-11.14.0.1297"
+    version = "1.8.9-11.15.1.1763"
     runDir = "run"
+
+    mappings = "stable_20"
     
     replaceIn "com/panicnot42/warpbook/Properties.java"
     replace "@VERSION@", rootProject.version
@@ -72,63 +54,5 @@ processResources
     from(sourceSets.main.resources.srcDirs)
     {
         exclude 'mcmod.info'
-    }
-}
-
-uploadArchives
-{
-    dependsOn 'reobf'
-    repositories
-    {
-        mavenDeployer
-        {
-            pom
-            {
-                groupId = project.group
-                // Force the maven upload to use the <mcversion>-<version> syntax preferred at files
-                version = "${project.minecraft.version}-${project.version}"
-                artifactId = project.archivesBaseName
-                project
-                {
-                    name project.archivesBaseName
-                    packaging 'jar'
-                    description 'WarpBook'
-                    url 'https://github.com/josephd/WarpBook'
-
-                    scm
-                    {
-                        url 'https://github.com/josephd/WarpBook'
-                        connection 'scm:git:git://github.com/josephd/WarpBook.git'
-                        developerConnection 'scm:git:git@github.com:josephd/WarpBook.git'
-                    }
-
-                    issueManagement
-                    {
-                        system 'github'
-                        url 'https://github.com/josephd/WarpBook/issues'
-                    }
-
-                    licenses
-                    {
-                        license
-                        {
-                            name 'GNU General Public License (GPL), Version 3.0'
-                            url 'https://www.gnu.org/licenses/gpl-3.0.txt'
-                            distribution 'repo'
-                        }
-                    }
-
-                    developers
-                    {
-                        developer
-                        {
-                            id 'panicnot42'
-                            name 'panicnot42'
-                            roles { role 'developer' }
-                        }
-                    }
-                }
-            }
-        }
     }
 }

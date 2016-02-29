@@ -37,9 +37,8 @@ public class DeleteWaypointCommand extends CommandBase
       CommandUtils.showError(var1, I18n.format("help.notawaypoint", var2[0]));
   }
 
-  @Override
-  public int compareTo(Object command)
+  public int compareTo(ICommand command)
   {
-    return this.getCommandName().compareTo(((ICommand)command).getCommandName());
+    return this.getCommandName().compareTo(command.getCommandName());
   }
 }

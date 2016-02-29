@@ -195,7 +195,7 @@ public class Proxy
     worldserver.removePlayerEntityDangerously(player);
     player.isDead = false;
     transferEntityToWorld(player, worldserver, worldserver1);
-    manager.func_72375_a(player, worldserver);
+    manager.preparePlayer(player, worldserver);
     player.playerNetServerHandler.setPlayerLocation(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
     player.theItemInWorldManager.setWorld(worldserver1);
     manager.updateTimeAndWeatherForPlayer(player, worldserver1);

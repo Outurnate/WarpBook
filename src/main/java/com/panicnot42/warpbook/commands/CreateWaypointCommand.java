@@ -47,9 +47,8 @@ public class CreateWaypointCommand extends CommandBase
     }
   }
 
-  @Override
-  public int compareTo(Object command)
+  public int compareTo(ICommand command)
   {
-    return this.getCommandName().compareTo(((ICommand)command).getCommandName());
+    return this.getCommandName().compareTo(command.getCommandName());
   }
 }
