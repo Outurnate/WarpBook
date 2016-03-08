@@ -4,6 +4,8 @@ import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.Proxy;
 import com.panicnot42.warpbook.Properties;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -25,6 +27,7 @@ public class ClientProxy extends Proxy
                                Properties.modid + ":warppage_potato",
                                Properties.modid + ":warppage_player");
   }
+  
   @Override
   public void registerRenderers()
   {
@@ -36,5 +39,12 @@ public class ClientProxy extends Proxy
     renderItem.getItemModelMesher().register(WarpBookMod.warpPageItem, 3, new ModelResourceLocation(Properties.modid + ":warppage_deathly", "inventory"));
     renderItem.getItemModelMesher().register(WarpBookMod.warpPageItem, 4, new ModelResourceLocation(Properties.modid + ":warppage_potato", "inventory"));
     renderItem.getItemModelMesher().register(WarpBookMod.warpPageItem, 5, new ModelResourceLocation(Properties.modid + ":warppage_player", "inventory"));
+  }
+
+  @Override
+  public void postInit()
+  {
+    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(WarpBookMod.warpBookItem, 0, new ModelResourceLocation(Properties.modid.toLowerCase() + ":warpbook", "inventory"));
+    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(WarpBookMod.warpPageItem, 0, new ModelResourceLocation(Properties.modid.toLowerCase() + ":warppage", "inventory"));
   }
 }

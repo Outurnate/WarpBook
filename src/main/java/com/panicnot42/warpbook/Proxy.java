@@ -43,6 +43,10 @@ public class Proxy
   public void registerModels()
   {
   }
+  
+  public void postInit()
+  {
+  }
 
   public void handleWarp(EntityPlayer player, ItemStack page)
   {

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -152,9 +150,7 @@ public class WarpBookMod
     MinecraftForge.EVENT_BUS.register(this);
     FMLCommonHandler.instance().bus().register(proxy);
     FMLCommonHandler.instance().bus().register(this);
-
-    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(warpBookItem, 0, new ModelResourceLocation(Properties.modid.toLowerCase() + ":warpbook", "inventory"));
-    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(warpPageItem, 0, new ModelResourceLocation(Properties.modid.toLowerCase() + ":warppage", "inventory"));
+    proxy.postInit();
   }
 
   @Mod.EventHandler
