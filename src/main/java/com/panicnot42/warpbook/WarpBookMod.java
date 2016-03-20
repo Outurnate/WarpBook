@@ -78,6 +78,8 @@ public class WarpBookMod
   public static HashMap<EntityPlayer, ItemStack> lastHeldBooks = new HashMap<EntityPlayer, ItemStack>();
   public static HashMap<EntityPlayer, ItemStack> formingPages = new HashMap<EntityPlayer, ItemStack>();
 
+  private static Configuration config;
+
   public static CreativeTabs tabBook = new CreativeTabs("tabWarpBook")
   {
     @Override
@@ -91,7 +93,7 @@ public class WarpBookMod
   @Mod.EventHandler
   public void preInit(FMLPreInitializationEvent event)
   {
-    Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+    config = new Configuration(event.getSuggestedConfigurationFile());
     config.load();
     exhaustionCoefficient = (float)config.get("tweaks", "exhaustion coefficient", 10.0f).getDouble(10.0);
     deathPagesEnabled = config.get("features", "death pages", true).getBoolean(true);
@@ -99,32 +101,6 @@ public class WarpBookMod
     warpBookItem = new WarpBookItem();
     warpPageItem = new WarpPageItem();
     proxy.registerModels();
-    GameRegistry.registerItem(warpBookItem, "warpbook");
-    GameRegistry.registerItem(warpPageItem, "warppage");
-    List<ItemStack> bookRecipe = new ArrayList<ItemStack>();
-    if (config.get("tweaks", "hard recipes", false).getBoolean(false))
-    {
-      bookRecipe.add(new ItemStack(Items.book));
-      bookRecipe.add(new ItemStack(Items.nether_star));
-      GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem), new ItemStack(Items.paper), new ItemStack(Items.ender_eye));
-    }
-    else
-    {
-      bookRecipe.add(new ItemStack(Items.book));
-      bookRecipe.add(new ItemStack(Items.ender_pearl));
-      GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem), new ItemStack(Items.paper), new ItemStack(Items.ender_pearl));
-    }
-    ItemStack emptyBook = new ItemStack(warpBookItem);
-    ItemStack boundpage = new ItemStack(warpPageItem, 1, 1);
-    List<ItemStack> recipe = new ArrayList<ItemStack>();
-    recipe.add(boundpage);
-    recipe.add(new ItemStack(warpPageItem));
-    GameRegistry.addRecipe(new WarpPageShapeless(boundpage, recipe));
-    GameRegistry.addRecipe(new WarpBookShapeless(emptyBook, bookRecipe));
-    if (deathPagesEnabled)
-      GameRegistry.addShapedRecipe(new ItemStack(warpPageItem, 1, 3), " x ", "yzy", "   ", 'z', new ItemStack(warpPageItem, 1), 'y', new ItemStack(Items.diamond), 'x', new ItemStack(
-          Items.fermented_spider_eye));
-    GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem, 1, 5), new ItemStack(warpPageItem, 1), new ItemStack(Items.potato));
 
     config.save();
   }
@@ -134,6 +110,28 @@ public class WarpBookMod
   {
     proxy.registerRenderers();
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
+    GameRegistry.registerItem(warpBookItem, "warpbook");
+    GameRegistry.registerItem(warpPageItem, "warppage");
+    if (config.get("tweaks", "hard recipes", false).getBoolean(false))
+    {
+      GameRegistry.addShapelessRecipe(new ItemStack(warpBookItem), new ItemStack(Items.book), new ItemStack(Items.nether_star));
+      GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem), new ItemStack(Items.paper), new ItemStack(Items.ender_eye));
+    }
+    else
+    {
+      GameRegistry.addShapelessRecipe(new ItemStack(warpBookItem), new ItemStack(Items.book), new ItemStack(Items.ender_pearl));
+      GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem), new ItemStack(Items.paper), new ItemStack(Items.ender_pearl));
+    }
+    ItemStack emptyBook = new ItemStack(warpBookItem);
+    ItemStack boundpage = new ItemStack(warpPageItem, 1, 1);
+    List<ItemStack> recipe = new ArrayList<ItemStack>();
+    recipe.add(boundpage);
+    recipe.add(new ItemStack(warpPageItem));
+    GameRegistry.addRecipe(new WarpPageShapeless(boundpage, recipe));
+    if (deathPagesEnabled)
+      GameRegistry.addShapedRecipe(new ItemStack(warpPageItem, 1, 3), " x ", "yzy", "   ", 'z', new ItemStack(warpPageItem, 1), 'y', new ItemStack(Items.diamond), 'x', new ItemStack(
+          Items.fermented_spider_eye));
+    GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem, 1, 5), new ItemStack(warpPageItem, 1), new ItemStack(Items.potato));
   }
 
   @Mod.EventHandler
