@@ -1,7 +1,14 @@
 package com.panicnot42.warpbook.gui;
 
 import java.io.IOException;
-import java.util.UUID;
+import java.util.ArrayList;
+
+import org.lwjgl.input.Keyboard;
+
+import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.core.IDeclareWarp;
+import com.panicnot42.warpbook.net.packet.PacketWarp;
+import com.panicnot42.warpbook.util.CommandUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -11,15 +18,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-
-import org.lwjgl.input.Keyboard;
-
-import com.panicnot42.warpbook.WarpBookMod;
-import com.panicnot42.warpbook.net.packet.PacketWarp;
-import com.panicnot42.warpbook.util.CommandUtils;
-import com.panicnot42.warpbook.util.PlayerUtils;
-import com.panicnot42.warpbook.util.StringUtils;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -28,6 +26,18 @@ public class GuiBook extends GuiScreen
 {
   private final EntityPlayer entityPlayer;
   private NBTTagList items;
+
+  private class ButtonPos
+  {
+    public int id;
+    public String name;
+
+    public ButtonPos(int id, String name)
+    {
+      this.id = id;
+      this.name = name;
+    }
+  };
 
   public GuiBook(EntityPlayer entityPlayer)
   {
@@ -48,30 +58,15 @@ public class GuiBook extends GuiScreen
       mc.displayGuiScreen((GuiScreen)null);
       return;
     }
+    ArrayList<ButtonPos> pos = new ArrayList<ButtonPos>();
     for (int i = 0; i < items.tagCount(); ++i)
     {
-      NBTTagCompound compound = ItemStack.loadItemStackFromNBT(items.getCompoundTagAt(i)).getTagCompound();
-      try
-      {
-        buttonList.add(new GuiButton(i, ((width - 404) / 2) + ((i % 6) * 68), 16 + (24 * (i / 6)), 64, 16, getButtonText(compound)));
-      }
-      catch (Exception e)
-      {
-        // old page
-      }
+      ItemStack stack = ItemStack.loadItemStackFromNBT(items.getCompoundTagAt(i));
+      if (stack.getItem() instanceof IDeclareWarp && ((IDeclareWarp)stack.getItem()).ValidData(stack))
+        pos.add(new ButtonPos(i, ((IDeclareWarp)stack.getItem()).GetName(entityPlayer.getEntityWorld(), stack)));
     }
-  }
-
-  private static String getButtonText(NBTTagCompound compound)
-  {
-    if (compound.hasKey("hypername"))
-      return StringUtils.shorten(compound.getString("hypername"), 10);
-    else if (compound.hasKey("name"))
-      return StringUtils.shorten(compound.getString("name"), 10);
-    else if (compound.hasKey("playeruuid"))
-      return StringUtils.shorten(PlayerUtils.getNameByUUID(UUID.fromString(compound.getString("playeruuid"))), 10);
-    else
-      return "";
+    for (int i = 0; i < pos.size(); ++i)
+      buttonList.add(new GuiButton(pos.get(i).id, ((width - 404) / 2) + ((i % 6) * 68), 16 + (24 * (i / 6)), 64, 16, pos.get(i).name));
   }
 
   @Override
@@ -85,7 +80,7 @@ public class GuiBook extends GuiScreen
   {
     PacketWarp packet = new PacketWarp(guiButton.id);
     ItemStack page = PacketWarp.getPageById(entityPlayer, guiButton.id);
-    WarpBookMod.proxy.handleWarp(Minecraft.getMinecraft().thePlayer, page);
+    WarpBookMod.warpDrive.handleWarp(Minecraft.getMinecraft().thePlayer, page);
     WarpBookMod.network.sendToServer(packet);
 
     mc.displayGuiScreen((GuiScreen)null);

@@ -3,6 +3,7 @@ package com.panicnot42.warpbook.inventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+import com.panicnot42.warpbook.core.IDeclareWarp;
 import com.panicnot42.warpbook.item.WarpPageItem;
 
 public class WarpBookSlot extends Slot
@@ -14,7 +15,7 @@ public class WarpBookSlot extends Slot
 
   public static boolean itemValid(ItemStack itemStack)
   {
-    return itemStack.getItem() instanceof WarpPageItem && itemStack.getItemDamage() != 0 && itemStack.getItemDamage() != 3 && itemStack.getItemDamage() != 4;
+    return itemStack.getItem() instanceof IDeclareWarp;
   }
 
   @Override

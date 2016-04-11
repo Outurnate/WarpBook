@@ -53,7 +53,7 @@ public class PacketWarp implements IMessage, IMessageHandler<PacketWarp, IMessag
   {
     EntityPlayer player = NetUtils.getPlayerFromContext(ctx);
     ItemStack page = getPageById(player, message.pageSlot);
-    WarpBookMod.proxy.handleWarp(player, page);
+    WarpBookMod.warpDrive.handleWarp(player, page);
 
     return null;
   }

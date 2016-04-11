@@ -4,6 +4,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.panicnot42.warpbook.commands.CreateWaypointCommand;
+import com.panicnot42.warpbook.commands.DeleteWaypointCommand;
+import com.panicnot42.warpbook.commands.GiveWarpCommand;
+import com.panicnot42.warpbook.commands.ListWaypointCommand;
+import com.panicnot42.warpbook.core.WarpDrive;
+import com.panicnot42.warpbook.gui.GuiManager;
+import com.panicnot42.warpbook.item.BoundWarpPageItem;
+import com.panicnot42.warpbook.item.HyperBoundWarpPageItem;
+import com.panicnot42.warpbook.item.PlayerWarpPageItem;
+import com.panicnot42.warpbook.item.UnboundWarpPageItem;
+import com.panicnot42.warpbook.item.WarpBookItem;
+import com.panicnot42.warpbook.net.packet.PacketEffect;
+import com.panicnot42.warpbook.net.packet.PacketSyncPlayers;
+import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
+import com.panicnot42.warpbook.net.packet.PacketWarp;
+import com.panicnot42.warpbook.net.packet.PacketWaypointName;
+import com.panicnot42.warpbook.util.PlayerUtils;
+
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +36,6 @@ import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -30,24 +50,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.panicnot42.warpbook.commands.CreateWaypointCommand;
-import com.panicnot42.warpbook.commands.DeleteWaypointCommand;
-import com.panicnot42.warpbook.commands.GiveWarpCommand;
-import com.panicnot42.warpbook.commands.ListWaypointCommand;
-import com.panicnot42.warpbook.crafting.WarpBookShapeless;
-import com.panicnot42.warpbook.crafting.WarpPageShapeless;
-import com.panicnot42.warpbook.gui.GuiManager;
-import com.panicnot42.warpbook.item.WarpBookItem;
-import com.panicnot42.warpbook.item.WarpPageItem;
-import com.panicnot42.warpbook.net.packet.PacketEffect;
-import com.panicnot42.warpbook.net.packet.PacketSyncPlayers;
-import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
-import com.panicnot42.warpbook.net.packet.PacketWarp;
-import com.panicnot42.warpbook.net.packet.PacketWaypointName;
-import com.panicnot42.warpbook.util.PlayerUtils;
 
 
 @Mod(modid = Properties.modid, name = Properties.name, version = Properties.version)
@@ -60,10 +62,15 @@ public class WarpBookMod
   public static final SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel(Properties.modid);
 
   public static WarpBookItem warpBookItem;
-  public static WarpPageItem warpPageItem;
+  public static PlayerWarpPageItem playerWarpPageItem;
+  public static HyperBoundWarpPageItem hyperWarpPageItem;
+  public static BoundWarpPageItem boundWarpPageItem;
+  public static UnboundWarpPageItem unboundWarpPageItem;
 
   @SidedProxy(clientSide = "com.panicnot42.warpbook.client.ClientProxy", serverSide = "com.panicnot42.warpbook.Proxy")
   public static Proxy proxy;
+
+  public static WarpDrive warpDrive = new WarpDrive();
 
   private static int guiIndex = 42;
 
@@ -99,7 +106,10 @@ public class WarpBookMod
     deathPagesEnabled = config.get("features", "death pages", true).getBoolean(true);
     fuelEnabled = config.get("features", "fuel", false).getBoolean(false);
     warpBookItem = new WarpBookItem();
-    warpPageItem = new WarpPageItem();
+    playerWarpPageItem = new PlayerWarpPageItem();
+    hyperWarpPageItem = new HyperBoundWarpPageItem();
+    boundWarpPageItem = new BoundWarpPageItem();
+    unboundWarpPageItem = new UnboundWarpPageItem();
     proxy.registerModels();
 
     config.save();
@@ -111,27 +121,30 @@ public class WarpBookMod
     proxy.registerRenderers();
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
     GameRegistry.registerItem(warpBookItem, "warpbook");
-    GameRegistry.registerItem(warpPageItem, "warppage");
+    GameRegistry.registerItem(playerWarpPageItem, "playerwarppage");
+    GameRegistry.registerItem(hyperWarpPageItem, "hyperwarppage");
+    GameRegistry.registerItem(boundWarpPageItem, "boundwarppage");
+    GameRegistry.registerItem(unboundWarpPageItem, "unboundwarppage");
     if (config.get("tweaks", "hard recipes", false).getBoolean(false))
     {
       GameRegistry.addShapelessRecipe(new ItemStack(warpBookItem), new ItemStack(Items.book), new ItemStack(Items.nether_star));
-      GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem), new ItemStack(Items.paper), new ItemStack(Items.ender_eye));
+//      GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem), new ItemStack(Items.paper), new ItemStack(Items.ender_eye));
     }
     else
     {
       GameRegistry.addShapelessRecipe(new ItemStack(warpBookItem), new ItemStack(Items.book), new ItemStack(Items.ender_pearl));
-      GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem), new ItemStack(Items.paper), new ItemStack(Items.ender_pearl));
+//      GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem), new ItemStack(Items.paper), new ItemStack(Items.ender_pearl));
     }
     ItemStack emptyBook = new ItemStack(warpBookItem);
-    ItemStack boundpage = new ItemStack(warpPageItem, 1, 1);
+//    ItemStack boundpage = new ItemStack(warpPageItem, 1, 1);
     List<ItemStack> recipe = new ArrayList<ItemStack>();
-    recipe.add(boundpage);
-    recipe.add(new ItemStack(warpPageItem));
-    GameRegistry.addRecipe(new WarpPageShapeless(boundpage, recipe));
-    if (deathPagesEnabled)
-      GameRegistry.addShapedRecipe(new ItemStack(warpPageItem, 1, 3), " x ", "yzy", "   ", 'z', new ItemStack(warpPageItem, 1), 'y', new ItemStack(Items.diamond), 'x', new ItemStack(
-          Items.fermented_spider_eye));
-    GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem, 1, 5), new ItemStack(warpPageItem, 1), new ItemStack(Items.potato));
+//    recipe.add(boundpage);
+//    recipe.add(new ItemStack(warpPageItem));
+//    GameRegistry.addRecipe(new WarpPageShapeless(boundpage, recipe));
+//    if (deathPagesEnabled)
+//      GameRegistry.addShapedRecipe(new ItemStack(warpPageItem, 1, 3), " x ", "yzy", "   ", 'z', new ItemStack(warpPageItem, 1), 'y', new ItemStack(Items.diamond), 'x', new ItemStack(
+//          Items.fermented_spider_eye));
+//    GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem, 1, 5), new ItemStack(warpPageItem, 1), new ItemStack(Items.potato));
   }
 
   @Mod.EventHandler

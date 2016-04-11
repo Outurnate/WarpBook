@@ -52,19 +52,8 @@ public class WarpPageItem extends Item
     {
       switch (itemStack.getItemDamage())
       {
-        case 0:
-          itemStack.setItemDamage(5);
-          itemStack.setTagCompound(new NBTTagCompound());
-          if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) itemStack.getTagCompound().setString("playeruuid", player.getGameProfile().getId().toString());
-          break;
-        case 1:
         case 3:
         case 4:
-        case 5:
-          itemStack.setItemDamage(0);
-          itemStack.setTagCompound(new NBTTagCompound());
-          break;
-        case 2: // do not clear
           break;
       }
     }
@@ -72,45 +61,23 @@ public class WarpPageItem extends Item
     {
       switch (itemStack.getItemDamage())
       {
-        case 0:
-          ItemStack newStack = new ItemStack(WarpBookMod.warpPageItem, 1, 1);
-          writeWaypointToPage(newStack, MathUtils.round(player.posX, RoundingMode.HALF_DOWN), MathUtils.round(player.posY, RoundingMode.HALF_DOWN),
-              MathUtils.round(player.posZ, RoundingMode.HALF_DOWN), player.dimension);
-          player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWaypointGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
-          WarpBookMod.formingPages.put(player, newStack);
-          break;
-        case 1:
-        case 2:
-        case 5:
-          WarpBookMod.proxy.handleWarp(player, itemStack);
-          if (!player.capabilities.isCreativeMode) --itemStack.stackSize;
-          break;
         case 3: // do nothing
           break;
         case 4:
           itemStack = new ItemStack(GameRegistry.findItem("minecraft", "poisonous_potato"), 1);
-          WarpBookMod.proxy.goFullPotato(player, itemStack);
+          WarpBookMod.warpDrive.goFullPotato(player, itemStack);
           break;
       }
     }
     return itemStack;
   }
 
-  public static void writeWaypointToPage(ItemStack page, int x, int y, int z, int dim)
-  {
-    page.setItemDamage(1);
-    if (!page.hasTagCompound()) page.setTagCompound(new NBTTagCompound());
-    page.getTagCompound().setInteger("posX", x);
-    page.getTagCompound().setInteger("posY", y);
-    page.getTagCompound().setInteger("posZ", z);
-    page.getTagCompound().setInteger("dim", dim);
-  }
-
+/*
   public static void writeWaypointToPage(ItemStack page, Waypoint wp)
   {
     writeWaypointToPage(page, wp.x, wp.y, wp.z, wp.dim);
     page.getTagCompound().setString("name", wp.friendlyName);
-  }
+    }*/
 
   @SuppressWarnings("unchecked")
   @Override
@@ -119,23 +86,6 @@ public class WarpPageItem extends Item
   {
     switch (item.getItemDamage())
     {
-      case 1:
-        try
-        {
-          list.add(item.getTagCompound().getString("name"));
-          list.add(I18n.format("warpbook.bindmsg", item.getTagCompound().getInteger("posX"), item.getTagCompound().getInteger("posY"), item.getTagCompound().getInteger("posZ"), item.getTagCompound()
-              .getInteger("dim")));
-        }
-        catch (Exception e)
-        {
-          // gui hasn't closed
-        }
-        break;
-      case 2:
-        String name = item.getTagCompound().getString("hypername");
-        list.add(name);
-        list.add(WarpWorldStorage.instance(player.worldObj).getWaypoint(name).friendlyName);
-        break;
       case 3:
         break;
       case 4:

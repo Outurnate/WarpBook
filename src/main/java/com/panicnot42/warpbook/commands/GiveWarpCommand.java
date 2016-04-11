@@ -17,19 +17,21 @@ import com.panicnot42.warpbook.util.CommandUtils.ChatType;
 
 public class GiveWarpCommand extends CommandBase
 {
-    @Override
-    public String getCommandName() {
-        return "givewarp";
-    }
+  @Override
+  public String getCommandName()
+  {
+    return "givewarp";
+  }
 
-    @Override
+  @Override
   public String getCommandUsage(ICommandSender var1)
   {
     return "/givewarp name [player]";
   }
 
-    @Override
-    public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
+  @Override
+  public void processCommand(ICommandSender var1, String[] var2) throws CommandException
+  {
     WarpWorldStorage storage = WarpWorldStorage.instance(var1.getEntityWorld());
     String name;
     EntityPlayer player;
@@ -66,8 +68,7 @@ public class GiveWarpCommand extends CommandBase
       CommandUtils.showError(var1, I18n.format("help.waypointdoesnotexist", name));
       return;
     }
-    ItemStack hyperStack = new ItemStack(WarpBookMod.warpPageItem);
-    hyperStack.setItemDamage(2);
+    ItemStack hyperStack = new ItemStack(WarpBookMod.hyperWarpPageItem);
     NBTTagCompound compound = new NBTTagCompound();
     compound.setString("hypername", name);
     hyperStack.setTagCompound(compound);
