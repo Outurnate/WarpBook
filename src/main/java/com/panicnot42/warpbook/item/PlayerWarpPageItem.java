@@ -8,14 +8,15 @@ import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.WarpWorldStorage;
 import com.panicnot42.warpbook.core.IDeclareWarp;
 import com.panicnot42.warpbook.util.MathUtils;
-import com.panicnot42.warpbook.util.PlayerUtils;
 import com.panicnot42.warpbook.util.Waypoint;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -46,7 +47,12 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
     Waypoint wp;
     if (player.worldObj.isRemote)
       return null;
-    EntityPlayer playerTo = PlayerUtils.getPlayerByUUID(UUID.fromString(stack.getTagCompound().getString("playeruuid")));
+    UUID playerID = UUID.fromString(stack.getTagCompound().getString("playeruuid"));
+    EntityPlayerMP playerTo = null;
+    List<EntityPlayerMP> allPlayers = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
+    for (EntityPlayerMP playerS : allPlayers)
+      if (playerS.getUniqueID().equals(playerID))
+        playerTo = playerS;
     if (player == playerTo)
       return null;
     return new Waypoint("", "",

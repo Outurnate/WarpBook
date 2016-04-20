@@ -26,7 +26,6 @@ import com.panicnot42.warpbook.item.WarpPageItem;
 import com.panicnot42.warpbook.net.packet.PacketEffect;
 import com.panicnot42.warpbook.util.CommandUtils;
 import com.panicnot42.warpbook.util.MathUtils;
-import com.panicnot42.warpbook.util.PlayerUtils;
 import com.panicnot42.warpbook.util.Waypoint;
 
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -69,12 +68,9 @@ public class Proxy
   {
     if (WarpBookMod.deathPagesEnabled)
     {
-//      ItemStack page = new ItemStack(WarpBookMod.warpPageItem, 1);
       Waypoint death = WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId());
       if (death != null)
       {
-//        WarpPageItem.writeWaypointToPage(page, WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId()));
-//        event.player.inventory.addItemStackToInventory(page);
         WarpWorldStorage.instance(event.player.worldObj).clearLastDeath(event.player.getGameProfile().getId());
       }
     }

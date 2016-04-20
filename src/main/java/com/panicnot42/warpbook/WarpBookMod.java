@@ -19,20 +19,16 @@ import com.panicnot42.warpbook.item.PlayerWarpPageItem;
 import com.panicnot42.warpbook.item.UnboundWarpPageItem;
 import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.net.packet.PacketEffect;
-import com.panicnot42.warpbook.net.packet.PacketSyncPlayers;
 import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
 import com.panicnot42.warpbook.net.packet.PacketWarp;
 import com.panicnot42.warpbook.net.packet.PacketWaypointName;
-import com.panicnot42.warpbook.util.PlayerUtils;
 
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -43,14 +39,11 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 
 @Mod(modid = Properties.modid, name = Properties.name, version = Properties.version)
 public class WarpBookMod
@@ -155,7 +148,6 @@ public class WarpBookMod
     network.registerMessage(PacketWarp.class, PacketWarp.class, disc++, Side.SERVER);
     network.registerMessage(PacketWaypointName.class, PacketWaypointName.class, disc++, Side.SERVER);
     network.registerMessage(PacketSyncWaypoints.class, PacketSyncWaypoints.class, disc++, Side.CLIENT);
-    network.registerMessage(PacketSyncPlayers.class, PacketSyncPlayers.class, disc++, Side.CLIENT);
     network.registerMessage(PacketEffect.class, PacketEffect.class, disc++, Side.CLIENT);
     MinecraftForge.EVENT_BUS.register(proxy);
     MinecraftForge.EVENT_BUS.register(this);
@@ -172,23 +164,5 @@ public class WarpBookMod
     manager.registerCommand(new ListWaypointCommand());
     manager.registerCommand(new DeleteWaypointCommand());
     manager.registerCommand(new GiveWarpCommand());
-  }
-
-  @SubscribeEvent
-  public void clientJoined(FMLNetworkEvent.ServerConnectionFromClientEvent e)
-  {
-    EntityPlayerMP player = ((NetHandlerPlayServer)e.handler).playerEntity;
-    if (!player.worldObj.isRemote)
-    {
-      WarpWorldStorage.instance(player.worldObj).updateClient(player, e);
-      PlayerUtils.instance().updateClient(player, e);
-    }
-  }
-
-  @SubscribeEvent
-  public void clientLeft(FMLNetworkEvent.ServerDisconnectionFromClientEvent e)
-  {
-    EntityPlayerMP player = ((NetHandlerPlayServer)e.handler).playerEntity;
-    PlayerUtils.instance().removeClient(player);
   }
 }

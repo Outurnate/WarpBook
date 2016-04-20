@@ -1,25 +1,17 @@
 package com.panicnot42.warpbook.item;
 
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.UUID;
+
+import com.panicnot42.warpbook.WarpBookMod;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-
-import com.panicnot42.warpbook.WarpBookMod;
-import com.panicnot42.warpbook.WarpWorldStorage;
-import com.panicnot42.warpbook.util.MathUtils;
-import com.panicnot42.warpbook.util.PlayerUtils;
-import com.panicnot42.warpbook.util.Waypoint;
-
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -93,7 +85,7 @@ public class WarpPageItem extends Item
         list.add(I18n.format("help.potato.flavour2"));
         break;
       case 5:
-        list.add(PlayerUtils.getNameByUUID(UUID.fromString(item.getTagCompound().getString("playeruuid"))));
+        //list.add(PlayerUtils.getNameByUUID(UUID.fromString(item.getTagCompound().getString("playeruuid"))));
         break;
     }
   }

@@ -2,14 +2,11 @@ package com.panicnot42.warpbook.core;
 
 import java.math.RoundingMode;
 import java.util.Iterator;
-import java.util.UUID;
 
 import com.panicnot42.warpbook.WarpBookMod;
-import com.panicnot42.warpbook.WarpWorldStorage;
 import com.panicnot42.warpbook.net.packet.PacketEffect;
 import com.panicnot42.warpbook.util.CommandUtils;
 import com.panicnot42.warpbook.util.MathUtils;
-import com.panicnot42.warpbook.util.PlayerUtils;
 import com.panicnot42.warpbook.util.Waypoint;
 
 import net.minecraft.client.resources.I18n;
@@ -17,7 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.S07PacketRespawn;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.potion.PotionEffect;
