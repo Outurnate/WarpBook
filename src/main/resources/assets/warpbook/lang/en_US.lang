@@ -1,10 +1,10 @@
 item.warpbook.name=Warp Book
-item.warppage.unbound.name=Unbound Warp Page
-item.warppage.bound.name=Bound Warp Page
-item.warppage.hyperbound.name=Hyper Warp Page
-item.warppage.potato.name=Potato Page
-item.warppage.player.name=Player Page
-item.warppage.deathly.name=Deathly Warp Page
+item.unboundwarppage.name=Unbound Warp Page
+item.boundwarppage.name=Bound Warp Page
+item.hyperboundwarppage.name=Hyper Warp Page
+item.potatowarppage.name=Potato Page
+item.playerwarppage.name=Player Page
+item.deathlywarppage.name=Deathly Warp Page
 
 itemGroup.tabWarpBook=Warp Book
 
