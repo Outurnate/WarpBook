@@ -19,7 +19,7 @@ public class BoundWarpPageItem extends Item implements IDeclareWarp
 {
   public BoundWarpPageItem()
   {
-    super.setMaxStackSize(16).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName("boundwarppage");
+    super.setMaxStackSize(16).setUnlocalizedName("boundwarppage");
   }
 
   @Override

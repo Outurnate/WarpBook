@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class UnboundWarpPageItem extends Item implements IDeclareWarp
@@ -34,10 +33,13 @@ public class UnboundWarpPageItem extends Item implements IDeclareWarp
   {
     if (player.isSneaking())
     {
-      itemStack.setItemDamage(5);
+      itemStack.setItem(WarpBookMod.playerWarpPageItem);
       itemStack.setTagCompound(new NBTTagCompound());
       if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+      {
         itemStack.getTagCompound().setString("playeruuid", player.getGameProfile().getId().toString());
+        itemStack.getTagCompound().setString("player", player.getGameProfile().getName());
+      }
     }
     else
     {

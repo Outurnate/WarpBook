@@ -18,7 +18,7 @@ public class HyperBoundWarpPageItem extends Item implements IDeclareWarp
 {
   public HyperBoundWarpPageItem()
   {
-    super.setMaxStackSize(16).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName("hyperboundwarppage");
+    super.setMaxStackSize(16).setUnlocalizedName("hyperboundwarppage");
   }
 
   @Override

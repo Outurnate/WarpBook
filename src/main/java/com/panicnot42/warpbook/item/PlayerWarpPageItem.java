@@ -25,7 +25,7 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
 {
   public PlayerWarpPageItem()
   {
-    super.setMaxStackSize(16).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName("playerwarppage");
+    super.setMaxStackSize(16).setUnlocalizedName("playerwarppage");
   }
 
   @Override
@@ -37,7 +37,7 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
   @Override
   public String GetName(World world, ItemStack stack)
   {
-    return stack.getTagCompound().getString("name");
+    return stack.getTagCompound().getString("player");
   }
 
   @Override
@@ -53,7 +53,7 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
     for (EntityPlayerMP playerS : allPlayers)
       if (playerS.getUniqueID().equals(playerID))
         playerTo = playerS;
-    if (player == playerTo)
+    if (player == playerTo || playerTo == null)
       return null;
     return new Waypoint("", "",
                         MathUtils.round(playerTo.posX, RoundingMode.DOWN),
@@ -86,12 +86,7 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
   {
     if (item.hasTagCompound())
     {
-      list.add(item.getTagCompound().getString("name"));
-      list.add(I18n.format("warpbook.bindmsg",
-                           item.getTagCompound().getInteger("posX"),
-                           item.getTagCompound().getInteger("posY"),
-                           item.getTagCompound().getInteger("posZ"),
-                           item.getTagCompound().getInteger("dim")));
+      list.add(GetName(player.worldObj, item));
     }
   }
   
