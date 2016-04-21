@@ -4,6 +4,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 import com.panicnot42.warpbook.inventory.container.WarpBookSpecialInventory;
+import com.panicnot42.warpbook.item.DeathlyWarpPageItem;
 import com.panicnot42.warpbook.item.WarpPageItem;
 
 public class WarpBookDeathlySlot extends Slot
@@ -15,7 +16,7 @@ public class WarpBookDeathlySlot extends Slot
 
   public static boolean itemValid(ItemStack itemStack)
   {
-    return itemStack.getItem() instanceof WarpPageItem && itemStack.getItemDamage() == 3;
+    return itemStack.getItem() instanceof DeathlyWarpPageItem;
   }
 
   @Override

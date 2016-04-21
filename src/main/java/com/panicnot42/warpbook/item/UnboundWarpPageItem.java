@@ -33,7 +33,7 @@ public class UnboundWarpPageItem extends Item implements IDeclareWarp
   {
     if (player.isSneaking())
     {
-      itemStack.setItem(WarpBookMod.playerWarpPageItem);
+      itemStack.setItem(WarpBookMod.items.playerWarpPageItem);
       itemStack.setTagCompound(new NBTTagCompound());
       if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
       {
@@ -43,7 +43,7 @@ public class UnboundWarpPageItem extends Item implements IDeclareWarp
     }
     else
     {
-      ItemStack newStack = new ItemStack(WarpBookMod.boundWarpPageItem);
+      ItemStack newStack = new ItemStack(WarpBookMod.items.boundWarpPageItem);
       BoundWarpPageItem.Bind(newStack,
                              MathUtils.round(player.posX, RoundingMode.HALF_DOWN),
                              MathUtils.round(player.posY, RoundingMode.HALF_DOWN),

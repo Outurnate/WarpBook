@@ -67,7 +67,7 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
   {
     if (player.isSneaking())
     {
-      itemStack.setItem(WarpBookMod.unboundWarpPageItem);
+      itemStack.setItem(WarpBookMod.items.unboundWarpPageItem);
       itemStack.setTagCompound(new NBTTagCompound());
     }
     else

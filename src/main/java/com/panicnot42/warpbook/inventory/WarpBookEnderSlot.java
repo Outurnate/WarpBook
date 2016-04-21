@@ -5,6 +5,7 @@ import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemStack;
 
 import com.panicnot42.warpbook.inventory.container.WarpBookSpecialInventory;
+import com.panicnot42.warpbook.item.WarpFuelItem;
 
 public class WarpBookEnderSlot extends Slot
 {
@@ -15,7 +16,7 @@ public class WarpBookEnderSlot extends Slot
 
   public static boolean itemValid(ItemStack itemStack)
   {
-    return itemStack.getItem() instanceof ItemEnderPearl;
+    return itemStack.getItem() instanceof WarpFuelItem;
   }
 
   @Override

@@ -42,7 +42,7 @@ public class BoundWarpPageItem extends Item implements IDeclareWarp
   {
     if (player.isSneaking())
     {
-      itemStack.setItem(WarpBookMod.unboundWarpPageItem);
+      itemStack.setItem(WarpBookMod.items.unboundWarpPageItem);
     }
     else
     {

@@ -11,17 +11,12 @@ import com.panicnot42.warpbook.commands.GiveWarpCommand;
 import com.panicnot42.warpbook.commands.ListWaypointCommand;
 import com.panicnot42.warpbook.core.WarpDrive;
 import com.panicnot42.warpbook.gui.GuiManager;
-import com.panicnot42.warpbook.item.BoundWarpPageItem;
-import com.panicnot42.warpbook.item.DeathlyWarpPageItem;
-import com.panicnot42.warpbook.item.HyperBoundWarpPageItem;
-import com.panicnot42.warpbook.item.PlayerWarpPageItem;
-import com.panicnot42.warpbook.item.PotatoWarpPageItem;
-import com.panicnot42.warpbook.item.UnboundWarpPageItem;
 import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.net.packet.PacketEffect;
 import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
 import com.panicnot42.warpbook.net.packet.PacketWarp;
 import com.panicnot42.warpbook.net.packet.PacketWaypointName;
+import com.panicnot42.warpbook.util.Waypoint;
 
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.creativetab.CreativeTabs;
@@ -29,8 +24,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -38,9 +35,10 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -53,18 +51,11 @@ public class WarpBookMod
   public static final Logger logger = LogManager.getLogger(Properties.modid);
   public static final SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel(Properties.modid);
 
-  public static WarpBookItem warpBookItem;
-  public static PlayerWarpPageItem playerWarpPageItem;
-  public static HyperBoundWarpPageItem hyperWarpPageItem;
-  public static BoundWarpPageItem boundWarpPageItem;
-  public static UnboundWarpPageItem unboundWarpPageItem;
-  public static PotatoWarpPageItem potatoWarpPageItem;
-  public static DeathlyWarpPageItem deathlyWarpPageItem;
-
   @SidedProxy(clientSide = "com.panicnot42.warpbook.client.ClientProxy", serverSide = "com.panicnot42.warpbook.Proxy")
   public static Proxy proxy;
 
   public static WarpDrive warpDrive = new WarpDrive();
+  public static WarpItems items;
 
   private static int guiIndex = 42;
 
@@ -87,7 +78,7 @@ public class WarpBookMod
     @SideOnly(Side.CLIENT)
     public Item getTabIconItem()
     {
-      return warpBookItem;
+      return items.warpBookItem;
     }
   };
 
@@ -96,17 +87,12 @@ public class WarpBookMod
   {
     config = new Configuration(event.getSuggestedConfigurationFile());
     config.load();
+    
     exhaustionCoefficient = (float)config.get("tweaks", "exhaustion coefficient", 10.0f).getDouble(10.0);
     deathPagesEnabled = config.get("features", "death pages", true).getBoolean(true);
     fuelEnabled = config.get("features", "fuel", false).getBoolean(false);
-    warpBookItem = new WarpBookItem();
-    playerWarpPageItem = new PlayerWarpPageItem();
-    hyperWarpPageItem = new HyperBoundWarpPageItem();
-    boundWarpPageItem = new BoundWarpPageItem();
-    unboundWarpPageItem = new UnboundWarpPageItem();
-    potatoWarpPageItem = new PotatoWarpPageItem();
-    deathlyWarpPageItem = new DeathlyWarpPageItem();
-    proxy.registerModels();
+    
+    items = new WarpItems();
 
     config.save();
   }
@@ -114,16 +100,9 @@ public class WarpBookMod
   @Mod.EventHandler
   public void init(FMLInitializationEvent event)
   {
-    proxy.registerRenderers();
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
-    GameRegistry.registerItem(warpBookItem, "warpbook");
-    GameRegistry.registerItem(playerWarpPageItem, "playerwarppage");
-    GameRegistry.registerItem(hyperWarpPageItem, "hyperwarppage");
-    GameRegistry.registerItem(boundWarpPageItem, "boundwarppage");
-    GameRegistry.registerItem(unboundWarpPageItem, "unboundwarppage");
-    GameRegistry.registerItem(potatoWarpPageItem, "potatowarppage");
-    GameRegistry.registerItem(deathlyWarpPageItem, "deathlywarppage");
-//    if (config.get("tweaks", "hard recipes", false).getBoolean(false))
+    items.Register();
+    proxy.registerRenderers();
   }
 
   @Mod.EventHandler
@@ -139,7 +118,6 @@ public class WarpBookMod
     MinecraftForge.EVENT_BUS.register(this);
     FMLCommonHandler.instance().bus().register(proxy);
     FMLCommonHandler.instance().bus().register(this);
-    proxy.postInit();
   }
 
   @Mod.EventHandler
@@ -150,5 +128,34 @@ public class WarpBookMod
     manager.registerCommand(new ListWaypointCommand());
     manager.registerCommand(new DeleteWaypointCommand());
     manager.registerCommand(new GiveWarpCommand());
+  }
+
+  @SubscribeEvent
+  public void onHurt(LivingHurtEvent event)
+  {
+    if (WarpBookMod.deathPagesEnabled && event.entity instanceof EntityPlayer)
+    {
+      EntityPlayer player = (EntityPlayer)event.entity;
+      if (event.source != DamageSource.outOfWorld && player.getHealth() <= event.ammount) for (ItemStack item : player.inventory.mainInventory)
+        if (item != null && item.getItem() instanceof WarpBookItem && WarpBookItem.getRespawnsLeft(item) > 0)
+        {
+          WarpBookItem.decrRespawnsLeft(item);
+          WarpWorldStorage.instance(player.worldObj).setLastDeath(player.getGameProfile().getId(), player.posX, player.posY, player.posZ, player.dimension);
+          break;
+        }
+    }
+  }
+
+  @SubscribeEvent
+  public void onPlayerRespawn(PlayerRespawnEvent event)
+  {
+    if (WarpBookMod.deathPagesEnabled)
+    {
+      Waypoint death = WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId());
+      if (death != null)
+      {
+        WarpWorldStorage.instance(event.player.worldObj).clearLastDeath(event.player.getGameProfile().getId());
+      }
+    }
   }
 }

@@ -21,6 +21,6 @@ public class WarpBookShapeless extends ShapelessRecipes
   @Override
   public ItemStack getCraftingResult(InventoryCrafting inventory)
   {
-    return new ItemStack(WarpBookMod.warpBookItem, 1, 16);
+    return new ItemStack(WarpBookMod.items.warpBookItem, 1, 16);
   }
 }

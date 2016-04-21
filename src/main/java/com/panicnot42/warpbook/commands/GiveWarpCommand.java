@@ -68,7 +68,7 @@ public class GiveWarpCommand extends CommandBase
       CommandUtils.showError(var1, I18n.format("help.waypointdoesnotexist", name));
       return;
     }
-    ItemStack hyperStack = new ItemStack(WarpBookMod.hyperWarpPageItem);
+    ItemStack hyperStack = new ItemStack(WarpBookMod.items.hyperWarpPageItem);
     NBTTagCompound compound = new NBTTagCompound();
     compound.setString("hypername", name);
     hyperStack.setTagCompound(compound);
