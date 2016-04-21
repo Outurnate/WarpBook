@@ -30,7 +30,6 @@ public class BoundWarpPageItem extends Item implements IDeclareWarp
 
   public static void Bind(ItemStack page, int x, int y, int z, int dim)
   {
-    page.setItemDamage(1);
     if (!page.hasTagCompound())
       page.setTagCompound(new NBTTagCompound());
     page.getTagCompound().setInteger("posX", x);

@@ -33,18 +33,26 @@ public class ClientProxy extends Proxy
   {
     RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 
-/*    renderItem.getItemModelMesher().register(WarpBookMod.warpPageItem, 0, new ModelResourceLocation(Properties.modid + ":warppage", "inventory"));
-    renderItem.getItemModelMesher().register(WarpBookMod.warpPageItem, 1, new ModelResourceLocation(Properties.modid + ":warppage_bound", "inventory"));
-    renderItem.getItemModelMesher().register(WarpBookMod.warpPageItem, 2, new ModelResourceLocation(Properties.modid + ":warppage_hyperbound", "inventory"));
-    renderItem.getItemModelMesher().register(WarpBookMod.warpPageItem, 3, new ModelResourceLocation(Properties.modid + ":warppage_deathly", "inventory"));
-    renderItem.getItemModelMesher().register(WarpBookMod.warpPageItem, 4, new ModelResourceLocation(Properties.modid + ":warppage_potato", "inventory"));
-    renderItem.getItemModelMesher().register(WarpBookMod.warpPageItem, 5, new ModelResourceLocation(Properties.modid + ":warppage_player", "inventory"));*/
+    renderItem.getItemModelMesher()
+      .register(WarpBookMod.unboundWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":unboundwarppage", "inventory"));
+    renderItem.getItemModelMesher()
+      .register(WarpBookMod.boundWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":boundwarppage", "inventory"));
+    renderItem.getItemModelMesher()
+      .register(WarpBookMod.hyperWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":hyperwarppage", "inventory"));
+    renderItem.getItemModelMesher()
+        .register(WarpBookMod.deathlyWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":deathlywarppage", "inventory"));
+    renderItem.getItemModelMesher()
+        .register(WarpBookMod.potatoWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":potatowarppage", "inventory"));
+    renderItem.getItemModelMesher()
+      .register(WarpBookMod.playerWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":playerwarppage", "inventory"));
   }
 
   @Override
   public void postInit()
   {
-    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(WarpBookMod.warpBookItem, 0, new ModelResourceLocation(Properties.modid.toLowerCase() + ":warpbook", "inventory"));
-//    Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(WarpBookMod.warpPageItem, 0, new ModelResourceLocation(Properties.modid.toLowerCase() + ":warppage", "inventory"));
+    Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
+      .register(WarpBookMod.warpBookItem, 0, new ModelResourceLocation(Properties.modid.toLowerCase() + ":warpbook", "inventory"));
+//    Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
+//    .register(WarpBookMod.warpPageItem, 0, new ModelResourceLocation(Properties.modid.toLowerCase() + ":warppage", "inventory"));
   }
 }

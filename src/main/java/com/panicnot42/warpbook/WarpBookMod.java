@@ -1,8 +1,6 @@
 package com.panicnot42.warpbook;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,8 +12,10 @@ import com.panicnot42.warpbook.commands.ListWaypointCommand;
 import com.panicnot42.warpbook.core.WarpDrive;
 import com.panicnot42.warpbook.gui.GuiManager;
 import com.panicnot42.warpbook.item.BoundWarpPageItem;
+import com.panicnot42.warpbook.item.DeathlyWarpPageItem;
 import com.panicnot42.warpbook.item.HyperBoundWarpPageItem;
 import com.panicnot42.warpbook.item.PlayerWarpPageItem;
+import com.panicnot42.warpbook.item.PotatoWarpPageItem;
 import com.panicnot42.warpbook.item.UnboundWarpPageItem;
 import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.net.packet.PacketEffect;
@@ -26,7 +26,6 @@ import com.panicnot42.warpbook.net.packet.PacketWaypointName;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -59,6 +58,8 @@ public class WarpBookMod
   public static HyperBoundWarpPageItem hyperWarpPageItem;
   public static BoundWarpPageItem boundWarpPageItem;
   public static UnboundWarpPageItem unboundWarpPageItem;
+  public static PotatoWarpPageItem potatoWarpPageItem;
+  public static DeathlyWarpPageItem deathlyWarpPageItem;
 
   @SidedProxy(clientSide = "com.panicnot42.warpbook.client.ClientProxy", serverSide = "com.panicnot42.warpbook.Proxy")
   public static Proxy proxy;
@@ -103,6 +104,8 @@ public class WarpBookMod
     hyperWarpPageItem = new HyperBoundWarpPageItem();
     boundWarpPageItem = new BoundWarpPageItem();
     unboundWarpPageItem = new UnboundWarpPageItem();
+    potatoWarpPageItem = new PotatoWarpPageItem();
+    deathlyWarpPageItem = new DeathlyWarpPageItem();
     proxy.registerModels();
 
     config.save();
@@ -118,26 +121,9 @@ public class WarpBookMod
     GameRegistry.registerItem(hyperWarpPageItem, "hyperwarppage");
     GameRegistry.registerItem(boundWarpPageItem, "boundwarppage");
     GameRegistry.registerItem(unboundWarpPageItem, "unboundwarppage");
-    if (config.get("tweaks", "hard recipes", false).getBoolean(false))
-    {
-      GameRegistry.addShapelessRecipe(new ItemStack(warpBookItem), new ItemStack(Items.book), new ItemStack(Items.nether_star));
-//      GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem), new ItemStack(Items.paper), new ItemStack(Items.ender_eye));
-    }
-    else
-    {
-      GameRegistry.addShapelessRecipe(new ItemStack(warpBookItem), new ItemStack(Items.book), new ItemStack(Items.ender_pearl));
-//      GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem), new ItemStack(Items.paper), new ItemStack(Items.ender_pearl));
-    }
-    ItemStack emptyBook = new ItemStack(warpBookItem);
-//    ItemStack boundpage = new ItemStack(warpPageItem, 1, 1);
-    List<ItemStack> recipe = new ArrayList<ItemStack>();
-//    recipe.add(boundpage);
-//    recipe.add(new ItemStack(warpPageItem));
-//    GameRegistry.addRecipe(new WarpPageShapeless(boundpage, recipe));
-//    if (deathPagesEnabled)
-//      GameRegistry.addShapedRecipe(new ItemStack(warpPageItem, 1, 3), " x ", "yzy", "   ", 'z', new ItemStack(warpPageItem, 1), 'y', new ItemStack(Items.diamond), 'x', new ItemStack(
-//          Items.fermented_spider_eye));
-//    GameRegistry.addShapelessRecipe(new ItemStack(warpPageItem, 1, 5), new ItemStack(warpPageItem, 1), new ItemStack(Items.potato));
+    GameRegistry.registerItem(potatoWarpPageItem, "potatowarppage");
+    GameRegistry.registerItem(deathlyWarpPageItem, "deathlywarppage");
+//    if (config.get("tweaks", "hard recipes", false).getBoolean(false))
   }
 
   @Mod.EventHandler

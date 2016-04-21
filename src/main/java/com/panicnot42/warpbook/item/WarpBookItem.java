@@ -60,7 +60,8 @@ public class WarpBookItem extends Item
 
   public static int getRespawnsLeft(ItemStack item)
   {
-    if (item.getTagCompound() == null) item.setTagCompound(new NBTTagCompound());
+    if (item.getTagCompound() == null)
+      item.setTagCompound(new NBTTagCompound());
     return item.getTagCompound().getShort("deathPages");
   }
 
