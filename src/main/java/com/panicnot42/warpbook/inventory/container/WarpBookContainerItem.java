@@ -30,8 +30,10 @@ public class WarpBookContainerItem extends Container
     for (int i = 0; i < 9; ++i)
       this.addSlotToContainer(new WarpBookInventorySlot(inventoryPlayer, i, 8 + i * 18, 198));
 
-    if (WarpBookMod.fuelEnabled) this.addSlotToContainer(new WarpBookEnderSlot(inventorySpecial, 0, 174, 54));
-    if (WarpBookMod.deathPagesEnabled) this.addSlotToContainer(new WarpBookDeathlySlot(inventorySpecial, 1, 174, 72));
+    if (WarpBookMod.fuelEnabled)
+      this.addSlotToContainer(new WarpBookEnderSlot(inventorySpecial, 0, 174, 54));
+    if (WarpBookMod.deathPagesEnabled)
+      this.addSlotToContainer(new WarpBookDeathlySlot(inventorySpecial, 1, 174, 72));
   }
 
   @Override

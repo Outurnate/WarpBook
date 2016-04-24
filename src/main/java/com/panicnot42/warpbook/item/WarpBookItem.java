@@ -2,15 +2,15 @@ package com.panicnot42.warpbook.item;
 
 import java.util.List;
 
+import com.panicnot42.warpbook.WarpBookMod;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
-
-import com.panicnot42.warpbook.WarpBookMod;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -72,7 +72,8 @@ public class WarpBookItem extends Item
 
   public static void setRespawnsLeft(ItemStack item, int deaths)
   {
-    if (item.getTagCompound() == null) item.setTagCompound(new NBTTagCompound());
+    if (item.getTagCompound() == null)
+      item.setTagCompound(new NBTTagCompound());
     item.getTagCompound().setShort("deathPages", (short)deaths);
   }
 
@@ -89,5 +90,18 @@ public class WarpBookItem extends Item
   public static void decrFuelLeft(ItemStack item)
   {
     setFuelLeft(item, getFuelLeft(item) - 1);
+  }
+
+  public static int getCopyCost(ItemStack itemStack)
+  {
+    NBTTagList items = itemStack.getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
+    int count = 0;
+    for (int i = 0; i < items.tagCount(); ++i)
+    {
+      ItemStack item = ItemStack.loadItemStackFromNBT(items.getCompoundTagAt(i));
+      if (item.getItem() instanceof UnboundWarpPageItem || item.getItem() instanceof BoundWarpPageItem)
+        count += item.stackSize;
+    }
+    return count;
   }
 }

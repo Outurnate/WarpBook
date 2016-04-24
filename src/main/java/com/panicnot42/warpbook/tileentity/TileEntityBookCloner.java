@@ -1,5 +1,8 @@
 package com.panicnot42.warpbook.tileentity;
 
+import com.panicnot42.warpbook.item.WarpBookItem;
+import com.panicnot42.warpbook.item.WarpPrintingPlateItem;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -67,6 +70,17 @@ public class TileEntityBookCloner extends TileEntity
 
   public boolean performOperation()
   {
-    return false;
+    if (pages != null && books != null && result == null && books.hasTagCompound())
+    {
+      int cost = WarpBookItem.getCopyCost(books);
+      if (pages.stackSize >= cost)
+      {
+        pages.stackSize -= cost;
+        if (pages.stackSize == 0)
+          pages = null;
+        result = WarpPrintingPlateItem.print(books);
+      }
+    }
+    return true;
   }
 }
