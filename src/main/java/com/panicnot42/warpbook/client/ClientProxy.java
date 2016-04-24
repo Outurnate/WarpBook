@@ -3,10 +3,13 @@ package com.panicnot42.warpbook.client;
 import com.panicnot42.warpbook.Properties;
 import com.panicnot42.warpbook.Proxy;
 import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.renderer.TileEntityBookClonerRenderer;
+import com.panicnot42.warpbook.tileentity.TileEntityBookCloner;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -25,5 +28,7 @@ public class ClientProxy extends Proxy
     m.register(WarpBookMod.items.potatoWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":potatowarppage", "inventory"));
     m.register(WarpBookMod.items.playerWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":playerwarppage", "inventory"));
     m.register(WarpBookMod.items.warpBookItem, 0, new ModelResourceLocation(Properties.modid.toLowerCase() + ":warpbook", "inventory"));
+
+    ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBookCloner.class, new TileEntityBookClonerRenderer());
   }
 }

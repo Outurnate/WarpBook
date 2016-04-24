@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.panicnot42.warpbook.block.TileEntityBookClonerBlock;
 import com.panicnot42.warpbook.commands.CreateWaypointCommand;
 import com.panicnot42.warpbook.commands.DeleteWaypointCommand;
 import com.panicnot42.warpbook.commands.GiveWarpCommand;
@@ -16,6 +17,7 @@ import com.panicnot42.warpbook.net.packet.PacketEffect;
 import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
 import com.panicnot42.warpbook.net.packet.PacketWarp;
 import com.panicnot42.warpbook.net.packet.PacketWaypointName;
+import com.panicnot42.warpbook.tileentity.TileEntityBookCloner;
 import com.panicnot42.warpbook.util.Waypoint;
 
 import net.minecraft.command.ServerCommandManager;
@@ -39,6 +41,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -62,6 +65,8 @@ public class WarpBookMod
   public static float exhaustionCoefficient;
   public static boolean deathPagesEnabled = true;
   public static boolean fuelEnabled = false;
+
+  public static TileEntityBookClonerBlock bookCloner;
 
   public static final int WarpBookWarpGuiIndex = guiIndex++;
   public static final int WarpBookWaypointGuiIndex = guiIndex++;
@@ -93,6 +98,7 @@ public class WarpBookMod
     fuelEnabled = config.get("features", "fuel", false).getBoolean(false);
     
     items = new WarpItems();
+    bookCloner = new TileEntityBookClonerBlock();
 
     config.save();
   }
@@ -102,6 +108,8 @@ public class WarpBookMod
   {
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
     items.Register();
+    GameRegistry.registerTileEntity(TileEntityBookCloner.class, "tileEntityBookCloner");
+    GameRegistry.registerBlock(bookCloner, "bookCloner");
     proxy.registerRenderers();
   }
 

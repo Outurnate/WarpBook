@@ -1,4 +1,4 @@
-package com.panicnot42.warpbook.model;
+package com.panicnot42.warpbook.models;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
