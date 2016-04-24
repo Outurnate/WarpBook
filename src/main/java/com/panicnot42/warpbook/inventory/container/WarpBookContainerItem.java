@@ -54,7 +54,7 @@ public class WarpBookContainerItem extends Container
       if (0 <= slotNum && slotNum <= 53) // moving from book
       {
         if (!this.mergeItemStack(moving, 54, 89, true)) // to inv
-        { return null; }
+          return null;
 
         slot.onSlotChange(moving, itemstack);
       }
@@ -64,16 +64,12 @@ public class WarpBookContainerItem extends Container
                                                                                                       // inv
                                                                                                       // to
                                                                                                       // book
-      { return null; }
+        return null;
 
       if (moving.stackSize == 0)
-      {
         slot.putStack((ItemStack)null);
-      }
       else
-      {
         slot.onSlotChanged();
-      }
 
       if (moving.stackSize == itemstack.stackSize) { return null; }
 

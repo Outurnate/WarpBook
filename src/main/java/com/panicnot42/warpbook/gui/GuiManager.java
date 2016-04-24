@@ -1,13 +1,16 @@
 package com.panicnot42.warpbook.gui;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-
 import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.inventory.BookClonerInventoryItem;
 import com.panicnot42.warpbook.inventory.WarpBookInventoryItem;
+import com.panicnot42.warpbook.inventory.container.BookClonerContainerItem;
 import com.panicnot42.warpbook.inventory.container.WarpBookContainerItem;
 import com.panicnot42.warpbook.inventory.container.WarpBookSpecialInventory;
+import com.panicnot42.warpbook.tileentity.TileEntityBookCloner;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class GuiManager implements IGuiHandler
@@ -16,17 +19,29 @@ public class GuiManager implements IGuiHandler
   public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
   {
     if (ID == WarpBookMod.WarpBookInventoryGuiIndex)
-      return new WarpBookContainerItem(player, player.inventory, new WarpBookInventoryItem(player.getHeldItem()), new WarpBookSpecialInventory(player.getHeldItem()));
+      return new WarpBookContainerItem(player, player.inventory,
+                                       new WarpBookInventoryItem(player.getHeldItem()), new WarpBookSpecialInventory(player.getHeldItem()));
+    if (ID == WarpBookMod.BookClonerInventoryGuiIndex)
+      return new BookClonerContainerItem(player, player.inventory,
+                                         new BookClonerInventoryItem((TileEntityBookCloner)world.getTileEntity(new BlockPos(x, y, z))));
     return null;
   }
 
   @Override
   public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
   {
-    if (ID == WarpBookMod.WarpBookWarpGuiIndex) return new GuiBook(player);
+    if (ID == WarpBookMod.WarpBookWarpGuiIndex)
+      return new GuiBook(player);
     if (ID == WarpBookMod.WarpBookInventoryGuiIndex)
-      return new GuiWarpBookItemInventory(new WarpBookContainerItem(player, player.inventory, new WarpBookInventoryItem(player.getHeldItem()), new WarpBookSpecialInventory(player.getHeldItem())));
-    if (ID == WarpBookMod.WarpBookWaypointGuiIndex) return new GuiWaypointName(player);
+      return new GuiWarpBookItemInventory(new WarpBookContainerItem(player, player.inventory,
+                                                                    new WarpBookInventoryItem(player.getHeldItem()),
+                                                                    new WarpBookSpecialInventory(player.getHeldItem())));
+    if (ID == WarpBookMod.WarpBookWaypointGuiIndex)
+      return new GuiWaypointName(player);
+    if (ID == WarpBookMod.BookClonerInventoryGuiIndex)
+      return new GuiBookClonerItemInventory(new BookClonerContainerItem(player, player.inventory,
+                                                                        new BookClonerInventoryItem((TileEntityBookCloner)
+                                                                                                    world.getTileEntity(new BlockPos(x, y, z)))));
     return null;
   }
 }

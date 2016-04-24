@@ -1,37 +1,31 @@
 package com.panicnot42.warpbook.inventory;
 
+import com.panicnot42.warpbook.item.UnboundWarpPageItem;
+import com.panicnot42.warpbook.item.WarpBookItem;
+import com.panicnot42.warpbook.tileentity.TileEntityBookCloner;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.IChatComponent;
 
-public class WarpBookInventoryItem implements IInventory
+public class BookClonerInventoryItem implements IInventory
 {
-  private String name = "warpbook.name";
+  private String name = "bookcloner.name";
 
-  private final ItemStack stack;
+  private final TileEntityBookCloner cloner;
 
-  public static final int INV_SIZE = 54;
+  public static final int INV_SIZE = 3;
 
   ItemStack[] inventory = new ItemStack[INV_SIZE];
 
-  public WarpBookInventoryItem(ItemStack heldItem)
+  public BookClonerInventoryItem(TileEntityBookCloner cloner)
   {
-    this.stack = heldItem;
-    if (!stack.hasTagCompound())
-      stack.setTagCompound(new NBTTagCompound());
-    
-    NBTTagList items = stack.getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
-    for (int i = 0; i < items.tagCount(); ++i)
-    {
-      NBTTagCompound item = items.getCompoundTagAt(i);
-      int slot = item.getInteger("Slot");
-      if (slot >= 0 && slot < getSizeInventory())
-        setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));
-    }
+    this.cloner = cloner;
+    inventory[0] = cloner.getBooks();
+    inventory[1] = cloner.getPages();
+    inventory[2] = cloner.getResult();
   }
   
   @Override
@@ -58,7 +52,9 @@ public class WarpBookInventoryItem implements IInventory
         markDirty();
       }
       else
+      {
         setInventorySlotContents(slot, null);
+      }
     }
     return stack;
   }
@@ -105,7 +101,15 @@ public class WarpBookInventoryItem implements IInventory
   @Override
   public boolean isItemValidForSlot(int i, ItemStack itemstack)
   {
-    return WarpBookSlot.itemValid(itemstack);
+    /*switch(i)
+    {
+    case 0:
+      return itemstack.getItem() instanceof UnboundWarpPageItem;
+    case 1:
+      return itemstack.getItem() instanceof WarpBookItem && !itemstack.hasTagCompound();
+    }
+    return false;*/
+    return true;
   }
   
   @Override
@@ -133,21 +137,15 @@ public class WarpBookInventoryItem implements IInventory
   @Override
   public void markDirty()
   {
-    for (int i = 0; i < getSizeInventory(); ++i)
-      if (getStackInSlot(i) != null && getStackInSlot(i).stackSize == 0)
-        setInventorySlotContents(i, null);
-    
-    NBTTagList items = new NBTTagList();
-    
-    for (int i = 0; i < getSizeInventory(); ++i)
-      if (getStackInSlot(i) != null)
-      {
-        NBTTagCompound item = new NBTTagCompound();
-        item.setInteger("Slot", i);
-        getStackInSlot(i).writeToNBT(item);
-        items.appendTag(item);
-      }
-    stack.getTagCompound().setTag("WarpPages", items);
+    cloner.setBooks(inventory[0]);
+    cloner.setPages(inventory[1]);
+    cloner.setResult(inventory[2]);
+    if (cloner.performOperation())
+    {
+      inventory[0] = cloner.getBooks();
+      inventory[1] = cloner.getPages();
+      inventory[2] = cloner.getResult();
+    }
   }
   
   @Override

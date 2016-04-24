@@ -2,14 +2,15 @@ package com.panicnot42.warpbook.gui;
 
 import java.io.IOException;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.inventory.WarpBookInventoryItem;
 import com.panicnot42.warpbook.inventory.container.WarpBookContainerItem;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.util.ResourceLocation;
 
 public class GuiWarpBookItemInventory extends GuiContainer
 {
@@ -58,7 +59,7 @@ public class GuiWarpBookItemInventory extends GuiContainer
   protected void keyTyped(char c, int keyCode) throws IOException
   {
     super.keyTyped(c, keyCode);
-    if (c == 1 || c == 'e') // if the player rebinds, this won't work. I don't care
+    if (c == 1 || c == Minecraft.getMinecraft().gameSettings.keyBindInventory.getKeyCode())
     {
       mc.thePlayer.closeScreen();
     }
