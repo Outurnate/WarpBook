@@ -30,9 +30,12 @@ public class TileEntityBookCloner extends TileEntity
   public void writeToNBT(NBTTagCompound tag)
   {
     super.writeToNBT(tag);
-    tag.setTag("pages",   pages.writeToNBT(new NBTTagCompound()));
-    tag.setTag("books",   books.writeToNBT(new NBTTagCompound()));
-    tag.setTag("result", result.writeToNBT(new NBTTagCompound()));
+    if (pages != null)
+      tag.setTag("pages",   pages.writeToNBT(new NBTTagCompound()));
+    if (books != null)
+      tag.setTag("books",   books.writeToNBT(new NBTTagCompound()));
+    if (result != null)
+      tag.setTag("result", result.writeToNBT(new NBTTagCompound()));
   }
 
   public ItemStack getPages()

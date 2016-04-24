@@ -1,16 +1,15 @@
 package com.panicnot42.warpbook.inventory.container;
 
+import com.panicnot42.warpbook.inventory.BlankPageSlot;
 import com.panicnot42.warpbook.inventory.BookClonerInventoryItem;
-import com.panicnot42.warpbook.item.UnboundWarpPageItem;
-import com.panicnot42.warpbook.item.WarpBookItem;
+import com.panicnot42.warpbook.inventory.BookTemplateSlot;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntityFurnace;
 
 public class BookClonerContainerItem extends Container
 {
@@ -20,9 +19,9 @@ public class BookClonerContainerItem extends Container
   {
     inventory = inventoryItem;
     
-    this.addSlotToContainer(new Slot(inventoryItem, 1, 26, 56));
-    this.addSlotToContainer(new Slot(inventoryItem, 0, 26, 78));
-    this.addSlotToContainer(new Slot(inventoryItem, 2, 133, 56));
+    this.addSlotToContainer(new BlankPageSlot(inventoryItem, 1, 26, 56));
+    this.addSlotToContainer(new BookTemplateSlot(inventoryItem, 0, 26, 78));
+    this.addSlotToContainer(new SlotFurnaceOutput(player, inventoryItem, 2, 133, 56));
     
     for (int i = 0; i < 3; ++i)
       for (int j = 0; j < 9; ++j)
@@ -61,14 +60,14 @@ public class BookClonerContainerItem extends Container
       }
       else if (index != 1 && index != 0)
       {
-        if (itemstack1.getItem() instanceof UnboundWarpPageItem)
+        if (BlankPageSlot.itemValid(itemstack1))
         {
           if (!this.mergeItemStack(itemstack1, 0, 1, false))
           {
             return null;
           }
         }
-        else if (itemstack1.getItem() instanceof WarpBookItem)
+        else if (BookTemplateSlot.itemValid(itemstack1))
         {
           if (!this.mergeItemStack(itemstack1, 1, 2, false))
           {
