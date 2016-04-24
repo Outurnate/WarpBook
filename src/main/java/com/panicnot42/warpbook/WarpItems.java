@@ -43,6 +43,6 @@ public class WarpItems
     GameRegistry.registerItem(unboundWarpPageItem, "unboundwarppage");
     GameRegistry.registerItem(potatoWarpPageItem, "potatowarppage");
     GameRegistry.registerItem(deathlyWarpPageItem, "deathlywarppage");
-    GameRegistry.registerItem(warpFuelItem, "warpfuelitem");
+//    GameRegistry.registerItem(warpFuelItem, "warpfuelitem");
   }
 }

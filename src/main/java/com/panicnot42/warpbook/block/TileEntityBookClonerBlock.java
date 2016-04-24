@@ -27,22 +27,6 @@ public class TileEntityBookClonerBlock extends BlockContainer
   @Override
   public int getRenderType()
   {
-    return -1;
+    return 3;
   }
-
-  @Override
-  public boolean isOpaqueCube()
-  {
-    return false;
-  }
-
-  public boolean renderAsNormalBlock()
-  {
-    return false;
-  }
-
-  /*public void registerIcons(IIconRegister icons)
-  {
-    this.blockIcon = icons.registerIcon("warpbook:none");
-    }*/
 }

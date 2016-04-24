@@ -109,7 +109,7 @@ public class WarpBookMod
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
     items.Register();
     GameRegistry.registerTileEntity(TileEntityBookCloner.class, "tileEntityBookCloner");
-    GameRegistry.registerBlock(bookCloner, "bookCloner");
+    GameRegistry.registerBlock(bookCloner, "bookcloner");
     proxy.registerRenderers();
   }
 
