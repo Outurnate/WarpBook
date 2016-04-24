@@ -27,3 +27,6 @@ white-list.txt
 world/
 *~
 run
+src/main/java/com/panicnot42/warpbook/workbench.xmi
+warpbook_Client.launch
+warpbook_Server.launch
