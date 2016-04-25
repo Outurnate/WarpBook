@@ -89,8 +89,15 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
       list.add(GetName(player.worldObj, item));
     }
   }
-  
+
+  @Override
   public Boolean ValidData(ItemStack stack)
+  {
+    return stack.getTagCompound().hasKey("playeruuid");
+  }
+  
+  @Override
+  public Boolean WarpCloneable()
   {
     return true;
   }

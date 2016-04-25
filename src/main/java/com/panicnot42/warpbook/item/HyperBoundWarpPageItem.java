@@ -65,7 +65,14 @@ public class HyperBoundWarpPageItem extends Item implements IDeclareWarp
     }
   }
   
+  @Override
   public Boolean ValidData(ItemStack stack)
+  {
+    return stack.getTagCompound().hasKey("hypername");
+  }
+  
+  @Override
+  public Boolean WarpCloneable()
   {
     return true;
   }

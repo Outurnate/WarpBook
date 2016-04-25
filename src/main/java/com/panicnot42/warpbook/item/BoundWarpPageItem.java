@@ -87,8 +87,19 @@ public class BoundWarpPageItem extends Item implements IDeclareWarp
     {
     }
   }
-  
-  public Boolean ValidData(ItemStack stack)
+
+  @Override
+  public Boolean ValidData(ItemStack item)
+  {
+    return item.hasTagCompound() &&
+      item.getTagCompound().hasKey("posX") &&
+      item.getTagCompound().hasKey("posY") &&
+      item.getTagCompound().hasKey("posZ") &&
+      item.getTagCompound().hasKey("dim");
+  }
+
+  @Override
+  public Boolean WarpCloneable()
   {
     return true;
   }

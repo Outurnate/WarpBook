@@ -11,4 +11,5 @@ public interface IDeclareWarp
   String GetName(World world, ItemStack stack);
   Waypoint GetWaypoint(EntityPlayer player, ItemStack stack);
   Boolean ValidData(ItemStack stack);
+  Boolean WarpCloneable();
 }

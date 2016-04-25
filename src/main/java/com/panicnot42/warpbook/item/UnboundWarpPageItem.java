@@ -59,14 +59,22 @@ public class UnboundWarpPageItem extends Item implements IDeclareWarp
   {
     return null;
   }
-  
+
+  @Override
   public Waypoint GetWaypoint(EntityPlayer player, ItemStack stack)
   {
     return null;
   }
   
+  @Override
   public Boolean ValidData(ItemStack stack)
   {
     return false;
+  }
+  
+  @Override
+  public Boolean WarpCloneable()
+  {
+    return true;
   }
 }

@@ -62,7 +62,14 @@ public class PotatoWarpPageItem extends Item implements IDeclareWarp
     }
   }
   
+  @Override
   public Boolean ValidData(ItemStack stack)
+  {
+    return false;
+  }
+  
+  @Override
+  public Boolean WarpCloneable()
   {
     return false;
   }

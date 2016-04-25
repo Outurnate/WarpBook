@@ -3,6 +3,7 @@ package com.panicnot42.warpbook.item;
 import java.util.List;
 
 import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.core.IDeclareWarp;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -99,7 +100,7 @@ public class WarpBookItem extends Item
     for (int i = 0; i < items.tagCount(); ++i)
     {
       ItemStack item = ItemStack.loadItemStackFromNBT(items.getCompoundTagAt(i));
-      if (item.getItem() instanceof UnboundWarpPageItem || item.getItem() instanceof BoundWarpPageItem)
+      if (((IDeclareWarp)item.getItem()).WarpCloneable())
         count += item.stackSize;
     }
     return count;
