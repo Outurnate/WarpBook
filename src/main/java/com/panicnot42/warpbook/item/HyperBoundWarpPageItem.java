@@ -16,9 +16,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class HyperBoundWarpPageItem extends Item implements IDeclareWarp
 {
-  public HyperBoundWarpPageItem()
+  public HyperBoundWarpPageItem(String name)
   {
-    super.setMaxStackSize(16).setUnlocalizedName("hyperboundwarppage");
+    super.setMaxStackSize(16).setUnlocalizedName(name);
   }
 
   @Override

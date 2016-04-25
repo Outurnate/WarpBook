@@ -26,15 +26,15 @@ public class WarpItems
 
   public WarpItems()
   {
-    warpBookItem = new WarpBookItem();
-    playerWarpPageItem = new PlayerWarpPageItem();
-    hyperWarpPageItem = new HyperBoundWarpPageItem();
-    boundWarpPageItem = new BoundWarpPageItem();
-    unboundWarpPageItem = new UnboundWarpPageItem();
-    potatoWarpPageItem = new PotatoWarpPageItem();
-    deathlyWarpPageItem = new DeathlyWarpPageItem();
-    warpFuelItem = new WarpFuelItem();
-    warpPrintingPlateItem = new WarpPrintingPlateItem();
+    warpBookItem = new WarpBookItem("warpbook");
+    playerWarpPageItem = new PlayerWarpPageItem("playerwarppage");
+    hyperWarpPageItem = new HyperBoundWarpPageItem("hyperwarppage");
+    boundWarpPageItem = new BoundWarpPageItem("boundwarppage");
+    unboundWarpPageItem = new UnboundWarpPageItem("unboundwarppage");
+    potatoWarpPageItem = new PotatoWarpPageItem("potatowarppage");
+    deathlyWarpPageItem = new DeathlyWarpPageItem("deathlywarppage");
+    warpFuelItem = new WarpFuelItem("warpfuel");
+    warpPrintingPlateItem = new WarpPrintingPlateItem("warpplate");
   }
 
   public void Register()
@@ -46,7 +46,7 @@ public class WarpItems
     GameRegistry.registerItem(unboundWarpPageItem, "unboundwarppage");
     GameRegistry.registerItem(potatoWarpPageItem, "potatowarppage");
     GameRegistry.registerItem(deathlyWarpPageItem, "deathlywarppage");
-    GameRegistry.registerItem(warpFuelItem, "warpfuelitem");
+    GameRegistry.registerItem(warpFuelItem, "warpfuel");
     GameRegistry.registerItem(warpPrintingPlateItem, "warpplate");
   }
 }

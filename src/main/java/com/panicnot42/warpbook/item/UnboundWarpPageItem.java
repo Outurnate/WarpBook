@@ -17,9 +17,9 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class UnboundWarpPageItem extends Item implements IDeclareWarp
 {
-  public UnboundWarpPageItem()
+  public UnboundWarpPageItem(String name)
   {
-    super.setMaxStackSize(16).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName("unboundwarppage");
+    super.setMaxStackSize(16).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName(name);
   }
 
   @Override

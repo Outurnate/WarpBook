@@ -17,9 +17,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class WarpBookItem extends Item
 {
-  public WarpBookItem()
+  public WarpBookItem(String name)
   {
-    this.setMaxStackSize(1).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName("warpbook").setMaxDamage(WarpBookMod.fuelEnabled ? 16 : 0);
+    this.setMaxStackSize(1).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName(name).setMaxDamage(WarpBookMod.fuelEnabled ? 16 : 0);
   }
 
   @Override

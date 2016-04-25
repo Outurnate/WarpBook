@@ -4,8 +4,8 @@ import net.minecraft.item.Item;
 
 public class DeathlyWarpPageItem extends Item
 {
-  public DeathlyWarpPageItem()
+  public DeathlyWarpPageItem(String name)
   {
-    super.setMaxStackSize(16).setUnlocalizedName("deathlywarppage");
+    super.setMaxStackSize(16).setUnlocalizedName(name);
   }
 }

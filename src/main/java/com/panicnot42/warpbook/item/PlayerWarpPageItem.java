@@ -23,9 +23,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PlayerWarpPageItem extends Item implements IDeclareWarp
 {
-  public PlayerWarpPageItem()
+  public PlayerWarpPageItem(String name)
   {
-    super.setMaxStackSize(16).setUnlocalizedName("playerwarppage");
+    super.setMaxStackSize(16).setUnlocalizedName(name);
   }
 
   @Override

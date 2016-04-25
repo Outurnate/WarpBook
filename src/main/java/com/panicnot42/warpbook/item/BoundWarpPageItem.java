@@ -17,9 +17,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BoundWarpPageItem extends Item implements IDeclareWarp
 {
-  public BoundWarpPageItem()
+  public BoundWarpPageItem(String name)
   {
-    super.setMaxStackSize(16).setUnlocalizedName("boundwarppage");
+    super.setMaxStackSize(16).setUnlocalizedName(name);
   }
 
   @Override

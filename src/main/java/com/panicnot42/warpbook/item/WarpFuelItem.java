@@ -4,8 +4,8 @@ import net.minecraft.item.Item;
 
 public class WarpFuelItem extends Item
 {
-  public WarpFuelItem()
+  public WarpFuelItem(String name)
   {
-    super.setMaxStackSize(64).setUnlocalizedName("warpfuel");
+    super.setMaxStackSize(64).setUnlocalizedName(name);
   }
 }

@@ -17,9 +17,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PotatoWarpPageItem extends Item implements IDeclareWarp
 {
-  public PotatoWarpPageItem()
+  public PotatoWarpPageItem(String name)
   {
-    super.setMaxStackSize(16).setUnlocalizedName("potatowarppage");
+    super.setMaxStackSize(16).setUnlocalizedName(name);
   }
 
   @Override

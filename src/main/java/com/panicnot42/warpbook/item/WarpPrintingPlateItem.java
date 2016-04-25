@@ -11,9 +11,9 @@ import net.minecraftforge.common.util.Constants;
 
 public class WarpPrintingPlateItem extends Item
 {
-  public WarpPrintingPlateItem()
+  public WarpPrintingPlateItem(String name)
   {
-    super.setMaxStackSize(64).setUnlocalizedName("warpplate");
+    super.setMaxStackSize(64).setUnlocalizedName(name);
   }
 
   public static ItemStack print(ItemStack book)
