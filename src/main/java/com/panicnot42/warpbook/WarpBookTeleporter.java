@@ -11,7 +11,7 @@ public class WarpBookTeleporter extends Teleporter
     super(par1WorldServer);
   }
 
-    @Override
+  @Override
   public void removeStalePortalLocations(long par1)
   {
   }
