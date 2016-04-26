@@ -2,11 +2,11 @@ package com.panicnot42.warpbook.crafting;
 
 import java.util.List;
 
+import com.panicnot42.warpbook.item.BoundWarpPageItem;
+
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapelessRecipes;
-
-import com.panicnot42.warpbook.item.WarpPageItem;
 
 public class WarpPageShapeless extends ShapelessRecipes
 {
@@ -25,10 +25,8 @@ public class WarpPageShapeless extends ShapelessRecipes
     try
     {
       for (int i = 0; i < inventory.getSizeInventory(); ++i)
-        if (inventory.getStackInSlot(i) != null && inventory.getStackInSlot(i).getItem() instanceof WarpPageItem && inventory.getStackInSlot(i).getItemDamage() == 1)
-        {
+        if (inventory.getStackInSlot(i) != null && inventory.getStackInSlot(i).getItem() instanceof BoundWarpPageItem)
           output.setTagCompound(inventory.getStackInSlot(i).getTagCompound());
-        }
     }
     catch (Exception e)
     {

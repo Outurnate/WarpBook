@@ -57,6 +57,7 @@ public class WarpBookMod
   public static WarpDrive warpDrive = new WarpDrive();
   public static WarpItems items;
   public static WarpBlocks blocks;
+  public static Crafting crafting;
 
   private static int guiIndex = 42;
 
@@ -96,6 +97,7 @@ public class WarpBookMod
     
     items = new WarpItems();
     blocks = new WarpBlocks();
+    crafting = new Crafting();
 
     config.save();
   }
@@ -106,6 +108,7 @@ public class WarpBookMod
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
     items.Register();
     blocks.Register();
+    crafting.RegisterRecipes();
     proxy.registerRenderers();
   }
 
