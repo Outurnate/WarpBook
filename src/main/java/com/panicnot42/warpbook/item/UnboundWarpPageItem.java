@@ -28,7 +28,7 @@ public class UnboundWarpPageItem extends Item implements IDeclareWarp
     return 1;
   }
 
-    @Override
+  @Override
   public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
   {
     if (player.isSneaking())

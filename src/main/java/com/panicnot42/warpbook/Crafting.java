@@ -2,6 +2,7 @@ package com.panicnot42.warpbook;
 
 import java.util.Arrays;
 
+import com.panicnot42.warpbook.crafting.TeleporterShaped;
 import com.panicnot42.warpbook.crafting.WarpBookShapeless;
 import com.panicnot42.warpbook.crafting.WarpPageShapeless;
 
@@ -34,6 +35,14 @@ public class Crafting
                            'i', new ItemStack(Items.iron_ingot, 1),
                            's', new ItemStack(Blocks.bookshelf, 1),
                            'w', new ItemStack(WarpBookMod.items.warpBookItem, 1));
+    GameRegistry.addRecipe(new ItemStack(WarpBookMod.blocks.teleporter, 1),
+                           "bsb",
+                           "coc",
+                           "bsb",
+                           'b', new ItemStack(Blocks.iron_block, 1),
+                           's', new ItemStack(Blocks.bookshelf, 1),
+                           'c', new ItemStack(WarpBookMod.blocks.bookCloner, 1),
+                           'o', new ItemStack(WarpBookMod.items.warpBookItem, 1));
     
     GameRegistry.addRecipe(new WarpPageShapeless(new ItemStack(WarpBookMod.items.boundWarpPageItem, 2),
                                                  Arrays.asList(new ItemStack(WarpBookMod.items.boundWarpPageItem, 1),

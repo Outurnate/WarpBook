@@ -3,6 +3,7 @@ package com.panicnot42.warpbook;
 import com.panicnot42.warpbook.block.TileEntityBookClonerBlock;
 import com.panicnot42.warpbook.block.TileEntityTeleporterBlock;
 import com.panicnot42.warpbook.tileentity.TileEntityBookCloner;
+import com.panicnot42.warpbook.tileentity.TileEntityTeleporter;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -20,6 +21,7 @@ public class WarpBlocks
   public void Register()
   {
     GameRegistry.registerTileEntity(TileEntityBookCloner.class, "tileEntityBookCloner");
+    GameRegistry.registerTileEntity(TileEntityTeleporter.class, "tileEntityTeleporter");
     
     GameRegistry.registerBlock(bookCloner, "bookcloner");
     GameRegistry.registerBlock(teleporter, "teleporter");
