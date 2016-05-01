@@ -1,10 +1,6 @@
 package com.panicnot42.warpbook.tileentity;
 
-import com.panicnot42.warpbook.core.IDeclareWarp;
-import com.panicnot42.warpbook.util.Waypoint;
-
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -63,11 +59,6 @@ public class TileEntityTeleporter extends TileEntity
       page.writeToNBT(pageTag);
       tag.setTag("page", pageTag);
     }
-  }
-
-  public Waypoint GetWaypoint(EntityPlayer player)
-  {
-    return ((IDeclareWarp)page.getItem()).GetWaypoint(player, page);
   }
 
   public ItemStack GetPage()

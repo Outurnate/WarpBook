@@ -2,7 +2,6 @@ package com.panicnot42.warpbook;
 
 import java.util.Arrays;
 
-import com.panicnot42.warpbook.crafting.TeleporterShaped;
 import com.panicnot42.warpbook.crafting.WarpBookShapeless;
 import com.panicnot42.warpbook.crafting.WarpPageShapeless;
 

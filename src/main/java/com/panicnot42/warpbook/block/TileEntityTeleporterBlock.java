@@ -1,5 +1,8 @@
 package com.panicnot42.warpbook.block;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.core.IDeclareWarp;
 import com.panicnot42.warpbook.tileentity.TileEntityTeleporter;
@@ -19,8 +22,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -136,7 +139,12 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos)
   {
     float f = 0.0625F;
-    return new AxisAlignedBB((double)((float)pos.getX() + f), (double)pos.getY(), (double)((float)pos.getZ() + f), (double)((float)(pos.getX() + 1) - f), (double)(pos.getY() + 1), (double)((float)(pos.getZ() + 1) - f));
+    return new AxisAlignedBB((double)((float)pos.getX() + f),
+                             (double)pos.getY(),
+                             (double)((float)pos.getZ() + f),
+                             (double)((float)(pos.getX() + 1) - f),
+                             (double)(pos.getY() + 1),
+                             (double)((float)(pos.getZ() + 1) - f));
   }
   
   @Override
@@ -149,5 +157,11 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   public boolean isOpaqueCube()
   {
     return false;
+  }
+
+  @Override
+  public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState metadata, int fortune)
+  {
+    return Arrays.asList(((TileEntityTeleporter)world.getTileEntity(pos)).GetPage());
   }
 }
