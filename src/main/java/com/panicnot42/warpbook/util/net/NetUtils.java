@@ -13,21 +13,10 @@ public class NetUtils
 {
   public static EntityPlayer getPlayerFromContext(MessageContext ctx)
   {
-    EntityPlayer player = null;
-    switch (FMLCommonHandler.instance().getEffectiveSide())
-    {
-      case CLIENT:
-        player = getClientPlayer();
-        break;
-
-      case SERVER:
-        INetHandler netHandler = ctx.netHandler; // holy derp
-        player = ((NetHandlerPlayServer)netHandler).playerEntity;
-        break;
-
-      default:
-    }
-    return player;
+    if (ctx.side == Side.SERVER)
+      return ctx.getServerHandler().playerEntity;
+    else
+      return getClientPlayer();
   }
 
   @SideOnly(Side.CLIENT)
