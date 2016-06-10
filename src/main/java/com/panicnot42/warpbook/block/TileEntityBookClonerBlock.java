@@ -8,9 +8,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityBookClonerBlock extends BlockContainer
 {
@@ -38,5 +41,28 @@ public class TileEntityBookClonerBlock extends BlockContainer
   public int getRenderType()
   {
     return 3;
+  }
+
+  @Override
+  public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+  {
+    return new AxisAlignedBB(pos.getX(),
+                             pos.getY(),
+                             pos.getZ(),
+                             pos.getX() + 1,
+                             pos.getY() + 0.75f,
+                             pos.getZ() + 1);
+  }
+  
+  @Override
+  @SideOnly(Side.CLIENT)
+  public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos)
+  {
+    return new AxisAlignedBB(pos.getX(),
+                             pos.getY(),
+                             pos.getZ(),
+                             pos.getX() + 1,
+                             pos.getY() + 0.75f,
+                             pos.getZ() + 1);
   }
 }

@@ -20,9 +20,9 @@ public class WarpPageItem extends Item
 {
   private static final String[] itemMetaNames = new String[] { "unbound", "bound", "hyperbound", "deathly", "potato", "player" };
 
-  public WarpPageItem()
+  public WarpPageItem(String name)
   {
-    super.setHasSubtypes(true).setMaxStackSize(16).setCreativeTab(WarpBookMod.tabBook).setMaxDamage(0).setUnlocalizedName("warppage");
+    super.setHasSubtypes(true).setMaxStackSize(16).setMaxDamage(0).setUnlocalizedName(name);
   }
 
   @Override
@@ -40,75 +40,39 @@ public class WarpPageItem extends Item
   @Override
   public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
   {
-    if (player.isSneaking())
+    ItemStack newStack;
+    switch (itemStack.getItemDamage())
     {
-      switch (itemStack.getItemDamage())
-      {
-        case 3:
-        case 4:
-          break;
-      }
+    default:
+    case 0:
+      newStack = new ItemStack(WarpBookMod.items.unboundWarpPageItem, itemStack.stackSize);
+      break;
+    case 1:
+      newStack = new ItemStack(WarpBookMod.items.boundWarpPageItem, itemStack.stackSize);
+      break;
+    case 2:
+      newStack = new ItemStack(WarpBookMod.items.hyperWarpPageItem, itemStack.stackSize);
+      break;
+    case 3:
+      newStack = new ItemStack(WarpBookMod.items.deathlyWarpPageItem, itemStack.stackSize);
+      break;
+    case 4:
+      newStack = new ItemStack(WarpBookMod.items.potatoWarpPageItem, itemStack.stackSize);
+      break;
+    case 5:
+      newStack = new ItemStack(WarpBookMod.items.playerWarpPageItem, itemStack.stackSize);
+      break;
     }
-    else
-    {
-      switch (itemStack.getItemDamage())
-      {
-        case 3: // do nothing
-          break;
-        case 4:
-          itemStack = new ItemStack(GameRegistry.findItem("minecraft", "poisonous_potato"), 1);
-          WarpBookMod.warpDrive.goFullPotato(player, itemStack);
-          break;
-      }
-    }
+    if (itemStack.hasTagCompound())
+      newStack.setTagCompound(itemStack.getTagCompound());
     return itemStack;
   }
-
-/*
-  public static void writeWaypointToPage(ItemStack page, Waypoint wp)
-  {
-    writeWaypointToPage(page, wp.x, wp.y, wp.z, wp.dim);
-    page.getTagCompound().setString("name", wp.friendlyName);
-    }*/
 
   @SuppressWarnings("unchecked")
   @Override
   @SideOnly(Side.CLIENT)
   public void addInformation(ItemStack item, EntityPlayer player, @SuppressWarnings("rawtypes") List list, boolean thing)
   {
-    switch (item.getItemDamage())
-    {
-      case 3:
-        break;
-      case 4:
-        list.add(I18n.format("help.potato.flavour1"));
-        list.add(I18n.format("help.potato.flavour2"));
-        break;
-      case 5:
-        //list.add(PlayerUtils.getNameByUUID(UUID.fromString(item.getTagCompound().getString("playeruuid"))));
-        break;
-    }
-  }
-
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  @Override
-  @SideOnly(Side.CLIENT)
-  public void getSubItems(Item item, CreativeTabs tab, List items)
-  {
-    items.add(new ItemStack(item, 1, 0));
-    items.add(new ItemStack(item, 1, 3));
-    items.add(new ItemStack(item, 1, 4));
-  }
-
-  @Override
-  public boolean hasContainerItem(ItemStack itemStack)
-  {
-    return itemStack.getItemDamage() == 1;
-  }
-
-  @Override
-  public ItemStack getContainerItem(ItemStack itemStack)
-  {
-    return itemStack.getItemDamage() == 1 ? itemStack.copy() : null;
+    list.add(I18n.format("help.legacy"));
   }
 }

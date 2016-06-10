@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "inventory": { "model": "warpbook:teleporter_inactive" },
+        "active=true": { "model": "warpbook:teleporter_active" },
+        "active=false": { "model": "warpbook:teleporter_inactive" }
+    }
+}

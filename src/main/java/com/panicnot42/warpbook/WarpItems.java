@@ -8,6 +8,7 @@ import com.panicnot42.warpbook.item.PotatoWarpPageItem;
 import com.panicnot42.warpbook.item.UnboundWarpPageItem;
 import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.item.WarpFuelItem;
+import com.panicnot42.warpbook.item.WarpPageItem;
 import com.panicnot42.warpbook.item.WarpPrintingPlateItem;
 
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -23,6 +24,7 @@ public class WarpItems
   public DeathlyWarpPageItem deathlyWarpPageItem;
   public WarpFuelItem warpFuelItem;
   public WarpPrintingPlateItem warpPrintingPlateItem;
+  public WarpPageItem legacyPageItem;
 
   public WarpItems()
   {
@@ -35,6 +37,7 @@ public class WarpItems
     deathlyWarpPageItem = new DeathlyWarpPageItem("deathlywarppage");
     warpFuelItem = new WarpFuelItem("warpfuel");
     warpPrintingPlateItem = new WarpPrintingPlateItem("warpplate");
+    legacyPageItem = new WarpPageItem("warppage");
   }
 
   public void Register()
@@ -48,5 +51,6 @@ public class WarpItems
     GameRegistry.registerItem(deathlyWarpPageItem, "deathlywarppage");
     GameRegistry.registerItem(warpFuelItem, "warpfuel");
     GameRegistry.registerItem(warpPrintingPlateItem, "warpplate");
+    GameRegistry.registerItem(legacyPageItem, "warppage");
   }
 }
