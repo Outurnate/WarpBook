@@ -9,11 +9,16 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.RecipeSorter.Category;
 
 public class Crafting
 {
   public static void RegisterRecipes()
   {
+    RecipeSorter.register("warpbook:shapeless_book", WarpBookShapeless.class, Category.SHAPELESS, "after:minecraft:shapeless");
+    RecipeSorter.register("warpbook:shapeless_page", WarpPageShapeless.class, Category.SHAPELESS, "after:minecraft:shapeless");
+    
     GameRegistry.addShapelessRecipe(new ItemStack(WarpBookMod.items.unboundWarpPageItem, 1),
                                     new ItemStack(Items.ender_pearl, 1),
                                     new ItemStack(Items.paper, 1));
