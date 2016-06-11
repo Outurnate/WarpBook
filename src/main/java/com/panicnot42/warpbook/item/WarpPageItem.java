@@ -26,12 +26,6 @@ public class WarpPageItem extends Item
   }
 
   @Override
-  public String getUnlocalizedName(ItemStack itemStack)
-  {
-    return super.getUnlocalizedName() + "." + itemMetaNames[MathHelper.clamp_int(itemStack.getItemDamage(), 0, itemMetaNames.length - 1)];
-  }
-
-  @Override
   public int getMaxItemUseDuration(ItemStack itemStack)
   {
     return 1;
@@ -65,7 +59,7 @@ public class WarpPageItem extends Item
     }
     if (itemStack.hasTagCompound())
       newStack.setTagCompound(itemStack.getTagCompound());
-    return itemStack;
+    return newStack;
   }
 
   @SuppressWarnings("unchecked")
