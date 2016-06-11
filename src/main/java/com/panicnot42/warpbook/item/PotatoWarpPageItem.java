@@ -19,7 +19,7 @@ public class PotatoWarpPageItem extends Item implements IDeclareWarp
 {
   public PotatoWarpPageItem(String name)
   {
-    super.setMaxStackSize(16).setUnlocalizedName(name);
+    super.setMaxStackSize(16).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName(name);
   }
 
   @Override

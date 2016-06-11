@@ -5,8 +5,13 @@ item.hyperboundwarppage.name=Hyper Warp Page
 item.potatowarppage.name=Potato Page
 item.playerwarppage.name=Player Page
 item.deathlywarppage.name=Deathly Warp Page
+item.warpplate.name=Warp Book Printing Plate
+item.warpfuel.name=Warp Fuel
 
 itemGroup.tabWarpBook=Warp Book
+
+tile.teleporter.name=Teleporter
+tile.bookCloner.name=Warp Book Cloner
 
 warpbook.dowarp=Warp to Waypoint
 warpbook.bindpage=Bind Page
@@ -25,5 +30,7 @@ help.waypointcreated=Waypoint created
 help.selfaport=Congratulations!  You just teleported to yourself
 help.potato.flavour1=Harnesses the awesome power latent within a potato
 help.potato.flavour2=(may or may not produce crater)
+
+bookcloner.name=Warp Book Cloner
 
 death.attack.potato=%1$s was fried with tuberous energy
