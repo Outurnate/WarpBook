@@ -64,6 +64,8 @@ public class WarpBookMod
   public static float exhaustionCoefficient;
   public static boolean deathPagesEnabled = true;
   public static boolean fuelEnabled = false;
+  public static Integer[] disabledDestinations;
+  public static Integer[] disabledLeaving;
 
   public static final int WarpBookWarpGuiIndex = guiIndex++;
   public static final int WarpBookWaypointGuiIndex = guiIndex++;
@@ -91,9 +93,19 @@ public class WarpBookMod
     config = new Configuration(event.getSuggestedConfigurationFile());
     config.load();
     
-    exhaustionCoefficient = (float)config.get("tweaks", "exhaustion coefficient", 10.0f).getDouble(10.0);
-    deathPagesEnabled = config.get("features", "death pages", true).getBoolean(true);
+    exhaustionCoefficient = (float)config.get("tweaks", "exhaustion_coefficient", 0.0f).getDouble(10.0);
+    deathPagesEnabled = config.get("features", "death_pages", true).getBoolean(true);
     fuelEnabled = config.get("features", "fuel", false).getBoolean(false);
+    int[] disabledDestinationsP = config.get("features", "disabled_destination_dimensions", new int[] {}).getIntList();
+    int[] disabledLeavingP = config.get("features", "disabled_departing_dimensions", new int[] {}).getIntList();
+    disabledDestinations = new Integer[disabledDestinationsP.length];
+    disabledLeaving = new Integer[disabledLeavingP.length];
+    for (int i = 0; i < disabledDestinationsP.length; ++i)
+      disabledDestinations[i] = disabledDestinationsP[i];
+    for (int i = 0; i < disabledLeavingP.length; ++i)
+      disabledLeaving[i] = disabledLeavingP[i];
+    System.out.println(disabledDestinationsP.length);
+    System.out.println(disabledLeavingP.length);
     
     items = new WarpItems();
     blocks = new WarpBlocks();

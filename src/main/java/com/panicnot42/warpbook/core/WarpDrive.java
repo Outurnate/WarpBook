@@ -1,6 +1,7 @@
 package com.panicnot42.warpbook.core;
 
 import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import com.panicnot42.warpbook.WarpBookMod;
@@ -32,7 +33,6 @@ public class WarpDrive
   {
     if (page.getItem() instanceof IDeclareWarp && !player.worldObj.isRemote)
     {
-      if (page == null) return;
       Waypoint wp = ((IDeclareWarp)page.getItem()).GetWaypoint(player, page);
       if (wp == null) // TODO only for type 5
       {
@@ -45,15 +45,25 @@ public class WarpDrive
       PacketEffect newDim = new PacketEffect(false, wp.x, wp.y, wp.z);
       NetworkRegistry.TargetPoint oldPoint = new NetworkRegistry.TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 64);
       NetworkRegistry.TargetPoint newPoint = new NetworkRegistry.TargetPoint(wp.dim, wp.x, wp.y, wp.z, 64);
-      player.addExhaustion(calculateExhaustion(player.getEntityWorld().getDifficulty(), WarpBookMod.exhaustionCoefficient, crossDim));
+      if (Arrays.asList(WarpBookMod.disabledDestinations).contains(new Integer(wp.dim)))
+      {
+        if (player.worldObj.isRemote)
+          CommandUtils.showError(player, I18n.format("help.cantgoto"));
+        return;
+      }
+      if (Arrays.asList(WarpBookMod.disabledLeaving).contains(new Integer(player.dimension)))
+      {
+        if (player.worldObj.isRemote)
+          CommandUtils.showError(player, I18n.format("help.cantleave"));
+        return;
+      }
       
-      if (crossDim && !player.worldObj.isRemote) transferPlayerToDimension((EntityPlayerMP)player, wp.dim, ((EntityPlayerMP)player).mcServer.getConfigurationManager());
+      player.addExhaustion(calculateExhaustion(player.getEntityWorld().getDifficulty(), WarpBookMod.exhaustionCoefficient, crossDim));
+      if (crossDim && !player.worldObj.isRemote)
+        transferPlayerToDimension((EntityPlayerMP)player, wp.dim, ((EntityPlayerMP)player).mcServer.getConfigurationManager());
       player.setPositionAndUpdate(wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
-      //if (!player.worldObj.isRemote)
-      //{
-        WarpBookMod.network.sendToAllAround(oldDim, oldPoint);
-        WarpBookMod.network.sendToAllAround(newDim, newPoint);
-      //}
+      WarpBookMod.network.sendToAllAround(oldDim, oldPoint);
+      WarpBookMod.network.sendToAllAround(newDim, newPoint);
     }
   }
 

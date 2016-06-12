@@ -32,6 +32,8 @@ help.selfaport=Congratulations!  You just teleported to yourself
 help.potato.flavour1=Harnesses the awesome power latent within a potato
 help.potato.flavour2=(may or may not produce crater)
 help.legacy=Right-click to update
+help.cantgoto=Something is preventing you from going there
+help.cantleave=Something is preventing you from leaving here
 
 bookcloner.name=Warp Book Cloner
 
