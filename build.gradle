@@ -56,3 +56,9 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+apply plugin: 'java'
+compileJava
+{
+    options.compilerArgs << '-Xlint:deprecation'
+}
