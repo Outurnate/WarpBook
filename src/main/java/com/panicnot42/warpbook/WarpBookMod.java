@@ -104,8 +104,6 @@ public class WarpBookMod
       disabledDestinations[i] = disabledDestinationsP[i];
     for (int i = 0; i < disabledLeavingP.length; ++i)
       disabledLeaving[i] = disabledLeavingP[i];
-    System.out.println(disabledDestinationsP.length);
-    System.out.println(disabledLeavingP.length);
     
     items = new WarpItems();
     blocks = new WarpBlocks();

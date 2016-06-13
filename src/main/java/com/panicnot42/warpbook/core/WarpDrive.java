@@ -47,14 +47,12 @@ public class WarpDrive
       NetworkRegistry.TargetPoint newPoint = new NetworkRegistry.TargetPoint(wp.dim, wp.x, wp.y, wp.z, 64);
       if (Arrays.asList(WarpBookMod.disabledDestinations).contains(new Integer(wp.dim)))
       {
-        if (player.worldObj.isRemote)
-          CommandUtils.showError(player, I18n.format("help.cantgoto"));
+        CommandUtils.showError(player, I18n.format("help.cantgoto"));
         return;
       }
       if (Arrays.asList(WarpBookMod.disabledLeaving).contains(new Integer(player.dimension)))
       {
-        if (player.worldObj.isRemote)
-          CommandUtils.showError(player, I18n.format("help.cantleave"));
+        CommandUtils.showError(player, I18n.format("help.cantleave"));
         return;
       }
       
