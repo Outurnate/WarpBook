@@ -1,8 +1,5 @@
 package com.panicnot42.warpbook.block;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.core.IDeclareWarp;
 import com.panicnot42.warpbook.tileentity.TileEntityTeleporter;
@@ -23,7 +20,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -37,6 +33,10 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
     super(Material.iron);
     setUnlocalizedName("teleporter");
     setCreativeTab(WarpBookMod.tabBook);
+    setStepSound(soundTypeStone);
+    setHardness(10.0f);
+    setResistance(20.0f);
+    setHarvestLevel("pickaxe", 2);
   }
 
   @Override
@@ -160,8 +160,11 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   }
 
   @Override
-  public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState metadata, int fortune)
+  public void breakBlock(World world, BlockPos pos, IBlockState state)
   {
-    return Arrays.asList(((TileEntityTeleporter)world.getTileEntity(pos)).GetPage());
+    ItemStack stack = ((TileEntityTeleporter)world.getTileEntity(pos)).GetPage();
+    stack.stackSize = 1;
+    if (!world.isRemote)
+      dropItemStackInWorld(world, pos.getX(), pos.getY(), pos.getZ(), stack);
   }
 }

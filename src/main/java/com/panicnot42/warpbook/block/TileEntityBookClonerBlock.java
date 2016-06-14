@@ -22,6 +22,10 @@ public class TileEntityBookClonerBlock extends BlockContainer
     super(Material.iron);
     setUnlocalizedName("bookcloner");
     setCreativeTab(WarpBookMod.tabBook);
+    setStepSound(soundTypeStone);
+    setHardness(10.0f);
+    setResistance(20.0f);
+    setHarvestLevel("pickaxe", 2);
   }
 
   @Override
