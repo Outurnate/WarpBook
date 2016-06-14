@@ -20,7 +20,6 @@ public class WarpBookSpecialInventory implements IInventory
     int deaths = WarpBookItem.getRespawnsLeft(heldItem), damage = WarpBookItem.getFuelLeft(heldItem);
     fuel = damage == 0 ? null : new ItemStack(Items.ender_pearl, damage);
     deathly = deaths == 0 ? null : new ItemStack(WarpBookMod.items.deathlyWarpPageItem, deaths);
-    if (deathly != null) deathly.setItemDamage(3);
     this.heldItem = heldItem;
   }
 
