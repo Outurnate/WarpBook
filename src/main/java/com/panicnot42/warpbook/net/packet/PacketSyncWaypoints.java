@@ -10,6 +10,7 @@ import io.netty.buffer.ByteBuf;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -47,7 +48,10 @@ public class PacketSyncWaypoints implements IMessage, IMessageHandler<PacketSync
   @Override
   public IMessage onMessage(PacketSyncWaypoints message, MessageContext ctx)
   {
-    WarpWorldStorage.instance(Minecraft.getMinecraft().thePlayer.worldObj).table = message.table;
+    World world = Minecraft.getMinecraft().thePlayer.worldObj;
+    WarpWorldStorage s = WarpWorldStorage.get(world);
+    s.table = message.table;
+    s.save(world);
     return null;
   }
 }

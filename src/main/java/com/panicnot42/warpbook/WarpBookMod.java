@@ -156,7 +156,9 @@ public class WarpBookMod
           if (item != null && item.getItem() instanceof WarpBookItem && WarpBookItem.getRespawnsLeft(item) > 0)
           {
             WarpBookItem.decrRespawnsLeft(item);
-            WarpWorldStorage.instance(player.worldObj).setLastDeath(player.getGameProfile().getId(), player.posX, player.posY, player.posZ, player.dimension);
+            WarpWorldStorage s = WarpWorldStorage.get(player.worldObj);
+            s.setLastDeath(player.getGameProfile().getId(), player.posX, player.posY, player.posZ, player.dimension);
+            s.save(player.worldObj);
             break;
           }
     }
@@ -167,13 +169,15 @@ public class WarpBookMod
   {
     if (WarpBookMod.deathPagesEnabled)
     {
-      Waypoint death = WarpWorldStorage.instance(event.player.worldObj).getLastDeath(event.player.getGameProfile().getId());
+      WarpWorldStorage s = WarpWorldStorage.get(event.player.worldObj);
+      Waypoint death = s.getLastDeath(event.player.getGameProfile().getId());
       if (death != null)
       {
-        WarpWorldStorage.instance(event.player.worldObj).clearLastDeath(event.player.getGameProfile().getId());
+        s.clearLastDeath(event.player.getGameProfile().getId());
         ItemStack page = new ItemStack(items.boundWarpPageItem, 1);
         BoundWarpPageItem.Bind(page, death.x, death.y, death.z, death.dim);
         event.player.worldObj.spawnEntityInWorld(new EntityItem(event.player.worldObj, event.player.posX, event.player.posY, event.player.posZ, page));
+        s.save(event.player.worldObj);
       }
     }
   }

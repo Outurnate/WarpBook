@@ -3,6 +3,7 @@ package com.panicnot42.warpbook;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 
 import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
@@ -34,16 +35,24 @@ public class WarpWorldStorage extends WorldSavedData
   public WarpWorldStorage(String identifier)
   {
     super(identifier);
-    table = new HashMap<String, Waypoint>();
-    deaths = new HashMap<UUID, Waypoint>();
+    if (table == null)
+      table = new HashMap<String, Waypoint>();
+    if (deaths == null)
+      deaths = new HashMap<UUID, Waypoint>();
   }
 
-  public static WarpWorldStorage instance(World world)
+  public static WarpWorldStorage get(World world)
   {
     if (world.getMapStorage().loadData(WarpWorldStorage.class, IDENTIFIER) == null)
       world.getMapStorage().setData(IDENTIFIER, new WarpWorldStorage(IDENTIFIER));
     WarpWorldStorage storage = (WarpWorldStorage)world.getMapStorage().loadData(WarpWorldStorage.class, IDENTIFIER);
     return storage;
+  }
+
+  public void save(World world)
+  {
+    this.markDirty();
+    world.getMapStorage().setData(IDENTIFIER, this);
   }
 
   @Override
@@ -89,9 +98,9 @@ public class WarpWorldStorage extends WorldSavedData
     this.markDirty();
   }
 
-  public String[] listWaypoints()
+  public Set<String> listWaypoints()
   {
-    return (String[])table.keySet().toArray();
+    return table.keySet();
   }
 
   public boolean deleteWaypoint(String waypoint)

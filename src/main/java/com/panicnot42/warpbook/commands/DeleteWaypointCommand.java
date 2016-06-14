@@ -1,13 +1,14 @@
 package com.panicnot42.warpbook.commands;
 
-import net.minecraft.client.resources.I18n;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommand;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-
 import com.panicnot42.warpbook.WarpWorldStorage;
 import com.panicnot42.warpbook.util.CommandUtils;
+
+import net.minecraft.client.resources.I18n;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.util.StatCollector;
 
 public class DeleteWaypointCommand extends CommandBase
 {
@@ -25,16 +26,17 @@ public class DeleteWaypointCommand extends CommandBase
 
     @Override
     public void processCommand(ICommandSender var1, String[] var2) throws CommandException {
-    WarpWorldStorage storage = WarpWorldStorage.instance(var1.getEntityWorld());
+    WarpWorldStorage storage = WarpWorldStorage.get(var1.getEntityWorld());
     if (var2.length != 1)
     {
       CommandUtils.printUsage(var1, this);
       return;
     }
     if (storage.deleteWaypoint(var2[0]))
-      CommandUtils.info(var1, I18n.format("help.waypointdelete"));
+      CommandUtils.info(var1, StatCollector.translateToLocal("help.waypointdelete").trim());
     else
-      CommandUtils.showError(var1, I18n.format("help.notawaypoint", var2[0]));
+      CommandUtils.showError(var1, I18n.format(StatCollector.translateToLocal("help.notawaypoint").trim(), var2[0]));
+    storage.save(var1.getEntityWorld());
   }
 
   public int compareTo(ICommand command)

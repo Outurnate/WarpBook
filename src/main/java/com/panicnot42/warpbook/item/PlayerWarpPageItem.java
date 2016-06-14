@@ -43,7 +43,7 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
   @Override
   public Waypoint GetWaypoint(EntityPlayer player, ItemStack stack)
   {
-    WarpWorldStorage storage = WarpWorldStorage.instance(player.getEntityWorld());
+    WarpWorldStorage storage = WarpWorldStorage.get(player.getEntityWorld());
     Waypoint wp;
     if (player.worldObj.isRemote)
       return null;

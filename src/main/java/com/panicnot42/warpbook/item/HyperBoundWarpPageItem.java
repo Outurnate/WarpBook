@@ -30,14 +30,14 @@ public class HyperBoundWarpPageItem extends Item implements IDeclareWarp
   @Override
   public String GetName(World world, ItemStack stack)
   {
-    WarpWorldStorage storage = WarpWorldStorage.instance(world);
+    WarpWorldStorage storage = WarpWorldStorage.get(world);
     return storage.getWaypoint(stack.getTagCompound().getString("hypername")).name;
   }
 
   @Override
   public Waypoint GetWaypoint(EntityPlayer player, ItemStack stack)
   {
-    WarpWorldStorage storage = WarpWorldStorage.instance(player.getEntityWorld());
+    WarpWorldStorage storage = WarpWorldStorage.get(player.getEntityWorld());
     return storage.getWaypoint(stack.getTagCompound().getString("hypername"));
   }
 
@@ -61,7 +61,7 @@ public class HyperBoundWarpPageItem extends Item implements IDeclareWarp
     {
       String name = item.getTagCompound().getString("hypername");
       list.add(name);
-      list.add(WarpWorldStorage.instance(player.worldObj).getWaypoint(name).friendlyName);
+      list.add(WarpWorldStorage.get(player.worldObj).getWaypoint(name).friendlyName);
     }
   }
   

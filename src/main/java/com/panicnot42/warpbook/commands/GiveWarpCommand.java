@@ -1,19 +1,19 @@
 package com.panicnot42.warpbook.commands;
 
-import net.minecraft.client.resources.I18n;
+import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.WarpWorldStorage;
+import com.panicnot42.warpbook.util.CommandUtils;
+import com.panicnot42.warpbook.util.CommandUtils.ChatType;
+
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommand;
 import net.minecraft.command.CommandException;
+import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import com.panicnot42.warpbook.WarpBookMod;
-import com.panicnot42.warpbook.WarpWorldStorage;
-import com.panicnot42.warpbook.util.CommandUtils;
-import com.panicnot42.warpbook.util.CommandUtils.ChatType;
+import net.minecraft.util.StatCollector;
 
 public class GiveWarpCommand extends CommandBase
 {
@@ -32,7 +32,7 @@ public class GiveWarpCommand extends CommandBase
   @Override
   public void processCommand(ICommandSender var1, String[] var2) throws CommandException
   {
-    WarpWorldStorage storage = WarpWorldStorage.instance(var1.getEntityWorld());
+    WarpWorldStorage storage = WarpWorldStorage.get(var1.getEntityWorld());
     String name;
     EntityPlayer player;
     switch (var2.length)
@@ -43,7 +43,7 @@ public class GiveWarpCommand extends CommandBase
           player = (EntityPlayer)var1;
         else
         {
-          CommandUtils.showError(var1, I18n.format("help.noplayerspecified"));
+          CommandUtils.showError(var1, StatCollector.translateToLocal("help.noplayerspecified").trim());
           return;
         }
         break;
@@ -65,7 +65,7 @@ public class GiveWarpCommand extends CommandBase
     }
     if (!storage.waypointExists(name))
     {
-      CommandUtils.showError(var1, I18n.format("help.waypointdoesnotexist", name));
+      CommandUtils.showError(var1, String.format(StatCollector.translateToLocal("help.waypointdoesnotexist").trim(), name));
       return;
     }
     ItemStack hyperStack = new ItemStack(WarpBookMod.items.hyperWarpPageItem);
