@@ -12,7 +12,7 @@ item.warppage.name=Legacy Warp Page
 itemGroup.tabWarpBook=Warp Book
 
 tile.teleporter.name=Teleporter
-tile.bookCloner.name=Warp Book Cloner
+tile.bookcloner.name=Warp Book Cloner
 
 warpbook.dowarp=Warp to Waypoint
 warpbook.bindpage=Bind Page

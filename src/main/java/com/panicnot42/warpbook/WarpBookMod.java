@@ -11,6 +11,7 @@ import com.panicnot42.warpbook.commands.GiveWarpCommand;
 import com.panicnot42.warpbook.commands.ListWaypointCommand;
 import com.panicnot42.warpbook.core.WarpDrive;
 import com.panicnot42.warpbook.gui.GuiManager;
+import com.panicnot42.warpbook.item.BoundWarpPageItem;
 import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.net.packet.PacketEffect;
 import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
@@ -20,6 +21,7 @@ import com.panicnot42.warpbook.util.Waypoint;
 
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,7 +30,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -126,15 +127,12 @@ public class WarpBookMod
   public void postInit(FMLPostInitializationEvent event)
   {
     int disc = 0;
-    WarpWorldStorage.postInit();
     network.registerMessage(PacketWarp.class, PacketWarp.class, disc++, Side.SERVER);
     network.registerMessage(PacketWaypointName.class, PacketWaypointName.class, disc++, Side.SERVER);
     network.registerMessage(PacketSyncWaypoints.class, PacketSyncWaypoints.class, disc++, Side.CLIENT);
     network.registerMessage(PacketEffect.class, PacketEffect.class, disc++, Side.CLIENT);
     MinecraftForge.EVENT_BUS.register(proxy);
     MinecraftForge.EVENT_BUS.register(this);
-    FMLCommonHandler.instance().bus().register(proxy);
-    FMLCommonHandler.instance().bus().register(this);
   }
 
   @Mod.EventHandler
@@ -153,13 +151,14 @@ public class WarpBookMod
     if (WarpBookMod.deathPagesEnabled && event.entity instanceof EntityPlayer)
     {
       EntityPlayer player = (EntityPlayer)event.entity;
-      if (event.source != DamageSource.outOfWorld && player.getHealth() <= event.ammount) for (ItemStack item : player.inventory.mainInventory)
-        if (item != null && item.getItem() instanceof WarpBookItem && WarpBookItem.getRespawnsLeft(item) > 0)
-        {
-          WarpBookItem.decrRespawnsLeft(item);
-          WarpWorldStorage.instance(player.worldObj).setLastDeath(player.getGameProfile().getId(), player.posX, player.posY, player.posZ, player.dimension);
-          break;
-        }
+      if (event.source != DamageSource.outOfWorld && player.getHealth() <= event.ammount)
+        for (ItemStack item : player.inventory.mainInventory)
+          if (item != null && item.getItem() instanceof WarpBookItem && WarpBookItem.getRespawnsLeft(item) > 0)
+          {
+            WarpBookItem.decrRespawnsLeft(item);
+            WarpWorldStorage.instance(player.worldObj).setLastDeath(player.getGameProfile().getId(), player.posX, player.posY, player.posZ, player.dimension);
+            break;
+          }
     }
   }
 
@@ -168,10 +167,13 @@ public class WarpBookMod
   {
     if (WarpBookMod.deathPagesEnabled)
     {
-      Waypoint death = WarpWorldStorage.getLastDeath(event.player.getGameProfile().getId());
+      Waypoint death = WarpWorldStorage.instance(event.player.worldObj).getLastDeath(event.player.getGameProfile().getId());
       if (death != null)
       {
         WarpWorldStorage.instance(event.player.worldObj).clearLastDeath(event.player.getGameProfile().getId());
+        ItemStack page = new ItemStack(items.boundWarpPageItem, 1);
+        BoundWarpPageItem.Bind(page, death.x, death.y, death.z, death.dim);
+        event.player.worldObj.spawnEntityInWorld(new EntityItem(event.player.worldObj, event.player.posX, event.player.posY, event.player.posZ, page));
       }
     }
   }

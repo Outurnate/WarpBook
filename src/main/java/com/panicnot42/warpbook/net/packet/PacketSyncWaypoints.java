@@ -1,16 +1,16 @@
 package com.panicnot42.warpbook.net.packet;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.HashMap;
-
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.Constants;
 
 import com.panicnot42.warpbook.WarpWorldStorage;
 import com.panicnot42.warpbook.util.Waypoint;
 import com.panicnot42.warpbook.util.nbt.NBTUtils;
 
+import io.netty.buffer.ByteBuf;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -47,7 +47,7 @@ public class PacketSyncWaypoints implements IMessage, IMessageHandler<PacketSync
   @Override
   public IMessage onMessage(PacketSyncWaypoints message, MessageContext ctx)
   {
-    WarpWorldStorage.table = message.table;
+    WarpWorldStorage.instance(Minecraft.getMinecraft().thePlayer.worldObj).table = message.table;
     return null;
   }
 }

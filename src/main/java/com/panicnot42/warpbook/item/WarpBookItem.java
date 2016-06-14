@@ -68,7 +68,7 @@ public class WarpBookItem extends Item
 
   public static int getFuelLeft(ItemStack item)
   {
-    return 16 - item.getItemDamage();
+    return 64 - item.getItemDamage();
   }
 
   public static void setRespawnsLeft(ItemStack item, int deaths)
@@ -80,7 +80,7 @@ public class WarpBookItem extends Item
 
   public static void setFuelLeft(ItemStack item, int fuel)
   {
-    item.setItemDamage(16 - fuel);
+    item.setItemDamage(64 - fuel);
   }
 
   public static void decrRespawnsLeft(ItemStack item)
