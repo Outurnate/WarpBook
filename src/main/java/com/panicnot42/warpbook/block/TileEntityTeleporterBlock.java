@@ -3,6 +3,7 @@ package com.panicnot42.warpbook.block;
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.core.IDeclareWarp;
 import com.panicnot42.warpbook.tileentity.TileEntityTeleporter;
+import com.panicnot42.warpbook.util.WorldUtils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -12,10 +13,8 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -63,22 +62,6 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
     return ((Boolean)state.getValue(ACTIVE)) ? 1 : 0;
   }
 
-  public static EntityItem dropItemStackInWorld(World worldObj, double x, double y, double z, ItemStack stack)
-  {
-    float f = 0.7F;
-    float d0 = worldObj.rand.nextFloat() * f + (1.0F - f) * 0.5F;
-    float d1 = worldObj.rand.nextFloat() * f + (1.0F - f) * 0.5F;
-    float d2 = worldObj.rand.nextFloat() * f + (1.0F - f) * 0.5F;
-    EntityItem entityitem = new EntityItem(worldObj, x + d0, y + d1, z + d2, stack);
-    //entityitem.delayBeforeCanPickup = 10;
-    if (stack.hasTagCompound())
-    {
-      entityitem.getEntityItem().setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
-    }
-    worldObj.spawnEntityInWorld(entityitem);
-    return entityitem;
-  }
-
   @Override
   public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
   {
@@ -90,7 +73,7 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
         ItemStack stack = teleporter.GetPage();
         stack.stackSize = 1;
         if (!world.isRemote)
-          dropItemStackInWorld(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+          WorldUtils.dropItemStackInWorld(world, pos.getX(), pos.getY(), pos.getZ(), stack);
         teleporter.SetPage(null);
         world.setBlockState(pos, state.withProperty(ACTIVE, false));
       }
@@ -162,9 +145,11 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   @Override
   public void breakBlock(World world, BlockPos pos, IBlockState state)
   {
-    ItemStack stack = ((TileEntityTeleporter)world.getTileEntity(pos)).GetPage();
-    stack.stackSize = 1;
     if (!world.isRemote)
-      dropItemStackInWorld(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+    {
+      ItemStack stack = ((TileEntityTeleporter)world.getTileEntity(pos)).GetPage();
+      stack.stackSize = 1;
+      WorldUtils.dropItemStackInWorld(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+    }
   }
 }

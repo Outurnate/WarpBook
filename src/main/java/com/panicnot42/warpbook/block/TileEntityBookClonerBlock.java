@@ -2,11 +2,13 @@ package com.panicnot42.warpbook.block;
 
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.tileentity.TileEntityBookCloner;
+import com.panicnot42.warpbook.util.WorldUtils;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -68,5 +70,22 @@ public class TileEntityBookClonerBlock extends BlockContainer
                              pos.getX() + 1,
                              pos.getY() + 0.75f,
                              pos.getZ() + 1);
+  }
+
+  @Override
+  public void breakBlock(World world, BlockPos pos, IBlockState state)
+  {
+    if (!world.isRemote)
+    {
+      ItemStack books = ((TileEntityBookCloner)world.getTileEntity(pos)).getBooks();
+      ItemStack pages = ((TileEntityBookCloner)world.getTileEntity(pos)).getPages();
+      ItemStack result = ((TileEntityBookCloner)world.getTileEntity(pos)).getResult();
+      if (books != null)
+        WorldUtils.dropItemStackInWorld(world, pos.getX(), pos.getY(), pos.getZ(), books);
+      if (pages != null)
+        WorldUtils.dropItemStackInWorld(world, pos.getX(), pos.getY(), pos.getZ(), pages);
+      if (result != null)
+        WorldUtils.dropItemStackInWorld(world, pos.getX(), pos.getY(), pos.getZ(), result);
+    }
   }
 }
