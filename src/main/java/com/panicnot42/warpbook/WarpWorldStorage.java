@@ -15,6 +15,7 @@ import io.netty.channel.ChannelFutureListener;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.minecraftforge.common.util.Constants;
@@ -58,20 +59,54 @@ public class WarpWorldStorage extends WorldSavedData
   @Override
   public void readFromNBT(NBTTagCompound var1)
   {
-    table = NBTUtils.readHashMapFromNBT(var1.getTagList("data", Constants.NBT.TAG_COMPOUND), Waypoint.class);
-    HashMap<String, Waypoint> deathsNBT = NBTUtils.readHashMapFromNBT(var1.getTagList("deaths", Constants.NBT.TAG_COMPOUND), Waypoint.class);
-    for (Entry<String, Waypoint> death : deathsNBT.entrySet())
-      deaths.put(UUID.fromString(death.getKey()), death.getValue());
+    //UUID.fromString(death.getKey())
+    //Constants.NBT.TAG_COMPOUND
+    NBTTagList waypoints = var1.getTagList("waypoints", Constants.NBT.TAG_COMPOUND);
+    for (int i = 0; i < waypoints.tagCount(); ++i)
+    {
+      NBTTagCompound waypoint = waypoints.getCompoundTagAt(i);
+      table.put(waypoint.getString("name"),
+                new Waypoint(waypoint.getCompoundTag("data")));
+    }
+
+    NBTTagList deathsNBT = var1.getTagList("deaths", Constants.NBT.TAG_COMPOUND);
+    for (int i = 0; i < deathsNBT.tagCount(); ++i)
+    {
+      NBTTagCompound death = deathsNBT.getCompoundTagAt(i);
+      deaths.put(UUID.fromString(death.getString("uuid")),
+                 new Waypoint(death.getCompoundTag("data")));
+    }
   }
 
   @Override
   public void writeToNBT(NBTTagCompound var1)
   {
-    NBTUtils.writeHashMapToNBT(var1.getTagList("data", Constants.NBT.TAG_COMPOUND), table);
-    HashMap<String, Waypoint> deathsNBT = new HashMap<String, Waypoint>();
-    for (Entry<UUID, Waypoint> death : deaths.entrySet())
-      deathsNBT.put(death.getKey().toString(), death.getValue());
-    NBTUtils.writeHashMapToNBT(var1.getTagList("deaths", Constants.NBT.TAG_COMPOUND), deathsNBT);
+    NBTTagList waypoints = new NBTTagList();
+    for (Entry<String, Waypoint> waypointSource : table.entrySet())
+    {
+      NBTTagCompound waypoint = new NBTTagCompound();
+      waypoint.setString("name", waypointSource.getKey());
+      NBTTagCompound data = new NBTTagCompound();
+      waypointSource.getValue().writeToNBT(data);
+      waypoint.setTag("data", data);
+
+      waypoints.appendTag(waypoint);
+    }
+
+    NBTTagList deathsNBT = new NBTTagList();
+    for (Entry<UUID, Waypoint> deathSource : deaths.entrySet())
+    {
+      NBTTagCompound death = new NBTTagCompound();
+      death.setString("uuid", deathSource.getKey().toString());
+      NBTTagCompound data = new NBTTagCompound();
+      deathSource.getValue().writeToNBT(data);
+      death.setTag("data", data);
+      
+      deathsNBT.appendTag(death);
+    }
+
+    var1.setTag("waypoints", waypoints);
+    var1.setTag("deaths", deathsNBT);
   }
 
   void updateClient(EntityPlayerMP player, ServerConnectionFromClientEvent e)
@@ -125,5 +160,11 @@ public class WarpWorldStorage extends WorldSavedData
   public Waypoint getLastDeath(UUID id)
   {
     return deaths.get(id);
+  }
+
+  @Override
+  public boolean isDirty()
+  {
+    return true;
   }
 }
