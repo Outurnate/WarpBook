@@ -48,6 +48,18 @@ public class TileEntityBookClonerBlock extends BlockContainer
   {
     return 3;
   }
+  
+  @Override
+  public boolean isFullCube()
+  {
+    return false;
+  }
+
+  @Override
+  public boolean isOpaqueCube()
+  {
+    return false;
+  }
 
   @Override
   public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
