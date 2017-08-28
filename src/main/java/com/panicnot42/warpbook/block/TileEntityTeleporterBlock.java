@@ -1,5 +1,7 @@
 package com.panicnot42.warpbook.block;
 
+import javax.annotation.Nullable;
+
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.core.IDeclareWarp;
 import com.panicnot42.warpbook.tileentity.TileEntityTeleporter;
@@ -7,18 +9,20 @@ import com.panicnot42.warpbook.util.WorldUtils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,10 +33,10 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   
   public TileEntityTeleporterBlock()
   {
-    super(Material.iron);
+    super(Material.IRON);
     setUnlocalizedName("teleporter");
     setCreativeTab(WarpBookMod.tabBook);
-    setStepSound(soundTypeStone);
+    setSoundType(SoundType.STONE);
     setHardness(10.0f);
     setResistance(20.0f);
     setHarvestLevel("pickaxe", 2);
@@ -45,9 +49,9 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   }
 
   @Override
-  protected BlockState createBlockState()
+  protected BlockStateContainer createBlockState()
   {
-    return new BlockState(this, new IProperty[] { ACTIVE });
+    return new BlockStateContainer(this, new IProperty[] { ACTIVE });
   }
 
   @Override
@@ -63,7 +67,7 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   }
 
   @Override
-  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
+  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
   {
     if (!player.isSneaking())
     {
@@ -77,18 +81,18 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
         teleporter.SetPage(null);
         world.setBlockState(pos, state.withProperty(ACTIVE, false));
       }
-      else if (player.getHeldItem() != null &&
-               player.getHeldItem().getItem() instanceof IDeclareWarp &&
-               ((IDeclareWarp)player.getHeldItem().getItem()).WarpCloneable())
+      else if (player.getHeldItemMainhand() != null &&
+               player.getHeldItemMainhand().getItem() instanceof IDeclareWarp &&
+               ((IDeclareWarp)player.getHeldItemMainhand().getItem()).WarpCloneable())
       {
-        teleporter.SetPage(player.getHeldItem());
-        if (player.getHeldItem().stackSize < 1)
-          --player.getHeldItem().stackSize;
+        teleporter.SetPage(player.getHeldItemMainhand());
+        if (player.getHeldItemMainhand().stackSize < 1)
+          --player.getHeldItemMainhand().stackSize;
         else
           player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
         world.setBlockState(pos, state.withProperty(ACTIVE, true));
       }
-      world.markBlockForUpdate(pos);
+      //world.markBlockForUpdate(pos);
       teleporter.markDirty();
     }
     return true;
@@ -106,7 +110,7 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   }
 
   @Override
-  public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+  public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos)
   {
     float f = 0.0625F;
     return new AxisAlignedBB(pos.getX() + f,
@@ -119,7 +123,7 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   
   @Override
   @SideOnly(Side.CLIENT)
-  public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos)
+  public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
   {
     float f = 0.0625F;
     return new AxisAlignedBB(pos.getX() + f,
@@ -131,13 +135,13 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   }
   
   @Override
-  public boolean isFullCube()
+  public boolean isFullCube(IBlockState state)
   {
     return false;
   }
 
   @Override
-  public boolean isOpaqueCube()
+  public boolean isOpaqueCube(IBlockState state)
   {
     return false;
   }

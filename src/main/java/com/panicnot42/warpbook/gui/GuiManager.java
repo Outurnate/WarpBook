@@ -9,7 +9,7 @@ import com.panicnot42.warpbook.inventory.container.WarpBookSpecialInventory;
 import com.panicnot42.warpbook.tileentity.TileEntityBookCloner;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
@@ -20,7 +20,7 @@ public class GuiManager implements IGuiHandler
   {
     if (ID == WarpBookMod.WarpBookInventoryGuiIndex)
       return new WarpBookContainerItem(player, player.inventory,
-                                       new WarpBookInventoryItem(player.getHeldItem()), new WarpBookSpecialInventory(player.getHeldItem()));
+                                       new WarpBookInventoryItem(player.getHeldItemMainhand()), new WarpBookSpecialInventory(player.getHeldItemMainhand()));
     if (ID == WarpBookMod.BookClonerInventoryGuiIndex)
       return new BookClonerContainerItem(player, player.inventory,
                                          new BookClonerInventoryItem((TileEntityBookCloner)world.getTileEntity(new BlockPos(x, y, z))));
@@ -34,8 +34,8 @@ public class GuiManager implements IGuiHandler
       return new GuiBook(player);
     if (ID == WarpBookMod.WarpBookInventoryGuiIndex)
       return new GuiWarpBookItemInventory(new WarpBookContainerItem(player, player.inventory,
-                                                                    new WarpBookInventoryItem(player.getHeldItem()),
-                                                                    new WarpBookSpecialInventory(player.getHeldItem())));
+                                                                    new WarpBookInventoryItem(player.getHeldItemMainhand()),
+                                                                    new WarpBookSpecialInventory(player.getHeldItemMainhand())));
     if (ID == WarpBookMod.WarpBookWaypointGuiIndex)
       return new GuiWaypointName(player);
     if (ID == WarpBookMod.BookClonerInventoryGuiIndex)

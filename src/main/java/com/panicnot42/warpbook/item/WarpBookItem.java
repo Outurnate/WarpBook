@@ -11,6 +11,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,14 +32,14 @@ public class WarpBookItem extends Item
   }
 
   @Override
-  public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
+  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand)
   {
     WarpBookMod.lastHeldBooks.put(player, itemStack);
     if (player.isSneaking())
       player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookInventoryGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
     else
       player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWarpGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
-    return itemStack;
+    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStack);
   }
 
   @SuppressWarnings("unchecked")

@@ -17,7 +17,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.PlayerList;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -49,7 +54,7 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
       return null;
     UUID playerID = UUID.fromString(stack.getTagCompound().getString("playeruuid"));
     EntityPlayerMP playerTo = null;
-    List<EntityPlayerMP> allPlayers = MinecraftServer.getServer().getConfigurationManager().playerEntityList;
+    List<EntityPlayerMP> allPlayers = player.getServer().getPlayerList().getPlayerList();
     for (EntityPlayerMP playerS : allPlayers)
       if (playerS.getUniqueID().equals(playerID))
         playerTo = playerS;
@@ -63,7 +68,7 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
   }
 
   @Override
-  public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
+  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World worldIn, EntityPlayer player, EnumHand hand)
   {
     if (player.isSneaking())
     {
@@ -76,7 +81,7 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
       if (!player.capabilities.isCreativeMode)
         --itemStack.stackSize;
     }
-    return itemStack;
+    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStack);
   }
 
   @SuppressWarnings("unchecked")

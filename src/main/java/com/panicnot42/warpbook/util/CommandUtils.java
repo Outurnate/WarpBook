@@ -2,9 +2,9 @@ package com.panicnot42.warpbook.util;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 public class CommandUtils
 {
@@ -13,27 +13,27 @@ public class CommandUtils
     TYPE_int, TYPE_player
   };
 
-  private static final ChatStyle errorStyle;
-  private static final ChatStyle usageStyle;
-  private static final ChatStyle infoStyle;
+  private static final Style errorStyle;
+  private static final Style usageStyle;
+  private static final Style infoStyle;
 
   static
   {
-    errorStyle = new ChatStyle();
-    errorStyle.setColor(EnumChatFormatting.RED);
+    errorStyle = new Style();
+    errorStyle.setColor(TextFormatting.RED);
 
-    usageStyle = new ChatStyle();
-    usageStyle.setColor(EnumChatFormatting.YELLOW);
+    usageStyle = new Style();
+    usageStyle.setColor(TextFormatting.YELLOW);
 
-    infoStyle = new ChatStyle();
-    infoStyle.setColor(EnumChatFormatting.WHITE);
+    infoStyle = new Style();
+    infoStyle.setColor(TextFormatting.WHITE);
   }
 
   public static void printUsage(ICommandSender sender, CommandBase createWaypointCommand)
   {
-    ChatComponentText prefix = new ChatComponentText("Usage:"), usage = new ChatComponentText(createWaypointCommand.getCommandUsage(sender));
-    prefix.setChatStyle(usageStyle);
-    usage.setChatStyle(usageStyle);
+    TextComponentString prefix = new TextComponentString("Usage:"), usage = new TextComponentString(createWaypointCommand.getCommandUsage(sender));
+    prefix.setStyle(usageStyle);
+    usage.setStyle(usageStyle);
     sender.addChatMessage(prefix);
     sender.addChatMessage(usage);
   }
@@ -45,8 +45,8 @@ public class CommandUtils
 
   public static void showError(ICommandSender sender, String message)
   {
-    ChatComponentText text = new ChatComponentText(message);
-    text.setChatStyle(errorStyle);
+	TextComponentString text = new TextComponentString(message);
+    text.setStyle(errorStyle);
     sender.addChatMessage(text);
   }
 
@@ -78,8 +78,8 @@ public class CommandUtils
 
   public static void info(ICommandSender sender, String message)
   {
-    ChatComponentText text = new ChatComponentText(message);
-    text.setChatStyle(infoStyle);
+	TextComponentString text = new TextComponentString(message);
+    text.setStyle(infoStyle);
     sender.addChatMessage(text);
   }
 }

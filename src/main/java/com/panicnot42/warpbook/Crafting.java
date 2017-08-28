@@ -20,31 +20,31 @@ public class Crafting
     RecipeSorter.register("warpbook:shapeless_page", WarpPageShapeless.class, Category.SHAPELESS, "after:minecraft:shapeless");
     
     GameRegistry.addShapelessRecipe(new ItemStack(WarpBookMod.items.unboundWarpPageItem, 1),
-                                    new ItemStack(Items.ender_pearl, 1),
-                                    new ItemStack(Items.paper, 1));
+                                    new ItemStack(Items.ENDER_PEARL, 1),
+                                    new ItemStack(Items.PAPER, 1));
     GameRegistry.addShapelessRecipe(new ItemStack(WarpBookMod.items.warpBookItem, 1),
-                                    new ItemStack(Items.ender_pearl, 1),
-                                    new ItemStack(Items.book, 1));
+                                    new ItemStack(Items.ENDER_PEARL, 1),
+                                    new ItemStack(Items.BOOK, 1));
     GameRegistry.addShapelessRecipe(new ItemStack(WarpBookMod.items.potatoWarpPageItem, 1),
-                                    new ItemStack(Items.potato, 1),
-                                    new ItemStack(Items.paper, 1));
+                                    new ItemStack(Items.POTATO, 1),
+                                    new ItemStack(Items.PAPER, 1));
     GameRegistry.addShapelessRecipe(new ItemStack(WarpBookMod.items.deathlyWarpPageItem, 1),
                                     new ItemStack(WarpBookMod.items.unboundWarpPageItem, 1),
-                                    new ItemStack(Items.iron_ingot, 1));
+                                    new ItemStack(Items.IRON_INGOT, 1));
 
     GameRegistry.addRecipe(new ItemStack(WarpBookMod.blocks.bookCloner, 1),
                            "isi",
                            "sws",
                            "isi",
-                           'i', new ItemStack(Items.iron_ingot, 1),
-                           's', new ItemStack(Blocks.bookshelf, 1),
+                           'i', new ItemStack(Items.IRON_INGOT, 1),
+                           's', new ItemStack(Blocks.BOOKSHELF, 1),
                            'w', new ItemStack(WarpBookMod.items.warpBookItem, 1));
     GameRegistry.addRecipe(new ItemStack(WarpBookMod.blocks.teleporter, 1),
                            "bsb",
                            "coc",
                            "bsb",
-                           'b', new ItemStack(Blocks.iron_block, 1),
-                           's', new ItemStack(Blocks.bookshelf, 1),
+                           'b', new ItemStack(Blocks.IRON_BLOCK, 1),
+                           's', new ItemStack(Blocks.BOOKSHELF, 1),
                            'c', new ItemStack(WarpBookMod.blocks.bookCloner, 1),
                            'o', new ItemStack(WarpBookMod.items.warpBookItem, 1));
     

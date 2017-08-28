@@ -8,7 +8,8 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.StatCollector;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.translation.I18n;
 
 public class CreateWaypointCommand extends CommandBase
 {
@@ -25,7 +26,7 @@ public class CreateWaypointCommand extends CommandBase
   }
   
   @Override
-  public void processCommand(ICommandSender var1, String[] var2) throws CommandException
+  public void execute(MinecraftServer server, ICommandSender var1, String[] var2) throws CommandException
   {
     if (var2.length < 6)
     {
@@ -38,7 +39,7 @@ public class CreateWaypointCommand extends CommandBase
       Waypoint wp = new Waypoint(CommandUtils.stringConcat(var2, 5), var2[0], 0, 0, 0, 0);//TODO CommandBase.parseInt(var1, var2[1]), CommandBase.parseInt(var1, var2[2]), CommandBase.parseInt(var1, var2[3]),
       //    CommandBase.parseInt(var1, var2[4]));
       storage.addWaypoint(wp);
-      CommandUtils.info(var1, StatCollector.translateToLocal("help.waypointcreated").trim());
+      CommandUtils.info(var1, I18n.translateToLocal("help.waypointcreated").trim());
     }
     catch (Exception e)
     {

@@ -13,7 +13,8 @@ import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.StatCollector;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.translation.I18n;
 
 public class GiveWarpCommand extends CommandBase
 {
@@ -30,7 +31,7 @@ public class GiveWarpCommand extends CommandBase
   }
 
   @Override
-  public void processCommand(ICommandSender var1, String[] var2) throws CommandException
+  public void execute(MinecraftServer server, ICommandSender var1, String[] var2) throws CommandException
   {
     WarpWorldStorage storage = WarpWorldStorage.get(var1.getEntityWorld());
     String name;
@@ -43,7 +44,7 @@ public class GiveWarpCommand extends CommandBase
           player = (EntityPlayer)var1;
         else
         {
-          CommandUtils.showError(var1, StatCollector.translateToLocal("help.noplayerspecified").trim());
+          CommandUtils.showError(var1, I18n.translateToLocal("help.noplayerspecified").trim());
           return;
         }
         break;
@@ -51,7 +52,7 @@ public class GiveWarpCommand extends CommandBase
         name = var2[0];
         try
         {
-          player = CommandBase.getPlayer(var1, var2[1]);
+          player = CommandBase.getPlayer(server, var1, var2[1]);
         }
         catch (PlayerNotFoundException e)
         {
@@ -65,7 +66,7 @@ public class GiveWarpCommand extends CommandBase
     }
     if (!storage.waypointExists(name))
     {
-      CommandUtils.showError(var1, String.format(StatCollector.translateToLocal("help.waypointdoesnotexist").trim(), name));
+      CommandUtils.showError(var1, String.format(I18n.translateToLocal("help.waypointdoesnotexist").trim(), name));
       return;
     }
     ItemStack hyperStack = new ItemStack(WarpBookMod.items.hyperWarpPageItem);

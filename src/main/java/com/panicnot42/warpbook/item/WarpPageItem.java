@@ -10,7 +10,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,7 +34,7 @@ public class WarpPageItem extends Item
   }
 
   @Override
-  public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
+  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand)
   {
     ItemStack newStack;
     switch (itemStack.getItemDamage())
@@ -59,7 +61,7 @@ public class WarpPageItem extends Item
     }
     if (itemStack.hasTagCompound())
       newStack.setTagCompound(itemStack.getTagCompound());
-    return newStack;
+    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, newStack);
   }
 
   @SuppressWarnings("unchecked")

@@ -5,9 +5,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class TileEntityTeleporter extends TileEntity
@@ -19,15 +19,15 @@ public class TileEntityTeleporter extends TileEntity
   }
 
   @Override
-  public Packet getDescriptionPacket()
+  public SPacketUpdateTileEntity getUpdatePacket()
   {
     NBTTagCompound syncData = new NBTTagCompound();
     this.write(syncData);
-    return new S35PacketUpdateTileEntity(this.pos, 1, syncData);
+    return new SPacketUpdateTileEntity(this.pos, 1, syncData);
   }
 
   @Override
-  public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+  public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
   {
     read(pkt.getNbtCompound());
   }
@@ -40,10 +40,11 @@ public class TileEntityTeleporter extends TileEntity
   }
     
   @Override
-  public void writeToNBT(NBTTagCompound tag)
+  public NBTTagCompound writeToNBT(NBTTagCompound tag)
   {
     super.writeToNBT(tag);
     write(tag);
+    return tag;
   }
 
   private void read(NBTTagCompound tag)

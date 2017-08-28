@@ -60,8 +60,8 @@ public class GuiBook extends GuiScreen
     xSize = 146;
     ySize = 180;
     page = 0;
-    if (!entityPlayer.getHeldItem().hasTagCompound()) entityPlayer.getHeldItem().setTagCompound(new NBTTagCompound());
-    items = entityPlayer.getHeldItem().getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
+    if (!entityPlayer.getHeldItemMainhand().hasTagCompound()) entityPlayer.getHeldItemMainhand().setTagCompound(new NBTTagCompound());
+    items = entityPlayer.getHeldItemMainhand().getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
     if (items.tagCount() == 0)
     {
       CommandUtils.showError(entityPlayer, I18n.format("help.nopages"));

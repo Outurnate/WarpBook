@@ -27,7 +27,7 @@ public class TileEntityBookCloner extends TileEntity
   }
     
   @Override
-  public void writeToNBT(NBTTagCompound tag)
+  public NBTTagCompound writeToNBT(NBTTagCompound tag)
   {
     super.writeToNBT(tag);
     if (pages != null)
@@ -36,6 +36,8 @@ public class TileEntityBookCloner extends TileEntity
       tag.setTag("books",   books.writeToNBT(new NBTTagCompound()));
     if (result != null)
       tag.setTag("result", result.writeToNBT(new NBTTagCompound()));
+    
+    return tag;
   }
 
   public ItemStack getPages()

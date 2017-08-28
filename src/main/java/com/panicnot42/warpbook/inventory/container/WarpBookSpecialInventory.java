@@ -5,11 +5,11 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
 
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.item.WarpPageItem;
-import net.minecraft.util.IChatComponent;
 
 public class WarpBookSpecialInventory implements IInventory
 {
@@ -18,7 +18,7 @@ public class WarpBookSpecialInventory implements IInventory
   public WarpBookSpecialInventory(ItemStack heldItem)
   {
     int deaths = WarpBookItem.getRespawnsLeft(heldItem), damage = WarpBookItem.getFuelLeft(heldItem);
-    fuel = damage == 0 ? null : new ItemStack(Items.ender_pearl, damage);
+    fuel = damage == 0 ? null : new ItemStack(Items.ENDER_PEARL, damage);
     deathly = deaths == 0 ? null : new ItemStack(WarpBookMod.items.deathlyWarpPageItem, deaths);
     this.heldItem = heldItem;
   }
@@ -92,15 +92,15 @@ public class WarpBookSpecialInventory implements IInventory
     return true;
   }
 
-    @Override
-    public void openInventory(EntityPlayer player) {
+  @Override
+  public void openInventory(EntityPlayer player)
+  {
+  }
 
-    }
-
-    @Override
-    public void closeInventory(EntityPlayer player) {
-
-    }
+  @Override
+  public void closeInventory(EntityPlayer player)
+  {
+  }
 
   @Override
   public boolean isItemValidForSlot(int slot, ItemStack itemStack)
@@ -108,38 +108,43 @@ public class WarpBookSpecialInventory implements IInventory
     return slot == 0 ? itemStack.getItem() instanceof ItemEnderPearl : itemStack.getItem() instanceof WarpPageItem && itemStack.getItemDamage() == 3;
   }
 
-    @Override
-    public int getField(int id) {
-        return 0;
-    }
+  @Override
+  public int getField(int id)
+  {
+    return 0;
+  }
 
-    @Override
-    public void setField(int id, int value) {
+  @Override
+  public void setField(int id, int value)
+  {
+  }
 
-    }
+  @Override
+  public int getFieldCount()
+  {
+    return 0;
+  }
 
-    @Override
-    public int getFieldCount() {
-        return 0;
-    }
+  @Override
+  public void clear()
+  {
+  }
 
-    @Override
-    public void clear() {
+  @Override
+  public String getName()
+  {
+    return null;
+  }
 
-    }
+  @Override
+  public boolean hasCustomName()
+  {
+    return false;
+  }
 
-    @Override
-    public String getName() {
-        return null;
-    }
-
-    @Override
-    public boolean hasCustomName() {
-        return false;
-    }
-
-    @Override
-    public IChatComponent getDisplayName() {
-        return null;
-    }
+  @Override
+  public ITextComponent getDisplayName()
+  {
+    return null;
+  }
 }

@@ -138,7 +138,7 @@ public class WarpBookMod
   @Mod.EventHandler
   public void serverStarting(FMLServerStartingEvent event)
   {
-    ServerCommandManager manager = ((ServerCommandManager)MinecraftServer.getServer().getCommandManager());
+    ServerCommandManager manager = ((ServerCommandManager)event.getServer().getCommandManager());
     manager.registerCommand(new CreateWaypointCommand());
     manager.registerCommand(new ListWaypointCommand());
     manager.registerCommand(new DeleteWaypointCommand());
@@ -148,10 +148,10 @@ public class WarpBookMod
   @SubscribeEvent
   public void onHurt(LivingHurtEvent event)
   {
-    if (WarpBookMod.deathPagesEnabled && event.entity instanceof EntityPlayer)
+    if (WarpBookMod.deathPagesEnabled && event.getEntity() instanceof EntityPlayer)
     {
-      EntityPlayer player = (EntityPlayer)event.entity;
-      if (event.source != DamageSource.outOfWorld && player.getHealth() <= event.ammount)
+      EntityPlayer player = (EntityPlayer)event.getEntity();
+      if (event.getSource() != DamageSource.outOfWorld && player.getHealth() <= event.getAmount())
         for (ItemStack item : player.inventory.mainInventory)
           if (item != null && item.getItem() instanceof WarpBookItem && WarpBookItem.getRespawnsLeft(item) > 0)
           {

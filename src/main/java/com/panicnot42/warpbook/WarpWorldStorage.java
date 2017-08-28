@@ -44,9 +44,9 @@ public class WarpWorldStorage extends WorldSavedData
 
   public static WarpWorldStorage get(World world)
   {
-    if (world.getMapStorage().loadData(WarpWorldStorage.class, IDENTIFIER) == null)
+    if (world.getMapStorage().getOrLoadData(WarpWorldStorage.class, IDENTIFIER) == null)
       world.getMapStorage().setData(IDENTIFIER, new WarpWorldStorage(IDENTIFIER));
-    WarpWorldStorage storage = (WarpWorldStorage)world.getMapStorage().loadData(WarpWorldStorage.class, IDENTIFIER);
+    WarpWorldStorage storage = (WarpWorldStorage)world.getMapStorage().getOrLoadData(WarpWorldStorage.class, IDENTIFIER);
     return storage;
   }
 
@@ -79,7 +79,7 @@ public class WarpWorldStorage extends WorldSavedData
   }
 
   @Override
-  public void writeToNBT(NBTTagCompound var1)
+  public NBTTagCompound writeToNBT(NBTTagCompound var1)
   {
     NBTTagList waypoints = new NBTTagList();
     for (Entry<String, Waypoint> waypointSource : table.entrySet())
@@ -107,13 +107,15 @@ public class WarpWorldStorage extends WorldSavedData
 
     var1.setTag("waypoints", waypoints);
     var1.setTag("deaths", deathsNBT);
+    
+    return var1;
   }
 
   void updateClient(EntityPlayerMP player, ServerConnectionFromClientEvent e)
   {
     FMLEmbeddedChannel channel = NetworkRegistry.INSTANCE.getChannel(Properties.modid, Side.SERVER);
     channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DISPATCHER);
-    channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(NetworkDispatcher.get(e.manager));
+    channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(NetworkDispatcher.get(e.getManager()));
     channel.writeAndFlush(new PacketSyncWaypoints(table)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
   }
 

@@ -10,7 +10,8 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.StatCollector;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.translation.I18n;
 
 public class ListWaypointCommand extends CommandBase
 {
@@ -27,7 +28,7 @@ public class ListWaypointCommand extends CommandBase
   }
   
   @Override
-  public void processCommand(ICommandSender var1, String[] var2) throws CommandException
+  public void execute(MinecraftServer server, ICommandSender var1, String[] var2) throws CommandException
   {
     WarpWorldStorage storage = WarpWorldStorage.get(var1.getEntityWorld());
     int page;
@@ -37,7 +38,7 @@ public class ListWaypointCommand extends CommandBase
       List<String> wps = new ArrayList<String>(storage.listWaypoints());
       if (wps.size() == 0)
       {
-        CommandUtils.showError(var1, StatCollector.translateToLocal("help.nowaypointsfound").trim());
+        CommandUtils.showError(var1, I18n.translateToLocal("help.nowaypointsfound").trim());
         return;
       }
       CommandUtils.info(var1, String.format("-- Page %d --", page));
