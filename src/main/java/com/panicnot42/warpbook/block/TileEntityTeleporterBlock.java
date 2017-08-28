@@ -23,12 +23,14 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityTeleporterBlock extends Block implements ITileEntityProvider
 {
+  protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0625F, 0, 0.0625F, 0.9375F, 0.0625F, 0.9375F);
   public static final PropertyBool ACTIVE = PropertyBool.create("active");
   
   public TileEntityTeleporterBlock()
@@ -108,42 +110,10 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
         WarpBookMod.warpDrive.handleWarp((EntityPlayer)entityIn, page);
     }
   }
-
-  @Override
-  public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos)
-  {
-    float f = 0.0625F;
-    return new AxisAlignedBB(pos.getX() + f,
-                             pos.getY(),
-                             pos.getZ() + f,
-                             pos.getX() + 1 - f,
-                             pos.getY() + f,
-                             pos.getZ() + 1 - f);
-  }
   
-  @Override
-  @SideOnly(Side.CLIENT)
-  public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
+  public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
   {
-    float f = 0.0625F;
-    return new AxisAlignedBB(pos.getX() + f,
-                             pos.getY(),
-                             pos.getZ() + f,
-                             pos.getX() + 1 - f,
-                             pos.getY() + f,
-                             pos.getZ() + 1 - f);
-  }
-  
-  @Override
-  public boolean isFullCube(IBlockState state)
-  {
-    return false;
-  }
-
-  @Override
-  public boolean isOpaqueCube(IBlockState state)
-  {
-    return false;
+    return AABB;
   }
 
   @Override

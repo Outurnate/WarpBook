@@ -19,12 +19,15 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityBookClonerBlock extends BlockContainer
 {
+  protected static final AxisAlignedBB AABB = new AxisAlignedBB(0, 0, 0, 1, 0.75, 1);
+  
   public TileEntityBookClonerBlock()
   {
     super(Material.IRON);
@@ -55,39 +58,9 @@ public class TileEntityBookClonerBlock extends BlockContainer
     return EnumBlockRenderType.MODEL;
   }
   
-  @Override
-  public boolean isFullCube(IBlockState state)
+  public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
   {
-    return false;
-  }
-
-  @Override
-  public boolean isOpaqueCube(IBlockState state)
-  {
-    return false;
-  }
-
-  @Override
-  public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World worldIn, BlockPos pos)
-  {
-    return new AxisAlignedBB(pos.getX(),
-                             pos.getY(),
-                             pos.getZ(),
-                             pos.getX() + 1,
-                             pos.getY() + 0.75f,
-                             pos.getZ() + 1);
-  }
-  
-  @Override
-  @SideOnly(Side.CLIENT)
-  public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
-  {
-    return new AxisAlignedBB(pos.getX(),
-                             pos.getY(),
-                             pos.getZ(),
-                             pos.getX() + 1,
-                             pos.getY() + 0.75f,
-                             pos.getZ() + 1);
+    return AABB;
   }
 
   @Override
