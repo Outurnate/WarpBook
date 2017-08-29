@@ -18,7 +18,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
 import net.minecraftforge.fml.common.network.FMLOutboundHandler;
@@ -59,14 +61,12 @@ public class WarpWorldStorage extends WorldSavedData
   @Override
   public void readFromNBT(NBTTagCompound var1)
   {
-    //UUID.fromString(death.getKey())
-    //Constants.NBT.TAG_COMPOUND
     NBTTagList waypoints = var1.getTagList("waypoints", Constants.NBT.TAG_COMPOUND);
     for (int i = 0; i < waypoints.tagCount(); ++i)
     {
       NBTTagCompound waypoint = waypoints.getCompoundTagAt(i);
       table.put(waypoint.getString("name"),
-                new Waypoint(waypoint.getCompoundTag("data")));
+        new Waypoint(waypoint.getCompoundTag("data")));
     }
 
     NBTTagList deathsNBT = var1.getTagList("deaths", Constants.NBT.TAG_COMPOUND);
@@ -74,7 +74,7 @@ public class WarpWorldStorage extends WorldSavedData
     {
       NBTTagCompound death = deathsNBT.getCompoundTagAt(i);
       deaths.put(UUID.fromString(death.getString("uuid")),
-                 new Waypoint(death.getCompoundTag("data")));
+        new Waypoint(death.getCompoundTag("data")));
     }
   }
 
@@ -109,14 +109,6 @@ public class WarpWorldStorage extends WorldSavedData
     var1.setTag("deaths", deathsNBT);
     
     return var1;
-  }
-
-  void updateClient(EntityPlayerMP player, ServerConnectionFromClientEvent e)
-  {
-    FMLEmbeddedChannel channel = NetworkRegistry.INSTANCE.getChannel(Properties.modid, Side.SERVER);
-    channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DISPATCHER);
-    channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(NetworkDispatcher.get(e.getManager()));
-    channel.writeAndFlush(new PacketSyncWaypoints(table)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
   }
 
   public boolean waypointExists(String name)

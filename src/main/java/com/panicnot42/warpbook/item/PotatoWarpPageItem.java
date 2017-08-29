@@ -10,6 +10,9 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -28,11 +31,12 @@ public class PotatoWarpPageItem extends Item implements IDeclareWarp
     return 1;
   }
 
-  public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
+  @Override
+  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand)
   {
     itemStack = new ItemStack(GameRegistry.findItem("minecraft", "poisonous_potato"), 1);
     WarpBookMod.warpDrive.goFullPotato(player, itemStack);
-    return itemStack;
+    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStack);
   }
 
   @Override

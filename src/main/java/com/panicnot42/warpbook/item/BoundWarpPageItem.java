@@ -11,6 +11,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -38,19 +41,24 @@ public class BoundWarpPageItem extends Item implements IDeclareWarp
     page.getTagCompound().setInteger("dim", dim);
   }
 
-  public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
+  @Override
+  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand)
   {
+	ItemStack item = null;
     if (player.isSneaking())
     {
-      itemStack.setItem(WarpBookMod.items.unboundWarpPageItem);
+      item = new ItemStack(WarpBookMod.items.unboundWarpPageItem, itemStack.stackSize);
     }
     else
     {
       WarpBookMod.warpDrive.handleWarp(player, itemStack);
       if (!player.capabilities.isCreativeMode)
-        --itemStack.stackSize;
+      {
+        item = new ItemStack(itemStack.getItem(), itemStack.stackSize - 1);
+        item.setTagCompound(itemStack.getTagCompound());
+      }
     }
-    return itemStack;
+    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, item);
   }
 
   @Override

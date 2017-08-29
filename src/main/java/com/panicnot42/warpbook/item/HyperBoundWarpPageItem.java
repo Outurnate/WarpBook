@@ -10,6 +10,10 @@ import com.panicnot42.warpbook.util.Waypoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -41,15 +45,19 @@ public class HyperBoundWarpPageItem extends Item implements IDeclareWarp
     return storage.getWaypoint(stack.getTagCompound().getString("hypername"));
   }
 
-  public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
+  @Override
+  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand)
   {
     if (!player.isSneaking())
     {
       WarpBookMod.warpDrive.handleWarp(player, itemStack);
       if (!player.capabilities.isCreativeMode)
         --itemStack.stackSize;
+      
+      return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStack);
     }
-    return itemStack;
+    
+    return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
   }
 
   @SuppressWarnings("unchecked")
@@ -61,7 +69,6 @@ public class HyperBoundWarpPageItem extends Item implements IDeclareWarp
     {
       String name = item.getTagCompound().getString("hypername");
       list.add(name);
-      list.add(WarpWorldStorage.get(player.worldObj).getWaypoint(name).friendlyName);
     }
   }
   

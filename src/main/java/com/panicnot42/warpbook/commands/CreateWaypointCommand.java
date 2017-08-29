@@ -26,27 +26,25 @@ public class CreateWaypointCommand extends CommandBase
   }
   
   @Override
-  public void execute(MinecraftServer server, ICommandSender var1, String[] var2) throws CommandException
+  public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
   {
-    if (var2.length < 6)
+    if (args.length < 6)
     {
-      CommandUtils.printUsage(var1, this);
+      CommandUtils.printUsage(sender, this);
       return;
     }
-    WarpWorldStorage storage = WarpWorldStorage.get(var1.getEntityWorld());
+    WarpWorldStorage storage = WarpWorldStorage.get(sender.getEntityWorld());
     try
     {
-      Waypoint wp = new Waypoint(CommandUtils.stringConcat(var2, 5), var2[0], 0, 0, 0, 0);//TODO CommandBase.parseInt(var1, var2[1]), CommandBase.parseInt(var1, var2[2]), CommandBase.parseInt(var1, var2[3]),
-      //    CommandBase.parseInt(var1, var2[4]));
+      Waypoint wp = new Waypoint(CommandUtils.stringConcat(args, 5), args[0], CommandBase.parseInt(args[1]), CommandBase.parseInt(args[2]), CommandBase.parseInt(args[3]), CommandBase.parseInt(args[4]));
       storage.addWaypoint(wp);
-      CommandUtils.info(var1, I18n.translateToLocal("help.waypointcreated").trim());
+      CommandUtils.info(sender, I18n.translateToLocal("help.waypointcreated").trim());
     }
     catch (Exception e)
     {
-      CommandUtils.printUsage(var1, this);
-//      CommandUtils.showError(var1, CommandUtils.ChatType.TYPE_int, ((String)e.getErrorOjbects()[0]));
+      CommandUtils.printUsage(sender, this);
     }
-    storage.save(var1.getEntityWorld());
+    storage.save(sender.getEntityWorld());
   }
   
   public int compareTo(ICommand command)

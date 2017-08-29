@@ -7,6 +7,7 @@ import java.util.UUID;
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.WarpWorldStorage;
 import com.panicnot42.warpbook.core.IDeclareWarp;
+import com.panicnot42.warpbook.util.CommandUtils;
 import com.panicnot42.warpbook.util.MathUtils;
 import com.panicnot42.warpbook.util.Waypoint;
 
@@ -70,18 +71,31 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
   @Override
   public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World worldIn, EntityPlayer player, EnumHand hand)
   {
+    ItemStack item = null;
     if (player.isSneaking())
     {
-      itemStack.setItem(WarpBookMod.items.unboundWarpPageItem);
-      itemStack.setTagCompound(new NBTTagCompound());
+      item = new ItemStack(WarpBookMod.items.unboundWarpPageItem, itemStack.stackSize);
     }
     else
     {
-      WarpBookMod.warpDrive.handleWarp(player, itemStack);
+      if (player.getUniqueID().compareTo(UUID.fromString(itemStack.getTagCompound().getString("playeruuid"))) == 0)
+      {
+        if (!worldIn.isRemote)
+          CommandUtils.showError(player, I18n.format("help.selfaport"));
+      }
+      else
+        WarpBookMod.warpDrive.handleWarp(player, itemStack);
+      
       if (!player.capabilities.isCreativeMode)
-        --itemStack.stackSize;
+      {
+        item = new ItemStack(itemStack.getItem(), itemStack.stackSize - 1);
+        item.setTagCompound(itemStack.getTagCompound());
+      }
+      else
+        item = itemStack;
     }
-    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStack);
+    
+    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, item);
   }
 
   @SuppressWarnings("unchecked")
