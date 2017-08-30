@@ -71,7 +71,7 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   @Override
   public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
   {
-    if (!player.isSneaking())
+    if (player.isSneaking())
     {
       TileEntityTeleporter teleporter = (TileEntityTeleporter)world.getTileEntity(pos);
       if (state.getValue(ACTIVE))
@@ -111,9 +111,28 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
     }
   }
   
+  @Override
   public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
   {
     return AABB;
+  }
+
+  @Override
+  public boolean isOpaqueCube(IBlockState state)
+  {
+	return false;
+  }
+
+  @Override
+  public boolean isFullCube(IBlockState state)
+  {
+    return false;
+  }
+
+  @Override
+  public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
+  {
+    return true;
   }
 
   @Override
