@@ -23,10 +23,10 @@ archivesBaseName = "warpbook"
 
 minecraft
 {
-    version = "1.9.4-12.17.0.1976"
+    version = "1.10.2-12.18.3.2422"
     runDir = "run"
 
-    mappings = "snapshot_20160518"
+    mappings = "snapshot_20161111"
     
     replaceIn "com/panicnot42/warpbook/Properties.java"
     replace "@VERSION@", rootProject.version
