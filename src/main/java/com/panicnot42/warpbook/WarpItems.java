@@ -11,6 +11,7 @@ import com.panicnot42.warpbook.item.WarpFuelItem;
 import com.panicnot42.warpbook.item.WarpPageItem;
 import com.panicnot42.warpbook.item.WarpPrintingPlateItem;
 
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class WarpItems
@@ -40,6 +41,7 @@ public class WarpItems
     legacyPageItem = new WarpPageItem("warppage");
   }
 
+  @SubscribeEvent
   public void Register()
   {
     GameRegistry.registerItem(warpBookItem, "warpbook");
@@ -49,8 +51,9 @@ public class WarpItems
     GameRegistry.registerItem(unboundWarpPageItem, "unboundwarppage");
     GameRegistry.registerItem(potatoWarpPageItem, "potatowarppage");
     GameRegistry.registerItem(deathlyWarpPageItem, "deathlywarppage");
-    GameRegistry.registerItem(warpFuelItem, "warpfuel");
     GameRegistry.registerItem(warpPrintingPlateItem, "warpplate");
     GameRegistry.registerItem(legacyPageItem, "warppage");
+    if (WarpBookMod.fuelEnabled)
+      GameRegistry.registerItem(warpFuelItem, "warpfuel");
   }
 }
