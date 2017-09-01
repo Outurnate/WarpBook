@@ -1,5 +1,7 @@
 package com.panicnot42.warpbook.block;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import com.panicnot42.warpbook.WarpBookMod;
@@ -16,6 +18,7 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -30,7 +33,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityTeleporterBlock extends Block implements ITileEntityProvider
 {
-  protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0625F, 0, 0.0625F, 0.9375F, 0.0625F, 0.9375F);
+  protected static final AxisAlignedBB AABB         = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.0625D, 0.9375D);
+  protected static final AxisAlignedBB TRIGGER_AABB = new AxisAlignedBB(0.125D,  0.0D, 0.125D,  0.875D,  0.25D,   0.875D);
   public static final PropertyBool ACTIVE = PropertyBool.create("active");
   
   public TileEntityTeleporterBlock()
@@ -71,7 +75,7 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   @Override
   public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
   {
-    if (player.isSneaking())
+    if (!player.isSneaking())
     {
       TileEntityTeleporter teleporter = (TileEntityTeleporter)world.getTileEntity(pos);
       if (state.getValue(ACTIVE))
@@ -94,7 +98,6 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
           player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
         world.setBlockState(pos, state.withProperty(ACTIVE, true));
       }
-      //world.markBlockForUpdate(pos);
       teleporter.markDirty();
     }
     return true;
@@ -103,7 +106,7 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   @Override
   public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
   {
-    if (entityIn instanceof EntityPlayer)
+    if (!worldIn.<Entity>getEntitiesWithinAABB(EntityPlayer.class, TRIGGER_AABB.offset(pos)).isEmpty())
     {
       ItemStack page = ((TileEntityTeleporter)worldIn.getTileEntity(pos)).GetPage();
       if (page != null)
