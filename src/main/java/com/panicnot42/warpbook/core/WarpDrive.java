@@ -67,7 +67,6 @@ public class WarpDrive
         else
           player.setPositionAndUpdate(wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
       }
-      player.addExhaustion(calculateExhaustion(player.getEntityWorld().getDifficulty(), WarpBookMod.exhaustionCoefficient, crossDim));
       WarpBookMod.network.sendToAllAround(oldDim, oldPoint);
       WarpBookMod.network.sendToAllAround(newDim, newPoint);
     }
