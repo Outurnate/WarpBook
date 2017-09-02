@@ -14,13 +14,13 @@ import net.minecraft.util.text.translation.I18n;
 public class CreateWaypointCommand extends CommandBase
 {
   @Override
-  public String getCommandName()
+  public String getName()
   {
     return "waypoint";
   }
 
   @Override
-  public String getCommandUsage(ICommandSender var1)
+  public String getUsage(ICommandSender sender)
   {
     return "/waypoint id x y z dim description";
   }
@@ -49,6 +49,6 @@ public class CreateWaypointCommand extends CommandBase
   
   public int compareTo(ICommand command)
   {
-    return this.getCommandName().compareTo(command.getCommandName());
+    return this.getName().compareTo(command.getName());
   }
 }

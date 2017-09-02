@@ -21,9 +21,9 @@ public class TileEntityBookCloner extends TileEntity
   public void readFromNBT(NBTTagCompound tag)
   {
     super.readFromNBT(tag);
-    pages  = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("pages"));
-    books  = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("books"));
-    result = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("result"));
+    pages  = new ItemStack(tag.getCompoundTag("pages"));
+    books  = new ItemStack(tag.getCompoundTag("books"));
+    result = new ItemStack(tag.getCompoundTag("result"));
   }
     
   @Override
@@ -78,10 +78,10 @@ public class TileEntityBookCloner extends TileEntity
     if (pages != null && books != null && result == null && books.hasTagCompound())
     {
       int cost = WarpBookItem.getCopyCost(books);
-      if (pages.stackSize >= cost)
+      if (pages.getCount() >= cost)
       {
-        pages.stackSize -= cost;
-        if (pages.stackSize == 0)
+        pages.setCount(pages.getCount() - cost);
+        if (pages.getCount() == 0)
           pages = null;
         result = WarpPrintingPlateItem.print(books);
       }

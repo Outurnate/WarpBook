@@ -5,25 +5,18 @@ import com.panicnot42.warpbook.block.TileEntityTeleporterBlock;
 import com.panicnot42.warpbook.tileentity.TileEntityBookCloner;
 import com.panicnot42.warpbook.tileentity.TileEntityTeleporter;
 
+import net.minecraft.block.Block;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
+@ObjectHolder("warpbook")
 public class WarpBlocks
 {
-  public static TileEntityBookClonerBlock bookCloner;
-  public static TileEntityTeleporterBlock teleporter;
+  @ObjectHolder("bookcloner")
+  public static final TileEntityBookClonerBlock bookCloner = null;
 
-  public WarpBlocks()
-  {
-    bookCloner = new TileEntityBookClonerBlock();
-    teleporter = new TileEntityTeleporterBlock();
-  }
-
-  public void Register()
-  {
-    GameRegistry.registerTileEntity(TileEntityBookCloner.class, "tileEntityBookCloner");
-    GameRegistry.registerTileEntity(TileEntityTeleporter.class, "tileEntityTeleporter");
-    
-    GameRegistry.registerBlock(bookCloner, "bookcloner");
-    GameRegistry.registerBlock(teleporter, "teleporter");
-  }
+  @ObjectHolder("teleporter")
+  public static final TileEntityTeleporterBlock teleporter = null;
 }

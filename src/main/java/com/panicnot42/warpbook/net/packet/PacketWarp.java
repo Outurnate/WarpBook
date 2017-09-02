@@ -39,7 +39,7 @@ public class PacketWarp implements IMessage, IMessageHandler<PacketWarp, IMessag
           return null;
       }
       NBTTagList stack = WarpBookMod.lastHeldBooks.get(player).getTagCompound().getTagList("WarpPages", Constants.NBT.TAG_COMPOUND);
-      ItemStack page = ItemStack.loadItemStackFromNBT(stack.getCompoundTagAt(pageSlot));
+      ItemStack page = new ItemStack(stack.getCompoundTagAt(pageSlot));
       return page;
     }
     catch (ClassCastException e)

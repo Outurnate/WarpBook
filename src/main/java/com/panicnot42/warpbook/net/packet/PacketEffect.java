@@ -38,16 +38,16 @@ public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMe
     if (message.enter)
     {
       for (int i = 0; i < (5 * particles); ++i)
-        player.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, message.x, message.y + (player.worldObj.rand.nextDouble() * 2), message.z, (player.worldObj.rand.nextDouble() / 10) - 0.05D, 0D,
-            (player.worldObj.rand.nextDouble() / 10) - 0.05D);
-      player.worldObj.playSound(player, player.posX, player.posY, player.posZ, WarpBookMod.instance.sounds.arriveSound, SoundCategory.PLAYERS, 1.0f, 1.0f);
+        player.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, message.x, message.y + (player.world.rand.nextDouble() * 2), message.z, (player.world.rand.nextDouble() / 10) - 0.05D, 0D,
+            (player.world.rand.nextDouble() / 10) - 0.05D);
+      player.world.playSound(player, player.posX, player.posY, player.posZ, WarpBookMod.instance.sounds.arriveSound, SoundCategory.PLAYERS, 1.0f, 1.0f);
     }
     else
     {
       for (int i = 0; i < particles; ++i)
-        player.worldObj.spawnParticle(EnumParticleTypes.PORTAL, message.x - 0.5D, message.y + (player.worldObj.rand.nextDouble() * 2), message.z - 0.5D, player.worldObj.rand.nextDouble() - 0.5D,
-            player.worldObj.rand.nextDouble() - 0.5D, player.worldObj.rand.nextDouble() - 0.5D);
-      player.worldObj.playSound(player, player.posX, player.posY, player.posZ, WarpBookMod.instance.sounds.departSound, SoundCategory.PLAYERS, 1.0f, 1.0f);
+        player.world.spawnParticle(EnumParticleTypes.PORTAL, message.x - 0.5D, message.y + (player.world.rand.nextDouble() * 2), message.z - 0.5D, player.world.rand.nextDouble() - 0.5D,
+            player.world.rand.nextDouble() - 0.5D, player.world.rand.nextDouble() - 0.5D);
+      player.world.playSound(player, player.posX, player.posY, player.posZ, WarpBookMod.instance.sounds.departSound, SoundCategory.PLAYERS, 1.0f, 1.0f);
     }
 
     return null;

@@ -51,11 +51,11 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
   {
     WarpWorldStorage storage = WarpWorldStorage.get(player.getEntityWorld());
     Waypoint wp;
-    if (player.worldObj.isRemote)
+    if (player.world.isRemote)
       return null;
     UUID playerID = UUID.fromString(stack.getTagCompound().getString("playeruuid"));
     EntityPlayerMP playerTo = null;
-    List<EntityPlayerMP> allPlayers = player.getServer().getPlayerList().getPlayerList();
+    List<EntityPlayerMP> allPlayers = player.getServer().getPlayerList().getPlayers();
     for (EntityPlayerMP playerS : allPlayers)
       if (playerS.getUniqueID().equals(playerID))
         playerTo = playerS;
@@ -68,31 +68,30 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
                         playerTo.dimension);
   }
 
+
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World worldIn, EntityPlayer player, EnumHand hand)
+  public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn)
   {
-    ItemStack item = null;
+    ItemStack item = player.getHeldItem(handIn);
     if (player.isSneaking())
     {
-      item = new ItemStack(WarpBookMod.items.unboundWarpPageItem, itemStack.stackSize);
+      item = new ItemStack(WarpBookMod.items.unboundWarpPageItem, item.getCount());
     }
     else
     {
-      if (player.getUniqueID().compareTo(UUID.fromString(itemStack.getTagCompound().getString("playeruuid"))) == 0)
+      if (player.getUniqueID().compareTo(UUID.fromString(item.getTagCompound().getString("playeruuid"))) == 0)
       {
         if (!worldIn.isRemote)
           CommandUtils.showError(player, I18n.format("help.selfaport"));
       }
       else
-        WarpBookMod.warpDrive.handleWarp(player, itemStack);
+        WarpBookMod.warpDrive.handleWarp(player, item);
       
       if (!player.capabilities.isCreativeMode)
       {
-        item = new ItemStack(itemStack.getItem(), itemStack.stackSize - 1);
-        item.setTagCompound(itemStack.getTagCompound());
+        item = new ItemStack(item.getItem(), item.getCount() - 1);
+        item.setTagCompound(item.getTagCompound());
       }
-      else
-        item = itemStack;
     }
     
     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, item);
@@ -105,7 +104,7 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
   {
     if (item.hasTagCompound())
     {
-      list.add(GetName(player.worldObj, item));
+      list.add(GetName(player.world, item));
     }
   }
 

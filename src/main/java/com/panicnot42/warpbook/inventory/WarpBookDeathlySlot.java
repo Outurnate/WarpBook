@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 
 import com.panicnot42.warpbook.inventory.container.WarpBookSpecialInventory;
 import com.panicnot42.warpbook.item.DeathlyWarpPageItem;
-import com.panicnot42.warpbook.item.WarpPageItem;
 
 public class WarpBookDeathlySlot extends Slot
 {

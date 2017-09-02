@@ -29,12 +29,13 @@ public class PacketWaypointName implements IMessage, IMessageHandler<PacketWaypo
   public IMessage onMessage(PacketWaypointName message, MessageContext ctx)
   {
     EntityPlayer player = NetUtils.getPlayerFromContext(ctx);
-    --player.getHeldItemMainhand().stackSize;
-    if (player.getHeldItemMainhand().stackSize == 0) player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+    player.getHeldItemMainhand().setCount(player.getHeldItemMainhand().getCount() - 1);
+    if (player.getHeldItemMainhand().getCount() == 0)
+      player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
     ItemStack newPage = WarpBookMod.formingPages.get(player);
     newPage.getTagCompound().setString("name", message.name);
-    EntityItem item = new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, newPage);
-    player.worldObj.spawnEntityInWorld(item);
+    EntityItem item = new EntityItem(player.world, player.posX, player.posY, player.posZ, newPage);
+    player.world.spawnEntity(item);
     return null;
   }
 

@@ -13,13 +13,13 @@ import net.minecraft.util.text.translation.I18n;
 public class DeleteWaypointCommand extends CommandBase
 {
   @Override
-  public String getCommandName()
+  public String getName()
   {
     return "waypointdelete";
   }
 
   @Override
-  public String getCommandUsage(ICommandSender var1)
+  public String getUsage(ICommandSender sender)
   {
     return "/waypointdelete name";
   }
@@ -39,9 +39,9 @@ public class DeleteWaypointCommand extends CommandBase
       CommandUtils.showError(var1, net.minecraft.client.resources.I18n.format(I18n.translateToLocal("help.notawaypoint").trim(), var2[0]));
     storage.save(var1.getEntityWorld());
   }
-
+  
   public int compareTo(ICommand command)
   {
-    return this.getCommandName().compareTo(command.getCommandName());
+    return this.getName().compareTo(command.getName());
   }
 }

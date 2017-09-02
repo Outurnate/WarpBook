@@ -8,8 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 
 import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.core.IDeclareWarp;
 import com.panicnot42.warpbook.item.WarpBookItem;
-import com.panicnot42.warpbook.item.WarpPageItem;
 
 public class WarpBookSpecialInventory implements IInventory
 {
@@ -41,7 +41,7 @@ public class WarpBookSpecialInventory implements IInventory
     ItemStack stack = getStackInSlot(slot);
     if (stack != null)
     {
-      if (stack.stackSize > quantity)
+      if (stack.getCount() > quantity)
       {
         stack = stack.splitStack(quantity);
         markDirty();
@@ -69,7 +69,7 @@ public class WarpBookSpecialInventory implements IInventory
       fuel = itemStack;
     else
       deathly = itemStack;
-    if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) itemStack.stackSize = getInventoryStackLimit();
+    if (itemStack != null && itemStack.getCount() > getInventoryStackLimit()) itemStack.setCount(getInventoryStackLimit());
     markDirty();
   }
 
@@ -82,12 +82,12 @@ public class WarpBookSpecialInventory implements IInventory
   @Override
   public void markDirty()
   {
-    WarpBookItem.setFuelLeft(heldItem, fuel == null ? 0 : fuel.stackSize);
-    WarpBookItem.setRespawnsLeft(heldItem, deathly == null ? 0 : deathly.stackSize);
+    WarpBookItem.setFuelLeft(heldItem, fuel == null ? 0 : fuel.getCount());
+    WarpBookItem.setRespawnsLeft(heldItem, deathly == null ? 0 : deathly.getCount());
   }
 
   @Override
-  public boolean isUseableByPlayer(EntityPlayer player)
+  public boolean isUsableByPlayer(EntityPlayer player)
   {
     return true;
   }
@@ -105,7 +105,7 @@ public class WarpBookSpecialInventory implements IInventory
   @Override
   public boolean isItemValidForSlot(int slot, ItemStack itemStack)
   {
-    return slot == 0 ? itemStack.getItem() instanceof ItemEnderPearl : itemStack.getItem() instanceof WarpPageItem && itemStack.getItemDamage() == 3;
+    return slot == 0 ? itemStack.getItem() instanceof ItemEnderPearl : itemStack.getItem() instanceof IDeclareWarp;
   }
 
   @Override
@@ -146,5 +146,11 @@ public class WarpBookSpecialInventory implements IInventory
   public ITextComponent getDisplayName()
   {
     return null;
+  }
+
+  @Override
+  public boolean isEmpty()
+  {
+    return fuel.isEmpty() && deathly.isEmpty() && heldItem.isEmpty();
   }
 }

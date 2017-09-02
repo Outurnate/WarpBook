@@ -46,7 +46,7 @@ public class BookClonerInventoryItem implements IInventory
     ItemStack stack = getStackInSlot(slot);
     if (stack != null)
     {
-      if (stack.stackSize > quantity)
+      if (stack.getCount() > quantity)
       {
         stack = stack.splitStack(quantity);
         markDirty();
@@ -71,8 +71,8 @@ public class BookClonerInventoryItem implements IInventory
   public void setInventorySlotContents(int slot, ItemStack itemStack)
   {
     inventory[slot] = itemStack;
-    if (itemStack != null && itemStack.stackSize > getInventoryStackLimit())
-      itemStack.stackSize = getInventoryStackLimit();
+    if (itemStack != null && itemStack.getCount() > getInventoryStackLimit())
+      itemStack.setCount(getInventoryStackLimit());
     markDirty();
   }
   
@@ -83,7 +83,7 @@ public class BookClonerInventoryItem implements IInventory
   }
   
   @Override
-  public boolean isUseableByPlayer(EntityPlayer entityplayer)
+  public boolean isUsableByPlayer(EntityPlayer player)
   {
     return true;
   }
@@ -101,14 +101,6 @@ public class BookClonerInventoryItem implements IInventory
   @Override
   public boolean isItemValidForSlot(int i, ItemStack itemstack)
   {
-    /*switch(i)
-    {
-    case 0:
-      return itemstack.getItem() instanceof UnboundWarpPageItem;
-    case 1:
-      return itemstack.getItem() instanceof WarpBookItem && !itemstack.hasTagCompound();
-    }
-    return false;*/
     return true;
   }
   
@@ -164,5 +156,16 @@ public class BookClonerInventoryItem implements IInventory
   public ITextComponent getDisplayName()
   {
     return null;
+  }
+
+  @Override
+  public boolean isEmpty()
+  {
+    for (int i = 0; i < inventory.length; ++i)
+    {
+      if (!inventory[i].isEmpty())
+        return false;
+    }
+    return true;
   }
 }

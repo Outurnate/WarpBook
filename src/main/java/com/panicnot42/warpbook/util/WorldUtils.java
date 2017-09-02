@@ -19,7 +19,7 @@ public class WorldUtils
     {
       entityitem.getEntityItem().setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
     }
-    worldObj.spawnEntityInWorld(entityitem);
+    worldObj.spawnEntity(entityitem);
     return entityitem;
   }
 }

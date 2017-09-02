@@ -22,6 +22,6 @@ public class NetUtils
   @SideOnly(Side.CLIENT)
   private static EntityPlayer getClientPlayer()
   {
-    return Minecraft.getMinecraft().thePlayer;
+    return Minecraft.getMinecraft().player;
   }
 }

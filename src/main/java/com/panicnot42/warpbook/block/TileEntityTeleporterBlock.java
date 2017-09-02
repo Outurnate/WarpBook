@@ -73,7 +73,7 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   }
 
   @Override
-  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
+  public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
   {
     if (!player.isSneaking())
     {
@@ -81,7 +81,7 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
       if (state.getValue(ACTIVE))
       {
         ItemStack stack = teleporter.GetPage();
-        stack.stackSize = 1;
+        stack.setCount(1);
         if (!world.isRemote)
           WorldUtils.dropItemStackInWorld(world, pos.getX(), pos.getY(), pos.getZ(), stack);
         teleporter.SetPage(null);
@@ -92,8 +92,8 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
                ((IDeclareWarp)player.getHeldItemMainhand().getItem()).WarpCloneable())
       {
         teleporter.SetPage(player.getHeldItemMainhand());
-        if (player.getHeldItemMainhand().stackSize < 1)
-          --player.getHeldItemMainhand().stackSize;
+        if (player.getHeldItemMainhand().getCount() < 1)
+          player.getHeldItemMainhand().setCount(player.getHeldItemMainhand().getCount() - 1);
         else
           player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
         world.setBlockState(pos, state.withProperty(ACTIVE, true));
@@ -144,7 +144,7 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
     if (!world.isRemote)
     {
       ItemStack stack = ((TileEntityTeleporter)world.getTileEntity(pos)).GetPage();
-      stack.stackSize = 1;
+      stack.setCount(1);
       WorldUtils.dropItemStackInWorld(world, pos.getX(), pos.getY(), pos.getZ(), stack);
     }
   }

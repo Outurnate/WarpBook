@@ -42,20 +42,20 @@ public class BoundWarpPageItem extends Item implements IDeclareWarp
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand)
+  public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn)
   {
-	ItemStack item = null;
+	  ItemStack item = player.getHeldItem(handIn);
     if (player.isSneaking())
     {
-      item = new ItemStack(WarpBookMod.items.unboundWarpPageItem, itemStack.stackSize);
+      item = new ItemStack(WarpBookMod.items.unboundWarpPageItem, item.getCount());
     }
     else
     {
-      WarpBookMod.warpDrive.handleWarp(player, itemStack);
+      WarpBookMod.warpDrive.handleWarp(player, item);
       if (!player.capabilities.isCreativeMode)
       {
-        item = new ItemStack(itemStack.getItem(), itemStack.stackSize - 1);
-        item.setTagCompound(itemStack.getTagCompound());
+        item = new ItemStack(item.getItem(), item.getCount() - 1);
+        item.setTagCompound(item.getTagCompound());
       }
     }
     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, item);

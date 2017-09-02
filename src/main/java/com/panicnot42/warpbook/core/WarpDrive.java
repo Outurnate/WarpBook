@@ -34,12 +34,12 @@ public class WarpDrive
 {
   public void handleWarp(EntityPlayer player, ItemStack page)
   {
-    if (page.getItem() instanceof IDeclareWarp && !player.worldObj.isRemote)
+    if (page.getItem() instanceof IDeclareWarp && !player.world.isRemote)
     {
       Waypoint wp = ((IDeclareWarp)page.getItem()).GetWaypoint(player, page);
       if (wp == null) // TODO only for type 5
       {
-        if (player.worldObj.isRemote)
+        if (player.world.isRemote)
           CommandUtils.showError(player, I18n.format("help.waypointnotexist"));
         return;
       }
@@ -59,7 +59,7 @@ public class WarpDrive
         return;
       }
       
-      //player.addExhaustion(calculateExhaustion(player.getEntityWorld().getDifficulty(), WarpBookMod.exhaustionCoefficient, crossDim));
+      player.addExhaustion(calculateExhaustion(player.getEntityWorld().getDifficulty(), WarpBookMod.exhaustionCoefficient, crossDim));
       if (!player.worldObj.isRemote)
       {
         if (crossDim)
@@ -67,6 +67,7 @@ public class WarpDrive
         else
           player.setPositionAndUpdate(wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
       }
+      player.addExhaustion(calculateExhaustion(player.getEntityWorld().getDifficulty(), WarpBookMod.exhaustionCoefficient, crossDim));
       WarpBookMod.network.sendToAllAround(oldDim, oldPoint);
       WarpBookMod.network.sendToAllAround(newDim, newPoint);
     }
@@ -100,7 +101,7 @@ public class WarpDrive
     potato.setDamageBypassesArmor();
     potato.setDamageIsAbsolute();
 
-    player.worldObj.newExplosion(null, player.posX, player.posY, player.posZ, 12, true, true);
+    player.world.newExplosion(null, player.posX, player.posY, player.posZ, 12, true, true);
 
     player.attackEntityFrom(potato, player.getMaxHealth());
   }
@@ -131,21 +132,18 @@ public class WarpDrive
     entity.setWorld(newWorld);
   }
 
-  @SuppressWarnings("unchecked")
   public static void transferPlayerToDimension(EntityPlayerMP player, double x, double y, double z, int dimension, PlayerList manager)
   {
     int oldDim = player.dimension;
     WorldServer worldserver = manager.getServerInstance().worldServerForDimension(player.dimension);
     player.dimension = dimension;
     WorldServer worldserver1 = manager.getServerInstance().worldServerForDimension(player.dimension);
-    player.connection.sendPacket(new SPacketRespawn(player.dimension, player.worldObj.getDifficulty(), player.worldObj.getWorldInfo().getTerrainType(), player.interactionManager.getGameType()));
+    player.connection.sendPacket(new SPacketRespawn(player.dimension, player.world.getDifficulty(), player.world.getWorldInfo().getTerrainType(), player.interactionManager.getGameType()));
     worldserver.removeEntityDangerously(player);
-    if (player.isBeingRidden())
-    {
+    if (player.isBeingRidden()) {
       player.removePassengers();
     }
-    if (player.isRiding())
-    {
+    if (player.isRiding()) {
       player.dismountRidingEntity();
     }
     player.isDead = false;
@@ -156,8 +154,7 @@ public class WarpDrive
     manager.updateTimeAndWeatherForPlayer(player, worldserver1);
     manager.syncPlayerInventory(player);
 
-    for (PotionEffect potioneffect : player.getActivePotionEffects())
-    {
+    for (PotionEffect potioneffect : player.getActivePotionEffects()) {
       player.connection.sendPacket(new SPacketEntityEffect(player.getEntityId(), potioneffect));
     }
     FMLCommonHandler.instance().firePlayerChangedDimensionEvent(player, oldDim, dimension);

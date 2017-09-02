@@ -71,7 +71,7 @@ public class GuiBook extends GuiScreen
     pos = new ArrayList<ButtonPos>();
     for (int i = 0; i < items.tagCount(); ++i)
     {
-      ItemStack stack = ItemStack.loadItemStackFromNBT(items.getCompoundTagAt(i));
+      ItemStack stack = new ItemStack(items.getCompoundTagAt(i));
       if (stack.getItem() instanceof IDeclareWarp && ((IDeclareWarp)stack.getItem()).ValidData(stack))
         pos.add(new ButtonPos(i, ((IDeclareWarp)stack.getItem()).GetName(entityPlayer.getEntityWorld(), stack)));
     }
@@ -135,7 +135,7 @@ public class GuiBook extends GuiScreen
     default:
       PacketWarp packet = new PacketWarp(guiButton.id);
       ItemStack page = PacketWarp.getPageById(entityPlayer, guiButton.id);
-      WarpBookMod.warpDrive.handleWarp(Minecraft.getMinecraft().thePlayer, page);
+      WarpBookMod.warpDrive.handleWarp(Minecraft.getMinecraft().player, page);
       WarpBookMod.network.sendToServer(packet);
       mc.displayGuiScreen((GuiScreen)null);
       break;
@@ -164,7 +164,7 @@ public class GuiBook extends GuiScreen
     super.keyTyped(c, keyCode);
     if (c == 1 || c == 'e') // if the player rebinds, this won't work. I don't care
     {
-      mc.thePlayer.closeScreen();
+      mc.player.closeScreen();
     }
   }
 }

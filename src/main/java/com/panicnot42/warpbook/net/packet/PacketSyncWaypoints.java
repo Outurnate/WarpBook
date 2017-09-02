@@ -48,7 +48,7 @@ public class PacketSyncWaypoints implements IMessage, IMessageHandler<PacketSync
   @Override
   public IMessage onMessage(PacketSyncWaypoints message, MessageContext ctx)
   {
-    World world = Minecraft.getMinecraft().thePlayer.worldObj;
+    World world = Minecraft.getMinecraft().player.world;
     WarpWorldStorage s = WarpWorldStorage.get(world);
     s.table = message.table;
     s.save(world);

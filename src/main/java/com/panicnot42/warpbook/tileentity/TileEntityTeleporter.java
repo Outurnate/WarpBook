@@ -49,7 +49,7 @@ public class TileEntityTeleporter extends TileEntity
 
   private void read(NBTTagCompound tag)
   {
-    page = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("page"));
+    page = new ItemStack(tag.getCompoundTag("page"));
   }
 
   private void write(NBTTagCompound tag)

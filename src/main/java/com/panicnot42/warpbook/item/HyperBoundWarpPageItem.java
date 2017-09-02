@@ -46,18 +46,19 @@ public class HyperBoundWarpPageItem extends Item implements IDeclareWarp
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand)
+  public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn)
   {
+    ItemStack item = player.getHeldItem(handIn);
     if (!player.isSneaking())
     {
-      WarpBookMod.warpDrive.handleWarp(player, itemStack);
+      WarpBookMod.warpDrive.handleWarp(player, item);
       if (!player.capabilities.isCreativeMode)
-        --itemStack.stackSize;
+        item.setCount(item.getCount() - 1);
       
-      return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStack);
+      return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, item);
     }
     
-    return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
+    return new ActionResult<ItemStack>(EnumActionResult.PASS, item);
   }
 
   @SuppressWarnings("unchecked")

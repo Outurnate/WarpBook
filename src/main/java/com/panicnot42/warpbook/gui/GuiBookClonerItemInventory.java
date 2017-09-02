@@ -48,7 +48,7 @@ public class GuiBookClonerItemInventory extends GuiContainer
     super.keyTyped(c, keyCode);
     if (c == 1 || c == Minecraft.getMinecraft().gameSettings.keyBindInventory.getKeyCode())
     {
-      mc.thePlayer.closeScreen();
+      mc.player.closeScreen();
     }
   }
 }

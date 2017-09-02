@@ -19,13 +19,13 @@ import net.minecraft.util.text.translation.I18n;
 public class GiveWarpCommand extends CommandBase
 {
   @Override
-  public String getCommandName()
+  public String getName()
   {
     return "givewarp";
   }
 
   @Override
-  public String getCommandUsage(ICommandSender var1)
+  public String getUsage(ICommandSender sender)
   {
     return "/givewarp name [player]";
   }
@@ -75,9 +75,9 @@ public class GiveWarpCommand extends CommandBase
     hyperStack.setTagCompound(compound);
     player.inventory.addItemStackToInventory(hyperStack);
   }
-
+  
   public int compareTo(ICommand command)
   {
-    return this.getCommandName().compareTo(command.getCommandName());
+    return this.getName().compareTo(command.getName());
   }
 }

@@ -23,7 +23,7 @@ public class WarpPrintingPlateItem extends Item
     NBTTagList destPages = new NBTTagList();
     for (int i = 0; i < pages.tagCount(); ++i)
     {
-      ItemStack item = ItemStack.loadItemStackFromNBT(pages.getCompoundTagAt(i));
+      ItemStack item = new ItemStack(pages.getCompoundTagAt(i));
       if (item.getItem() instanceof IDeclareWarp && ((IDeclareWarp)item.getItem()).WarpCloneable())
       {
         NBTTagCompound tag = new NBTTagCompound();

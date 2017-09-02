@@ -17,6 +17,8 @@ import com.panicnot42.warpbook.net.packet.PacketEffect;
 import com.panicnot42.warpbook.net.packet.PacketSyncWaypoints;
 import com.panicnot42.warpbook.net.packet.PacketWarp;
 import com.panicnot42.warpbook.net.packet.PacketWaypointName;
+import com.panicnot42.warpbook.tileentity.TileEntityBookCloner;
+import com.panicnot42.warpbook.tileentity.TileEntityTeleporter;
 import com.panicnot42.warpbook.util.Waypoint;
 
 import net.minecraft.command.ServerCommandManager;
@@ -40,6 +42,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -83,9 +86,9 @@ public class WarpBookMod
   {
     @Override
     @SideOnly(Side.CLIENT)
-    public Item getTabIconItem()
+    public ItemStack getTabIconItem()
     {
-      return items.warpBookItem;
+      return new ItemStack(items.warpBookItem, 1);
     }
   };
 
@@ -111,6 +114,8 @@ public class WarpBookMod
     blocks = new WarpBlocks();
     sounds = new WarpSounds();
     crafting = new Crafting();
+    GameRegistry.registerTileEntity(TileEntityBookCloner.class, "tileEntityBookCloner");
+    GameRegistry.registerTileEntity(TileEntityTeleporter.class, "tileEntityTeleporter");
 
     config.save();
   }
@@ -119,8 +124,6 @@ public class WarpBookMod
   public void init(FMLInitializationEvent event)
   {
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
-    items.Register();
-    blocks.Register();
     sounds.Register();
     crafting.RegisterRecipes();
     proxy.registerRenderers();
@@ -154,14 +157,14 @@ public class WarpBookMod
     if (WarpBookMod.deathPagesEnabled && event.getEntity() instanceof EntityPlayer)
     {
       EntityPlayer player = (EntityPlayer)event.getEntity();
-      if (event.getSource() != DamageSource.outOfWorld && player.getHealth() <= event.getAmount())
+      if (event.getSource() != DamageSource.OUT_OF_WORLD && player.getHealth() <= event.getAmount())
         for (ItemStack item : player.inventory.mainInventory)
           if (item != null && item.getItem() instanceof WarpBookItem && WarpBookItem.getRespawnsLeft(item) > 0)
           {
             WarpBookItem.decrRespawnsLeft(item);
-            WarpWorldStorage s = WarpWorldStorage.get(player.worldObj);
+            WarpWorldStorage s = WarpWorldStorage.get(player.world);
             s.setLastDeath(player.getGameProfile().getId(), player.posX, player.posY, player.posZ, player.dimension);
-            s.save(player.worldObj);
+            s.save(player.world);
             break;
           }
     }
@@ -172,15 +175,15 @@ public class WarpBookMod
   {
     if (WarpBookMod.deathPagesEnabled)
     {
-      WarpWorldStorage s = WarpWorldStorage.get(event.player.worldObj);
+      WarpWorldStorage s = WarpWorldStorage.get(event.player.world);
       Waypoint death = s.getLastDeath(event.player.getGameProfile().getId());
       if (death != null)
       {
         s.clearLastDeath(event.player.getGameProfile().getId());
         ItemStack page = new ItemStack(items.boundWarpPageItem, 1);
         BoundWarpPageItem.Bind(page, death.x, death.y, death.z, death.dim);
-        event.player.worldObj.spawnEntityInWorld(new EntityItem(event.player.worldObj, event.player.posX, event.player.posY, event.player.posZ, page));
-        s.save(event.player.worldObj);
+        event.player.world.spawnEntity(new EntityItem(event.player.world, event.player.posX, event.player.posY, event.player.posZ, page));
+        s.save(event.player.world);
       }
     }
   }

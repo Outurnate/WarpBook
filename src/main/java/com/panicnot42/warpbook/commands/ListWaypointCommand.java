@@ -16,13 +16,13 @@ import net.minecraft.util.text.translation.I18n;
 public class ListWaypointCommand extends CommandBase
 {
   @Override
-  public String getCommandName()
+  public String getName()
   {
     return "waypointlist";
   }
   
   @Override
-  public String getCommandUsage(ICommandSender var1)
+  public String getUsage(ICommandSender sender)
   {
     return "/waypointlist [page]";
   }
@@ -60,9 +60,9 @@ public class ListWaypointCommand extends CommandBase
       CommandUtils.showError(var1, CommandUtils.ChatType.TYPE_int, e.getLocalizedMessage());
     }
   }
-
+  
   public int compareTo(ICommand command)
   {
-    return this.getCommandName().compareTo(command.getCommandName());
+    return this.getName().compareTo(command.getName());
   }
 }

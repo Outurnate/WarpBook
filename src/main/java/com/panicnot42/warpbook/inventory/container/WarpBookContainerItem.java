@@ -68,14 +68,14 @@ public class WarpBookContainerItem extends Container
                                                                                                       // book
         return null;
 
-      if (moving.stackSize == 0)
+      if (moving.getCount() == 0)
         slot.putStack((ItemStack)null);
       else
         slot.onSlotChanged();
 
-      if (moving.stackSize == itemstack.stackSize) { return null; }
+      if (moving.getCount() == itemstack.getCount()) { return null; }
 
-      slot.onPickupFromSlot(player, moving);
+      slot.onTake(player, moving);
     }
 
     return itemstack;

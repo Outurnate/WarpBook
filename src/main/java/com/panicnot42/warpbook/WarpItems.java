@@ -8,52 +8,44 @@ import com.panicnot42.warpbook.item.PotatoWarpPageItem;
 import com.panicnot42.warpbook.item.UnboundWarpPageItem;
 import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.item.WarpFuelItem;
-import com.panicnot42.warpbook.item.WarpPageItem;
 import com.panicnot42.warpbook.item.WarpPrintingPlateItem;
 
+<<<<<<< HEAD
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+=======
+import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+>>>>>>> ported
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
+@ObjectHolder("warpbook")
 public class WarpItems
 {
-  public WarpBookItem warpBookItem;
-  public PlayerWarpPageItem playerWarpPageItem;
-  public HyperBoundWarpPageItem hyperWarpPageItem;
-  public BoundWarpPageItem boundWarpPageItem;
-  public UnboundWarpPageItem unboundWarpPageItem;
-  public PotatoWarpPageItem potatoWarpPageItem;
-  public DeathlyWarpPageItem deathlyWarpPageItem;
-  public WarpFuelItem warpFuelItem;
-  public WarpPrintingPlateItem warpPrintingPlateItem;
-  public WarpPageItem legacyPageItem;
-
-  public WarpItems()
-  {
-    warpBookItem = new WarpBookItem("warpbook");
-    playerWarpPageItem = new PlayerWarpPageItem("playerwarppage");
-    hyperWarpPageItem = new HyperBoundWarpPageItem("hyperwarppage");
-    boundWarpPageItem = new BoundWarpPageItem("boundwarppage");
-    unboundWarpPageItem = new UnboundWarpPageItem("unboundwarppage");
-    potatoWarpPageItem = new PotatoWarpPageItem("potatowarppage");
-    deathlyWarpPageItem = new DeathlyWarpPageItem("deathlywarppage");
-    warpFuelItem = new WarpFuelItem("warpfuel");
-    warpPrintingPlateItem = new WarpPrintingPlateItem("warpplate");
-    legacyPageItem = new WarpPageItem("warppage");
-  }
-
-  @SubscribeEvent
-  public void Register()
-  {
-    GameRegistry.registerItem(warpBookItem, "warpbook");
-    GameRegistry.registerItem(playerWarpPageItem, "playerwarppage");
-    GameRegistry.registerItem(hyperWarpPageItem, "hyperwarppage");
-    GameRegistry.registerItem(boundWarpPageItem, "boundwarppage");
-    GameRegistry.registerItem(unboundWarpPageItem, "unboundwarppage");
-    GameRegistry.registerItem(potatoWarpPageItem, "potatowarppage");
-    GameRegistry.registerItem(deathlyWarpPageItem, "deathlywarppage");
-    GameRegistry.registerItem(warpPrintingPlateItem, "warpplate");
-    GameRegistry.registerItem(legacyPageItem, "warppage");
-    if (WarpBookMod.fuelEnabled)
-      GameRegistry.registerItem(warpFuelItem, "warpfuel");
-  }
+  @ObjectHolder("warpbook")
+  public static final WarpBookItem warpBookItem = null;
+  
+  @ObjectHolder("playerwarppage")
+  public static final PlayerWarpPageItem playerWarpPageItem = null;
+  
+  @ObjectHolder("hyperwarppage")
+  public static final HyperBoundWarpPageItem hyperWarpPageItem = null;
+  
+  @ObjectHolder("boundwarppage")
+  public static final BoundWarpPageItem boundWarpPageItem = null;
+  
+  @ObjectHolder("unboundwarppage")
+  public static final UnboundWarpPageItem unboundWarpPageItem = null;
+  
+  @ObjectHolder("potatowarppage")
+  public static final PotatoWarpPageItem potatoWarpPageItem = null;
+  
+  @ObjectHolder("deathlywarppage")
+  public static final DeathlyWarpPageItem deathlyWarpPageItem = null;
+  
+  @ObjectHolder("warpfuel")
+  public static final WarpFuelItem warpFuelItem = null;
+  
+  @ObjectHolder("warpplate")
+  public static final WarpPrintingPlateItem warpPrintingPlateItem = null;
 }

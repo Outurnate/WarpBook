@@ -32,16 +32,17 @@ public class UnboundWarpPageItem extends Item implements IDeclareWarp
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand)
+  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn)
   {
+    ItemStack item = player.getHeldItem(handIn);
     if (player.isSneaking())
     {
-      itemStack.setItem(WarpBookMod.items.playerWarpPageItem);
-      itemStack.setTagCompound(new NBTTagCompound());
+      item = new ItemStack(WarpBookMod.items.playerWarpPageItem, item.getCount());
+      item.setTagCompound(new NBTTagCompound());
       if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
       {
-        itemStack.getTagCompound().setString("playeruuid", player.getGameProfile().getId().toString());
-        itemStack.getTagCompound().setString("player", player.getGameProfile().getName());
+        item.getTagCompound().setString("playeruuid", player.getGameProfile().getId().toString());
+        item.getTagCompound().setString("player", player.getGameProfile().getName());
       }
     }
     else
@@ -55,7 +56,7 @@ public class UnboundWarpPageItem extends Item implements IDeclareWarp
       player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWaypointGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
       WarpBookMod.formingPages.put(player, newStack);
     }
-    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStack);
+    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, item);
   }
 
   public String GetName(World world, ItemStack stack)

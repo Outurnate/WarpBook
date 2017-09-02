@@ -31,11 +31,11 @@ public class CommandUtils
 
   public static void printUsage(ICommandSender sender, CommandBase createWaypointCommand)
   {
-    TextComponentString prefix = new TextComponentString("Usage:"), usage = new TextComponentString(createWaypointCommand.getCommandUsage(sender));
+    TextComponentString prefix = new TextComponentString("Usage:"), usage = new TextComponentString(createWaypointCommand.getUsage(sender));
     prefix.setStyle(usageStyle);
     usage.setStyle(usageStyle);
-    sender.addChatMessage(prefix);
-    sender.addChatMessage(usage);
+    sender.sendMessage(prefix);
+    sender.sendMessage(usage);
   }
 
   public static void showError(ICommandSender sender, ChatType type, String string)
@@ -47,7 +47,7 @@ public class CommandUtils
   {
 	TextComponentString text = new TextComponentString(message);
     text.setStyle(errorStyle);
-    sender.addChatMessage(text);
+    sender.sendMessage(text);
   }
 
   private static String getFriendlyName(ChatType type)
@@ -80,6 +80,6 @@ public class CommandUtils
   {
 	TextComponentString text = new TextComponentString(message);
     text.setStyle(infoStyle);
-    sender.addChatMessage(text);
+    sender.sendMessage(text);
   }
 }

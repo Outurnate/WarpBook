@@ -32,14 +32,15 @@ public class WarpBookItem extends Item
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand)
+  public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand handIn)
   {
-    WarpBookMod.lastHeldBooks.put(player, itemStack);
+    ItemStack item = player.getHeldItem(handIn);
+    WarpBookMod.lastHeldBooks.put(player, item);
     if (player.isSneaking())
       player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookInventoryGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
     else
       player.openGui(WarpBookMod.instance, WarpBookMod.WarpBookWarpGuiIndex, world, (int)player.posX, (int)player.posY, (int)player.posZ);
-    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStack);
+    return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, item);
   }
 
   @SuppressWarnings("unchecked")
@@ -102,9 +103,9 @@ public class WarpBookItem extends Item
     int count = 0;
     for (int i = 0; i < items.tagCount(); ++i)
     {
-      ItemStack item = ItemStack.loadItemStackFromNBT(items.getCompoundTagAt(i));
+      ItemStack item = new ItemStack(items.getCompoundTagAt(i));
       if (((IDeclareWarp)item.getItem()).WarpCloneable())
-        count += item.stackSize;
+        count += item.getCount();
     }
     return count;
   }

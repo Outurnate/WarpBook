@@ -30,7 +30,7 @@ public class WarpBookInventoryItem implements IInventory
       NBTTagCompound item = items.getCompoundTagAt(i);
       int slot = item.getInteger("Slot");
       if (slot >= 0 && slot < getSizeInventory())
-        setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));
+        setInventorySlotContents(slot, new ItemStack(item));
     }
   }
   
@@ -52,7 +52,7 @@ public class WarpBookInventoryItem implements IInventory
     ItemStack stack = getStackInSlot(slot);
     if (stack != null)
     {
-      if (stack.stackSize > quantity)
+      if (stack.getCount() > quantity)
       {
         stack = stack.splitStack(quantity);
         markDirty();
@@ -75,8 +75,8 @@ public class WarpBookInventoryItem implements IInventory
   public void setInventorySlotContents(int slot, ItemStack itemStack)
   {
     inventory[slot] = itemStack;
-    if (itemStack != null && itemStack.stackSize > getInventoryStackLimit())
-      itemStack.stackSize = getInventoryStackLimit();
+    if (itemStack != null && itemStack.getCount() > getInventoryStackLimit())
+      itemStack.setCount(getInventoryStackLimit());
     markDirty();
   }
   
@@ -87,7 +87,7 @@ public class WarpBookInventoryItem implements IInventory
   }
   
   @Override
-  public boolean isUseableByPlayer(EntityPlayer entityplayer)
+  public boolean isUsableByPlayer(EntityPlayer player)
   {
     return true;
   }
@@ -134,7 +134,7 @@ public class WarpBookInventoryItem implements IInventory
   public void markDirty()
   {
     for (int i = 0; i < getSizeInventory(); ++i)
-      if (getStackInSlot(i) != null && getStackInSlot(i).stackSize == 0)
+      if (getStackInSlot(i) != null && getStackInSlot(i).getCount() == 0)
         setInventorySlotContents(i, null);
     
     NBTTagList items = new NBTTagList();
@@ -166,5 +166,16 @@ public class WarpBookInventoryItem implements IInventory
   public ITextComponent getDisplayName()
   {
     return null;
+  }
+
+  @Override
+  public boolean isEmpty()
+  {
+    for (int i = 0; i < inventory.length; ++i)
+    {
+      if (!inventory[i].isEmpty())
+        return false;
+    }
+    return true;
   }
 }
