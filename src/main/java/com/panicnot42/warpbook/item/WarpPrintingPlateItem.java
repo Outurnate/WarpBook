@@ -13,7 +13,9 @@ public class WarpPrintingPlateItem extends Item
 {
   public WarpPrintingPlateItem(String name)
   {
-    super.setMaxStackSize(64).setUnlocalizedName(name);
+    setMaxStackSize(64);
+    setUnlocalizedName(name);
+    setRegistryName(name);
   }
 
   public static ItemStack print(ItemStack book)

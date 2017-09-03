@@ -14,7 +14,7 @@ public class NetUtils
   public static EntityPlayer getPlayerFromContext(MessageContext ctx)
   {
     if (ctx.side == Side.SERVER)
-      return ctx.getServerHandler().playerEntity;
+      return ctx.getServerHandler().player;
     else
       return getClientPlayer();
   }

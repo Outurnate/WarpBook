@@ -8,6 +8,9 @@ public class DeathlyWarpPageItem extends Item
 {
   public DeathlyWarpPageItem(String name)
   {
-    super.setMaxStackSize(16).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName(name);
+    setMaxStackSize(16);
+    setCreativeTab(WarpBookMod.tabBook);
+    setUnlocalizedName(name);
+    setRegistryName(name);
   }
 }

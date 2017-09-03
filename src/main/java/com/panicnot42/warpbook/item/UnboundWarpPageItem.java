@@ -22,7 +22,10 @@ public class UnboundWarpPageItem extends Item implements IDeclareWarp
 {
   public UnboundWarpPageItem(String name)
   {
-    super.setMaxStackSize(64).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName(name);
+    super.setMaxStackSize(64);
+    setCreativeTab(WarpBookMod.tabBook);
+    setUnlocalizedName(name);
+    setRegistryName(name);
   }
 
   @Override

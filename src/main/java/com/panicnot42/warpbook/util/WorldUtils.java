@@ -17,7 +17,7 @@ public class WorldUtils
     //entityitem.delayBeforeCanPickup = 10;
     if (stack.hasTagCompound())
     {
-      entityitem.getEntityItem().setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
+      entityitem.getItem().setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
     }
     worldObj.spawnEntity(entityitem);
     return entityitem;

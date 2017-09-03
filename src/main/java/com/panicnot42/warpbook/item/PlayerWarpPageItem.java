@@ -4,6 +4,8 @@ import java.math.RoundingMode;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.WarpWorldStorage;
 import com.panicnot42.warpbook.core.IDeclareWarp;
@@ -12,6 +14,7 @@ import com.panicnot42.warpbook.util.MathUtils;
 import com.panicnot42.warpbook.util.Waypoint;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -31,7 +34,9 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
 {
   public PlayerWarpPageItem(String name)
   {
-    super.setMaxStackSize(16).setUnlocalizedName(name);
+    setMaxStackSize(16);
+    setUnlocalizedName(name);
+    setRegistryName(name);
   }
 
   @Override
@@ -97,14 +102,13 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, item);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   @SideOnly(Side.CLIENT)
-  public void addInformation(ItemStack item, EntityPlayer player, @SuppressWarnings("rawtypes") List list, boolean thing)
+  public void addInformation(ItemStack item, @Nullable World world, List<String> tooltip, ITooltipFlag flagIn)
   {
     if (item.hasTagCompound())
     {
-      list.add(GetName(player.world, item));
+      tooltip.add(GetName(world, item));
     }
   }
 

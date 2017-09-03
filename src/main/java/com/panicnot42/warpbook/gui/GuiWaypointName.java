@@ -40,7 +40,7 @@ public class GuiWaypointName extends GuiScreen
     Keyboard.enableRepeatEvents(true);
     buttonList.clear();
     buttonList.add(doneButton = new GuiButton(0, width / 2 - 100, height / 4 + 96 + 12, I18n.format("gui.done")));
-    waypointName = new GuiTextField(0, fontRendererObj, this.width / 2 - 150, 60, 300, 20);
+    waypointName = new GuiTextField(0, fontRenderer, this.width / 2 - 150, 60, 300, 20);
     waypointName.setMaxStringLength(128);
     waypointName.setFocused(true);
     waypointName.setText("");
@@ -92,8 +92,8 @@ public class GuiWaypointName extends GuiScreen
   public void drawScreen(int par1, int par2, float par3)
   {
     drawDefaultBackground();
-    drawCenteredString(fontRendererObj, I18n.format("warpbook.bindpage"), width / 2, 20, 16777215);
-    drawString(fontRendererObj, I18n.format("warpbook.namewaypoint"), width / 2 - 150, 47, 10526880);
+    drawCenteredString(fontRenderer, I18n.format("warpbook.bindpage"), width / 2, 20, 16777215);
+    drawString(fontRenderer, I18n.format("warpbook.namewaypoint"), width / 2 - 150, 47, 10526880);
     waypointName.drawTextBox();
     super.drawScreen(par1, par2, par3);
   }

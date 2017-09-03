@@ -29,7 +29,7 @@ public class GuiBookClonerItemInventory extends GuiContainer
   protected void drawGuiContainerForegroundLayer(int par1, int par2)
   {
     String s = inventory.getName();
-    fontRendererObj.drawString(s, (xSize - 18) / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
+    fontRenderer.drawString(s, (xSize - 18) / 2 - fontRenderer.getStringWidth(s) / 2, 6, 4210752);
   }
 
   @Override

@@ -8,6 +8,9 @@ public class WarpFuelItem extends Item
 {
   public WarpFuelItem(String name)
   {
-    super.setMaxStackSize(64).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName(name);
+    setMaxStackSize(64);
+    setCreativeTab(WarpBookMod.tabBook);
+    setUnlocalizedName(name);
+    setRegistryName(name);
   }
 }

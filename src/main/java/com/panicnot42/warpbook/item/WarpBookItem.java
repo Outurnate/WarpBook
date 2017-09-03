@@ -2,10 +2,13 @@ package com.panicnot42.warpbook.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.core.IDeclareWarp;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,7 +25,11 @@ public class WarpBookItem extends Item
 {
   public WarpBookItem(String name)
   {
-    this.setMaxStackSize(1).setCreativeTab(WarpBookMod.tabBook).setUnlocalizedName(name).setMaxDamage(WarpBookMod.fuelEnabled ? 16 : 0);
+    setMaxStackSize(1);
+    setCreativeTab(WarpBookMod.tabBook);
+    setUnlocalizedName(name);
+    setRegistryName(name);
+    setMaxDamage(WarpBookMod.fuelEnabled ? 16 : 0);
   }
 
   @Override
@@ -43,14 +50,13 @@ public class WarpBookItem extends Item
     return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, item);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   @SideOnly(Side.CLIENT)
-  public void addInformation(ItemStack item, EntityPlayer player, @SuppressWarnings("rawtypes") List list, boolean thing)
+  public void addInformation(ItemStack item, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
   {
     try
     {
-      list.add(I18n.format("warpbook.booktooltip", item.getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId()).tagCount()));
+      tooltip.add(I18n.format("warpbook.booktooltip", item.getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId()).tagCount()));
     }
     catch (Exception e)
     {

@@ -2,11 +2,14 @@ package com.panicnot42.warpbook.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.core.IDeclareWarp;
 import com.panicnot42.warpbook.util.Waypoint;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,7 +25,9 @@ public class BoundWarpPageItem extends Item implements IDeclareWarp
 {
   public BoundWarpPageItem(String name)
   {
-    super.setMaxStackSize(16).setUnlocalizedName(name);
+    super.setMaxStackSize(16);
+    setUnlocalizedName(name);
+    setRegistryName(name);
   }
 
   @Override
@@ -77,15 +82,14 @@ public class BoundWarpPageItem extends Item implements IDeclareWarp
                         stack.getTagCompound().getInteger("dim"));
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   @SideOnly(Side.CLIENT)
-  public void addInformation(ItemStack item, EntityPlayer player, @SuppressWarnings("rawtypes") List list, boolean thing)
+  public void addInformation(ItemStack item, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
   {
     try
     {
-      list.add(item.getTagCompound().getString("name"));
-      list.add(I18n.format("warpbook.bindmsg",
+      tooltip.add(item.getTagCompound().getString("name"));
+      tooltip.add(I18n.format("warpbook.bindmsg",
                            item.getTagCompound().getInteger("posX"),
                            item.getTagCompound().getInteger("posY"),
                            item.getTagCompound().getInteger("posZ"),

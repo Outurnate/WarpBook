@@ -148,7 +148,7 @@ public class GuiBook extends GuiScreen
     GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     mc.getTextureManager().bindTexture(invBg);
     drawTexturedModalRect((width - xSize) / 2, (height - ySize) / 2, 20, 1, xSize, ySize);
-    drawCenteredString(fontRendererObj, I18n.format("warpbook.dowarp"), width / 2, (height / 2) - ySize / 2 - 12, 0xFFFFFF);
+    drawCenteredString(fontRenderer, I18n.format("warpbook.dowarp"), width / 2, (height / 2) - ySize / 2 - 12, 0xFFFFFF);
     super.drawScreen(par1, par2, par3);
   }
 

@@ -2,11 +2,14 @@ package com.panicnot42.warpbook.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.WarpWorldStorage;
 import com.panicnot42.warpbook.core.IDeclareWarp;
 import com.panicnot42.warpbook.util.Waypoint;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,7 +25,9 @@ public class HyperBoundWarpPageItem extends Item implements IDeclareWarp
 {
   public HyperBoundWarpPageItem(String name)
   {
-    super.setMaxStackSize(16).setUnlocalizedName(name);
+    setMaxStackSize(16);
+    setUnlocalizedName(name);
+    setRegistryName(name);
   }
 
   @Override
@@ -61,15 +66,14 @@ public class HyperBoundWarpPageItem extends Item implements IDeclareWarp
     return new ActionResult<ItemStack>(EnumActionResult.PASS, item);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   @SideOnly(Side.CLIENT)
-  public void addInformation(ItemStack item, EntityPlayer player, @SuppressWarnings("rawtypes") List list, boolean thing)
+  public void addInformation(ItemStack item, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
   {
     if (item.hasTagCompound())
     {
       String name = item.getTagCompound().getString("hypername");
-      list.add(name);
+      tooltip.add(name);
     }
   }
   
