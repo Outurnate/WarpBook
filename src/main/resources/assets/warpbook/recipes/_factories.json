@@ -1,0 +1,6 @@
+{
+  "recipes": {
+    "book_clone_shapeless": "com.panicnot42.warpbook.crafting.WarpBookShapeless$Factory",
+    "page_clone_shapeless": "com.panicnot42.warpbook.crafting.WarpPageShapeless$Factory"
+  }
+}

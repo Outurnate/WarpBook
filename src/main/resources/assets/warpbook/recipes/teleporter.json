@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bsb",
+    "coc",
+    "bsb"
+  ],
+  "key": {
+    "b": {
+      "item": "minecraft:iron_block"
+    },
+    "s": {
+      "item": "minecraft:bookshelf"
+    },
+    "c": {
+      "item": "warpbook:bookcloner"
+    },
+    "o": {
+      "item": "warpbook:warpbook"
+    }
+  },
+  "result": {
+    "item": "warpbook:teleporter"
+  }
+}
