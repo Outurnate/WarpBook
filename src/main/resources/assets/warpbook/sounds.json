@@ -1,0 +1,31 @@
+{
+    "depart": {
+        "category": "block",
+        "subtitle": "warpbook.subtitle.depart",
+        "sounds": [
+            "warpbook:depart-01",
+            "warpbook:depart-02",
+            "warpbook:depart-03",
+            "warpbook:depart-04",
+            "warpbook:depart-05",
+            "warpbook:depart-06",
+            "warpbook:depart-07",
+            "warpbook:depart-08",
+            "warpbook:depart-09"
+        ]
+    },
+    "arrive": {
+        "category": "block",
+        "subtitle": "warpbook.subtitle.arrive",
+        "sounds": [
+            "warpbook:arrive-01",
+            "warpbook:arrive-02",
+            "warpbook:arrive-03",
+            "warpbook:arrive-04",
+            "warpbook:arrive-05",
+            "warpbook:arrive-06",
+            "warpbook:arrive-07",
+            "warpbook:arrive-08"
+        ]
+    }
+}

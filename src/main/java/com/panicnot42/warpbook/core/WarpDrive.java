@@ -22,6 +22,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.WorldProvider;
@@ -58,9 +59,14 @@ public class WarpDrive
         return;
       }
       
-      player.addExhaustion(calculateExhaustion(player.getEntityWorld().getDifficulty(), WarpBookMod.exhaustionCoefficient, crossDim));
+      //player.addExhaustion(calculateExhaustion(player.getEntityWorld().getDifficulty(), WarpBookMod.exhaustionCoefficient, crossDim));
       if (!player.worldObj.isRemote)
-        teleportPlayer((EntityPlayerMP)player, wp.dim, wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
+      {
+        if (crossDim)
+          transferPlayerToDimension((EntityPlayerMP)player, wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f, wp.dim, player.getServer().getPlayerList());
+        else
+          player.setPositionAndUpdate(wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f);
+      }
       WarpBookMod.network.sendToAllAround(oldDim, oldPoint);
       WarpBookMod.network.sendToAllAround(newDim, newPoint);
     }
@@ -99,31 +105,61 @@ public class WarpDrive
     player.attackEntityFrom(potato, player.getMaxHealth());
   }
   
-  public static void teleportPlayer(EntityPlayerMP player, int dimension, double x, double y, double z)
+  // These next two methods are from
+  // https://github.com/CoFH/CoFHLib/blob/master/src/main/java/cofh/lib/util/helpers/EntityHelper.java
+  // Two methods isn't justification for inclusion as a dependency, so I'm
+  // opting to copy/paste
+  //
+  // Thanks skyboy!
+  public static void transferEntityToWorld(Entity entity, WorldServer oldWorld, WorldServer newWorld)
   {
-    player.fallDistance = 0.0f;
-    
-    if (dimension == player.dimension)
+    WorldProvider pOld = oldWorld.provider;
+    WorldProvider pNew = newWorld.provider;
+    double moveFactor = pOld.getMovementFactor() / pNew.getMovementFactor();
+    double x = entity.posX * moveFactor;
+    double z = entity.posZ * moveFactor;
+    oldWorld.theProfiler.startSection("placing");
+    x = MathHelper.clamp_double(x, -29999872, 29999872);
+    z = MathHelper.clamp_double(z, -29999872, 29999872);
+    if (entity.isEntityAlive())
     {
-      player.setPositionAndUpdate(x, y, z);
-      return;
+      entity.setLocationAndAngles(x, entity.posY, z, entity.rotationYaw, entity.rotationPitch);
+      newWorld.spawnEntityInWorld(entity);
+      newWorld.updateEntityWithOptionalForce(entity, false);
     }
-    
+    oldWorld.theProfiler.endSection();
+    entity.setWorld(newWorld);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static void transferPlayerToDimension(EntityPlayerMP player, double x, double y, double z, int dimension, PlayerList manager)
+  {
     int oldDim = player.dimension;
-    float rotationYaw = player.rotationYaw;
-    float rotationPitch = player.rotationPitch;
-    MinecraftServer server = player.worldObj.getMinecraftServer();
-    
-    WorldServer fromWorld = server.worldServerForDimension(oldDim);
-    WorldServer toWorld   = server.worldServerForDimension(dimension);
-    fromWorld.getMinecraftServer().getPlayerList().transferPlayerToDimension(player, dimension, new WarpBookTeleporter(toWorld, x, y, z));
-    //fromWorld.removeEntity(player);
-    player.setPositionAndUpdate(x, y, z);
-    if (oldDim == 1) // according to McJty, this is needed for leaving the end
+    WorldServer worldserver = manager.getServerInstance().worldServerForDimension(player.dimension);
+    player.dimension = dimension;
+    WorldServer worldserver1 = manager.getServerInstance().worldServerForDimension(player.dimension);
+    player.connection.sendPacket(new SPacketRespawn(player.dimension, player.worldObj.getDifficulty(), player.worldObj.getWorldInfo().getTerrainType(), player.interactionManager.getGameType()));
+    worldserver.removeEntityDangerously(player);
+    if (player.isBeingRidden())
     {
-      player.setPositionAndUpdate(x, y, z);
-      toWorld.spawnEntityInWorld(player);
-      toWorld.updateEntityWithOptionalForce(player, false);
+      player.removePassengers();
     }
+    if (player.isRiding())
+    {
+      player.dismountRidingEntity();
+    }
+    player.isDead = false;
+    transferEntityToWorld(player, worldserver, worldserver1);
+    manager.preparePlayer(player, worldserver);
+    player.connection.setPlayerLocation(x, y, z, player.rotationYaw, player.rotationPitch);
+    player.interactionManager.setWorld(worldserver1);
+    manager.updateTimeAndWeatherForPlayer(player, worldserver1);
+    manager.syncPlayerInventory(player);
+
+    for (PotionEffect potioneffect : player.getActivePotionEffects())
+    {
+      player.connection.sendPacket(new SPacketEntityEffect(player.getEntityId(), potioneffect));
+    }
+    FMLCommonHandler.instance().firePlayerChangedDimensionEvent(player, oldDim, dimension);
   }
 }

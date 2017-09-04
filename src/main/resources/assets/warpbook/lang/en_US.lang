@@ -38,3 +38,6 @@ help.cantleave=Something is preventing you from leaving here
 bookcloner.name=Warp Book Cloner
 
 death.attack.potato=%1$s was fried with tuberous energy
+
+warpbook.subtitle.depart=Warped
+warpbook.subtitle.arrive=Warped
