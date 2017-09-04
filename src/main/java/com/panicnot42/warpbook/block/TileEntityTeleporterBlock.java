@@ -37,10 +37,11 @@ public class TileEntityTeleporterBlock extends Block implements ITileEntityProvi
   protected static final AxisAlignedBB TRIGGER_AABB = new AxisAlignedBB(0.125D,  0.0D, 0.125D,  0.875D,  0.25D,   0.875D);
   public static final PropertyBool ACTIVE = PropertyBool.create("active");
   
-  public TileEntityTeleporterBlock()
+  public TileEntityTeleporterBlock(String name)
   {
     super(Material.IRON);
-    setUnlocalizedName("teleporter");
+    setUnlocalizedName(name);
+    setRegistryName(name);
     setCreativeTab(WarpBookMod.tabBook);
     setSoundType(SoundType.STONE);
     setHardness(10.0f);

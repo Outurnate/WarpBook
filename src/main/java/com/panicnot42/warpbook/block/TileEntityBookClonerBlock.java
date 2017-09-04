@@ -28,10 +28,11 @@ public class TileEntityBookClonerBlock extends BlockContainer
 {
   protected static final AxisAlignedBB AABB = new AxisAlignedBB(0, 0, 0, 1, 0.75, 1);
   
-  public TileEntityBookClonerBlock()
+  public TileEntityBookClonerBlock(String name)
   {
     super(Material.IRON);
-    setUnlocalizedName("bookcloner");
+    setUnlocalizedName(name);
+    setRegistryName(name);
     setCreativeTab(WarpBookMod.tabBook);
     setSoundType(SoundType.STONE);
     setHardness(10.0f);

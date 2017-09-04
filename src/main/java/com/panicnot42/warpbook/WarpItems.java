@@ -10,6 +10,9 @@ import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.item.WarpFuelItem;
 import com.panicnot42.warpbook.item.WarpPrintingPlateItem;
 
+import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
@@ -42,4 +45,21 @@ public class WarpItems
   
   @ObjectHolder("warpplate")
   public static final WarpPrintingPlateItem warpPrintingPlateItem = null;
+  
+  @SubscribeEvent
+  public static void registerItems(RegistryEvent.Register<Item> event)
+  {
+    event.getRegistry().registerAll(
+        new WarpBookItem("warpbook"),
+        new PlayerWarpPageItem("playerwarppage"),
+        new HyperBoundWarpPageItem("hyperwarppage"),
+        new BoundWarpPageItem("boundwarppage"),
+        new UnboundWarpPageItem("unboundwarppage"),
+        new PotatoWarpPageItem("potatowarppage"),
+        new DeathlyWarpPageItem("deathlywarppage"),
+        new WarpPrintingPlateItem("warpplate")
+        );
+    if (WarpBookMod.fuelEnabled)
+      event.getRegistry().registerAll(new WarpFuelItem("warpfuel"));
+  }
 }
