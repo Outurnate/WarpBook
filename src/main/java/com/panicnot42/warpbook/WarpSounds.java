@@ -8,7 +8,6 @@ import com.panicnot42.warpbook.item.PotatoWarpPageItem;
 import com.panicnot42.warpbook.item.UnboundWarpPageItem;
 import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.item.WarpFuelItem;
-import com.panicnot42.warpbook.item.WarpPageItem;
 import com.panicnot42.warpbook.item.WarpPrintingPlateItem;
 
 import net.minecraft.util.ResourceLocation;

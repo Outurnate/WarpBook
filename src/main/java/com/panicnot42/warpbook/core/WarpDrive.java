@@ -60,7 +60,7 @@ public class WarpDrive
       }
       
       player.addExhaustion(calculateExhaustion(player.getEntityWorld().getDifficulty(), WarpBookMod.exhaustionCoefficient, crossDim));
-      if (!player.worldObj.isRemote)
+      if (!player.world.isRemote)
       {
         if (crossDim)
           transferPlayerToDimension((EntityPlayerMP)player, wp.x - 0.5f, wp.y + 0.5f, wp.z - 0.5f, wp.dim, player.getServer().getPlayerList());
@@ -120,12 +120,12 @@ public class WarpDrive
     double x = entity.posX * moveFactor;
     double z = entity.posZ * moveFactor;
     oldWorld.theProfiler.startSection("placing");
-    x = MathHelper.clamp_double(x, -29999872, 29999872);
-    z = MathHelper.clamp_double(z, -29999872, 29999872);
+    x = MathHelper.clamp(x, -29999872, 29999872);
+    z = MathHelper.clamp(z, -29999872, 29999872);
     if (entity.isEntityAlive())
     {
       entity.setLocationAndAngles(x, entity.posY, z, entity.rotationYaw, entity.rotationPitch);
-      newWorld.spawnEntityInWorld(entity);
+      newWorld.spawnEntity(entity);
       newWorld.updateEntityWithOptionalForce(entity, false);
     }
     oldWorld.theProfiler.endSection();

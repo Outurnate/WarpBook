@@ -10,12 +10,6 @@ import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.item.WarpFuelItem;
 import com.panicnot42.warpbook.item.WarpPrintingPlateItem;
 
-<<<<<<< HEAD
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-=======
-import net.minecraft.item.Item;
-import net.minecraftforge.event.RegistryEvent;
->>>>>>> ported
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
