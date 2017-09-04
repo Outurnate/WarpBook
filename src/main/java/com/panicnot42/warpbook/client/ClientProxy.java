@@ -2,7 +2,9 @@ package com.panicnot42.warpbook.client;
 
 import com.panicnot42.warpbook.Properties;
 import com.panicnot42.warpbook.Proxy;
+import com.panicnot42.warpbook.WarpBlocks;
 import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.WarpItems;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
@@ -19,18 +21,18 @@ public class ClientProxy extends Proxy
   {
     ItemModelMesher m = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 
-    m.register(WarpBookMod.items.unboundWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":unboundwarppage", "inventory"));
-    m.register(WarpBookMod.items.boundWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":boundwarppage", "inventory"));
-    m.register(WarpBookMod.items.hyperWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":hyperwarppage", "inventory"));
-    m.register(WarpBookMod.items.deathlyWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":deathlywarppage", "inventory"));
-    m.register(WarpBookMod.items.potatoWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":potatowarppage", "inventory"));
-    m.register(WarpBookMod.items.playerWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":playerwarppage", "inventory"));
-    m.register(WarpBookMod.items.warpBookItem, 0, new ModelResourceLocation(Properties.modid + ":warpbook", "inventory"));
-    m.register(WarpBookMod.items.warpPrintingPlateItem, 0, new ModelResourceLocation(Properties.modid + ":warpplate", "inventory"));
+    m.register(WarpItems.unboundWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":unboundwarppage", "inventory"));
+    m.register(WarpItems.boundWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":boundwarppage", "inventory"));
+    m.register(WarpItems.hyperWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":hyperwarppage", "inventory"));
+    m.register(WarpItems.deathlyWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":deathlywarppage", "inventory"));
+    m.register(WarpItems.potatoWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":potatowarppage", "inventory"));
+    m.register(WarpItems.playerWarpPageItem, 0, new ModelResourceLocation(Properties.modid + ":playerwarppage", "inventory"));
+    m.register(WarpItems.warpBookItem, 0, new ModelResourceLocation(Properties.modid + ":warpbook", "inventory"));
+    m.register(WarpItems.warpPrintingPlateItem, 0, new ModelResourceLocation(Properties.modid + ":warpplate", "inventory"));
     if (WarpBookMod.fuelEnabled)
-      m.register(WarpBookMod.items.warpFuelItem, 0, new ModelResourceLocation(Properties.modid + ":warpfuel", "inventory"));
+      m.register(WarpItems.warpFuelItem, 0, new ModelResourceLocation(Properties.modid + ":warpfuel", "inventory"));
 
-    m.register(Item.getItemFromBlock(WarpBookMod.blocks.bookCloner), 0, new ModelResourceLocation(Properties.modid + ":bookcloner", "inventory"));
-    m.register(Item.getItemFromBlock(WarpBookMod.blocks.teleporter), 0, new ModelResourceLocation(Properties.modid + ":teleporter", "inventory"));
+    m.register(Item.getItemFromBlock(WarpBlocks.bookCloner), 0, new ModelResourceLocation(Properties.modid + ":bookcloner", "inventory"));
+    m.register(Item.getItemFromBlock(WarpBlocks.teleporter), 0, new ModelResourceLocation(Properties.modid + ":teleporter", "inventory"));
   }
 }

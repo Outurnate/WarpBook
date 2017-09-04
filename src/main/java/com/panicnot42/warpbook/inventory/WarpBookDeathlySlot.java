@@ -1,10 +1,10 @@
 package com.panicnot42.warpbook.inventory;
 
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-
 import com.panicnot42.warpbook.inventory.container.WarpBookSpecialInventory;
 import com.panicnot42.warpbook.item.DeathlyWarpPageItem;
+
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public class WarpBookDeathlySlot extends Slot
 {

@@ -1,7 +1,6 @@
 package com.panicnot42.warpbook.inventory;
 
 import com.panicnot42.warpbook.item.UnboundWarpPageItem;
-import com.panicnot42.warpbook.item.WarpBookItem;
 
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;

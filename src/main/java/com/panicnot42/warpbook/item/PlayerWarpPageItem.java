@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.WarpItems;
 import com.panicnot42.warpbook.WarpWorldStorage;
 import com.panicnot42.warpbook.core.IDeclareWarp;
 import com.panicnot42.warpbook.util.CommandUtils;
@@ -19,14 +20,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -80,7 +77,7 @@ public class PlayerWarpPageItem extends Item implements IDeclareWarp
     ItemStack item = player.getHeldItem(handIn);
     if (player.isSneaking())
     {
-      item = new ItemStack(WarpBookMod.items.unboundWarpPageItem, item.getCount());
+      item = new ItemStack(WarpItems.unboundWarpPageItem, item.getCount());
     }
     else
     {

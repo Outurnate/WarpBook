@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.WarpItems;
 import com.panicnot42.warpbook.core.IDeclareWarp;
 import com.panicnot42.warpbook.util.Waypoint;
 
@@ -51,9 +52,7 @@ public class BoundWarpPageItem extends Item implements IDeclareWarp
   {
 	  ItemStack item = player.getHeldItem(handIn);
     if (player.isSneaking())
-    {
-      item = new ItemStack(WarpBookMod.items.unboundWarpPageItem, item.getCount());
-    }
+      item = new ItemStack(WarpItems.unboundWarpPageItem, item.getCount());
     else
     {
       WarpBookMod.warpDrive.handleWarp(player, item);

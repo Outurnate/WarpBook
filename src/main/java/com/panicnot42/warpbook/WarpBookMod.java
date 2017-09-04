@@ -25,9 +25,7 @@ import net.minecraft.command.ServerCommandManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -59,9 +57,6 @@ public class WarpBookMod
   public static Proxy proxy;
 
   public static WarpDrive warpDrive = new WarpDrive();
-  public static WarpItems items;
-  public static WarpBlocks blocks;
-  public static WarpSounds sounds;
 
   private static int guiIndex = 42;
 
@@ -87,7 +82,7 @@ public class WarpBookMod
     @SideOnly(Side.CLIENT)
     public ItemStack getTabIconItem()
     {
-      return new ItemStack(items.warpBookItem, 1);
+      return new ItemStack(WarpItems.warpBookItem, 1);
     }
   };
 
@@ -109,9 +104,6 @@ public class WarpBookMod
     for (int i = 0; i < disabledLeavingP.length; ++i)
       disabledLeaving[i] = disabledLeavingP[i];
     
-    items = new WarpItems();
-    blocks = new WarpBlocks();
-    sounds = new WarpSounds();
     GameRegistry.registerTileEntity(TileEntityBookCloner.class, "tileEntityBookCloner");
     GameRegistry.registerTileEntity(TileEntityTeleporter.class, "tileEntityTeleporter");
 
@@ -122,7 +114,6 @@ public class WarpBookMod
   public void init(FMLInitializationEvent event)
   {
     NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiManager());
-    sounds.Register();
     proxy.registerRenderers();
   }
 
@@ -177,7 +168,7 @@ public class WarpBookMod
       if (death != null)
       {
         s.clearLastDeath(event.player.getGameProfile().getId());
-        ItemStack page = new ItemStack(items.boundWarpPageItem, 1);
+        ItemStack page = new ItemStack(WarpItems.boundWarpPageItem, 1);
         BoundWarpPageItem.Bind(page, death.x, death.y, death.z, death.dim);
         event.player.world.spawnEntity(new EntityItem(event.player.world, event.player.posX, event.player.posY, event.player.posZ, page));
         s.save(event.player.world);

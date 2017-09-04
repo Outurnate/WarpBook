@@ -1,7 +1,5 @@
 package com.panicnot42.warpbook.inventory;
 
-import com.panicnot42.warpbook.item.UnboundWarpPageItem;
-import com.panicnot42.warpbook.item.WarpBookItem;
 import com.panicnot42.warpbook.tileentity.TileEntityBookCloner;
 
 import net.minecraft.client.resources.I18n;

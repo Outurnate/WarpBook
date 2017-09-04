@@ -1,6 +1,6 @@
 package com.panicnot42.warpbook.item;
 
-import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.WarpItems;
 import com.panicnot42.warpbook.core.IDeclareWarp;
 
 import net.minecraft.item.Item;
@@ -20,7 +20,7 @@ public class WarpPrintingPlateItem extends Item
 
   public static ItemStack print(ItemStack book)
   {
-    ItemStack stack = new ItemStack(WarpBookMod.items.warpPrintingPlateItem, 1);
+    ItemStack stack = new ItemStack(WarpItems.warpPrintingPlateItem, 1);
     NBTTagList pages = book.getTagCompound().getTagList("WarpPages", Constants.NBT.TAG_COMPOUND);
     NBTTagList destPages = new NBTTagList();
     for (int i = 0; i < pages.tagCount(); ++i)

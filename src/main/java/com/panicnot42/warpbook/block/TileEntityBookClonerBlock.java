@@ -1,12 +1,9 @@
 package com.panicnot42.warpbook.block;
 
-import javax.annotation.Nullable;
-
 import com.panicnot42.warpbook.WarpBookMod;
 import com.panicnot42.warpbook.tileentity.TileEntityBookCloner;
 import com.panicnot42.warpbook.util.WorldUtils;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -21,8 +18,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityBookClonerBlock extends BlockContainer
 {

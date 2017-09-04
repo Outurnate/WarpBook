@@ -1,15 +1,14 @@
 package com.panicnot42.warpbook.net.packet;
 
+import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.item.WarpBookItem;
+import com.panicnot42.warpbook.util.net.NetUtils;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
-
-import com.panicnot42.warpbook.WarpBookMod;
-import com.panicnot42.warpbook.item.WarpBookItem;
-import com.panicnot42.warpbook.util.net.NetUtils;
-
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;

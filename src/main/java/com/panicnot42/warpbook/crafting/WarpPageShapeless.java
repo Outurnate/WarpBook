@@ -1,7 +1,5 @@
 package com.panicnot42.warpbook.crafting;
 
-import java.util.List;
-
 import com.google.gson.JsonObject;
 import com.panicnot42.warpbook.item.BoundWarpPageItem;
 import com.panicnot42.warpbook.util.CraftingUtils;

@@ -1,41 +1,31 @@
 package com.panicnot42.warpbook;
 
-import com.panicnot42.warpbook.item.BoundWarpPageItem;
-import com.panicnot42.warpbook.item.DeathlyWarpPageItem;
-import com.panicnot42.warpbook.item.HyperBoundWarpPageItem;
-import com.panicnot42.warpbook.item.PlayerWarpPageItem;
-import com.panicnot42.warpbook.item.PotatoWarpPageItem;
-import com.panicnot42.warpbook.item.UnboundWarpPageItem;
-import com.panicnot42.warpbook.item.WarpBookItem;
-import com.panicnot42.warpbook.item.WarpFuelItem;
-import com.panicnot42.warpbook.item.WarpPrintingPlateItem;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
+@ObjectHolder("warpbook")
+@Mod.EventBusSubscriber(modid = "warpbook")
 public class WarpSounds
 {
-  public SoundEvent departSound;
-  public SoundEvent arriveSound;
+  @ObjectHolder("depart")
+  public static final SoundEvent departSound = null;
+  
+  @ObjectHolder("arrive")
+  public static final SoundEvent arriveSound = null;
 
-  public WarpSounds()
+  @SubscribeEvent
+  public static void registerSounds(RegistryEvent.Register<SoundEvent> event)
   {
     ResourceLocation departLocation = new ResourceLocation("warpbook", "depart");
     ResourceLocation arriveLocation = new ResourceLocation("warpbook", "arrive");
     
-    departSound = new SoundEvent(departLocation);
-    arriveSound = new SoundEvent(arriveLocation);
-    
-    departSound.setRegistryName(departLocation);
-    arriveSound.setRegistryName(arriveLocation);
-  }
-
-  @SubscribeEvent
-  public void Register()
-  {
-    GameRegistry.register(departSound);
-    GameRegistry.register(arriveSound);
+    event.getRegistry().registerAll(
+        new SoundEvent(departLocation).setRegistryName(departLocation),
+        new SoundEvent(arriveLocation).setRegistryName(arriveLocation)
+        );
   }
 }

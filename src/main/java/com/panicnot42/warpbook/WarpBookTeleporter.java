@@ -1,6 +1,5 @@
 package com.panicnot42.warpbook;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 

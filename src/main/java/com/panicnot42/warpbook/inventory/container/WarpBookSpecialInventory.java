@@ -1,15 +1,15 @@
 package com.panicnot42.warpbook.inventory.container;
 
+import com.panicnot42.warpbook.WarpItems;
+import com.panicnot42.warpbook.core.IDeclareWarp;
+import com.panicnot42.warpbook.item.WarpBookItem;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
-
-import com.panicnot42.warpbook.WarpBookMod;
-import com.panicnot42.warpbook.core.IDeclareWarp;
-import com.panicnot42.warpbook.item.WarpBookItem;
 
 public class WarpBookSpecialInventory implements IInventory
 {
@@ -19,7 +19,7 @@ public class WarpBookSpecialInventory implements IInventory
   {
     int deaths = WarpBookItem.getRespawnsLeft(heldItem), damage = WarpBookItem.getFuelLeft(heldItem);
     fuel = damage == 0 ? null : new ItemStack(Items.ENDER_PEARL, damage);
-    deathly = deaths == 0 ? null : new ItemStack(WarpBookMod.items.deathlyWarpPageItem, deaths);
+    deathly = deaths == 0 ? null : new ItemStack(WarpItems.deathlyWarpPageItem, deaths);
     this.heldItem = heldItem;
   }
 

@@ -7,7 +7,6 @@ import com.panicnot42.warpbook.util.Waypoint;
 import com.panicnot42.warpbook.util.nbt.NBTUtils;
 
 import io.netty.buffer.ByteBuf;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;

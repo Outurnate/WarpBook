@@ -1,6 +1,6 @@
 package com.panicnot42.warpbook.commands;
 
-import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.WarpItems;
 import com.panicnot42.warpbook.WarpWorldStorage;
 import com.panicnot42.warpbook.util.CommandUtils;
 import com.panicnot42.warpbook.util.CommandUtils.ChatType;
@@ -69,7 +69,7 @@ public class GiveWarpCommand extends CommandBase
       CommandUtils.showError(var1, String.format(I18n.translateToLocal("help.waypointdoesnotexist").trim(), name));
       return;
     }
-    ItemStack hyperStack = new ItemStack(WarpBookMod.items.hyperWarpPageItem);
+    ItemStack hyperStack = new ItemStack(WarpItems.hyperWarpPageItem);
     NBTTagCompound compound = new NBTTagCompound();
     compound.setString("hypername", name);
     hyperStack.setTagCompound(compound);

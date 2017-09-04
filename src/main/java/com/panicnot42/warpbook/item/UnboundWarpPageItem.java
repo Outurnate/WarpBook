@@ -3,6 +3,7 @@ package com.panicnot42.warpbook.item;
 import java.math.RoundingMode;
 
 import com.panicnot42.warpbook.WarpBookMod;
+import com.panicnot42.warpbook.WarpItems;
 import com.panicnot42.warpbook.core.IDeclareWarp;
 import com.panicnot42.warpbook.util.MathUtils;
 import com.panicnot42.warpbook.util.Waypoint;
@@ -40,7 +41,7 @@ public class UnboundWarpPageItem extends Item implements IDeclareWarp
     ItemStack item = player.getHeldItem(handIn);
     if (player.isSneaking())
     {
-      item = new ItemStack(WarpBookMod.items.playerWarpPageItem, item.getCount());
+      item = new ItemStack(WarpItems.playerWarpPageItem, item.getCount());
       item.setTagCompound(new NBTTagCompound());
       if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
       {
@@ -50,7 +51,7 @@ public class UnboundWarpPageItem extends Item implements IDeclareWarp
     }
     else
     {
-      ItemStack newStack = new ItemStack(WarpBookMod.items.boundWarpPageItem);
+      ItemStack newStack = new ItemStack(WarpItems.boundWarpPageItem);
       BoundWarpPageItem.Bind(newStack,
                              MathUtils.round(player.posX, RoundingMode.HALF_DOWN),
                              MathUtils.round(player.posY, RoundingMode.HALF_DOWN),
