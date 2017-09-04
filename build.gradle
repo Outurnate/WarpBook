@@ -17,7 +17,7 @@ buildscript
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "3.1.0"
+version = "3.2.0"
 group = "com.panicnot42.warpbook"
 archivesBaseName = "warpbook"
 
