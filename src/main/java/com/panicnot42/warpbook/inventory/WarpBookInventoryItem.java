@@ -24,6 +24,9 @@ public class WarpBookInventoryItem implements IInventory
     if (!stack.hasTagCompound())
       stack.setTagCompound(new NBTTagCompound());
     
+    for (int i = 0; i < INV_SIZE; ++i)
+      inventory[i] = ItemStack.EMPTY;
+    
     NBTTagList items = stack.getTagCompound().getTagList("WarpPages", new NBTTagCompound().getId());
     for (int i = 0; i < items.tagCount(); ++i)
     {
@@ -135,7 +138,7 @@ public class WarpBookInventoryItem implements IInventory
   {
     for (int i = 0; i < getSizeInventory(); ++i)
       if (getStackInSlot(i) != null && getStackInSlot(i).getCount() == 0)
-        setInventorySlotContents(i, null);
+        inventory[i] = ItemStack.EMPTY;//setInventorySlotContents(i, ItemStack.EMPTY);
     
     NBTTagList items = new NBTTagList();
     

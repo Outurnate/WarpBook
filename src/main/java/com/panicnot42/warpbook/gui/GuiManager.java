@@ -18,6 +18,8 @@ public class GuiManager implements IGuiHandler
   @Override
   public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
   {
+    System.out.println("SERVER");
+    System.out.println(ID);
     if (ID == WarpBookMod.WarpBookInventoryGuiIndex)
       return new WarpBookContainerItem(player, player.inventory,
                                        new WarpBookInventoryItem(player.getHeldItemMainhand()), new WarpBookSpecialInventory(player.getHeldItemMainhand()));
@@ -30,6 +32,8 @@ public class GuiManager implements IGuiHandler
   @Override
   public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
   {
+    System.out.println("CLIENT");
+    System.out.println(ID);
     if (ID == WarpBookMod.WarpBookWarpGuiIndex)
       return new GuiBook(player);
     if (ID == WarpBookMod.WarpBookInventoryGuiIndex)
