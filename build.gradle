@@ -1,64 +1,62 @@
-buildscript
-{
-    repositories
-    {
-        jcenter()
-        maven
-        {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-    }
-    dependencies
-    {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-    }
+buildscript {
+	repositories {
+		jcenter()
+		maven { url = "http://files.minecraftforge.net/maven" }
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+	}
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "3.4.0"
-group = "com.panicnot42.warpbook"
-archivesBaseName = "warpbook"
+//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-minecraft
-{
-    version = "1.12.1-14.22.0.2467"
-    runDir = "run"
 
-    mappings = "snapshot_20170624"
-    
-    replaceIn "com/panicnot42/warpbook/Properties.java"
-    replace "@VERSION@", rootProject.version
+version = "${mc_version}-${mod_version}"
+group = package_group
+archivesBaseName = mod_name
+
+sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+compileJava {
+	sourceCompatibility = targetCompatibility = '1.8'
 }
 
-dependencies
-{
+minecraft {
+	version = "${mc_version}-${forge_version}"
+	runDir = "run"
+	
+	//replace "@VERSION@", project.version
+	//replaceIn "ModConstants.java"
+	
+	//makeObfSourceJar = false
+	
+	if (project.hasProperty('mappings_version'))
+		mappings = project.mappings_version
 }
 
-processResources
-{
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+dependencies {
 
-    // replace stuff in mcmod.info, and Properties.java
-    from(sourceSets.main.resources.srcDirs)
-    {
-        include 'mcmod.info'
-        
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version, 'modid':project.archivesBaseName
-    }
-        
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs)
-    {
-        exclude 'mcmod.info'
-    }
 }
 
-apply plugin: 'java'
-compileJava
-{
-    options.compilerArgs << '-Xlint:deprecation'
+processResources {
+	inputs.property "version", project.version
+	inputs.property "mcversion", project.minecraft.version
+	
+	from(sourceSets.main.resources.srcDirs) {
+		include 'mcmod.info'
+		
+		expand 'version':project.version, 'mcversion':project.minecraft.version
+	}
+	
+	from(sourceSets.main.resources.srcDirs) {
+		exclude 'mcmod.info'
+	}
 }
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+
+tasks.build.dependsOn deobfJar

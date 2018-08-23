@@ -1,7 +1,7 @@
 {
-    "parent": "block/block",
+	"parent": "block/block",
     "textures": {
-        "particle": "warpbook:blocks/bookcloner_bottom",
+        "particle": "warpbook:blocks/bookcloner_side",
         "bottom": "warpbook:blocks/bookcloner_bottom",
         "top": "warpbook:blocks/bookcloner_top",
         "side": "warpbook:blocks/bookcloner_side"

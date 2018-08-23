@@ -1,66 +1,86 @@
 package com.panicnot42.warpbook;
 
-import com.panicnot42.warpbook.item.BoundWarpPageItem;
 import com.panicnot42.warpbook.item.DeathlyWarpPageItem;
-import com.panicnot42.warpbook.item.HyperBoundWarpPageItem;
-import com.panicnot42.warpbook.item.PlayerWarpPageItem;
-import com.panicnot42.warpbook.item.PotatoWarpPageItem;
+import com.panicnot42.warpbook.item.LegacyWarpPageItem;
 import com.panicnot42.warpbook.item.UnboundWarpPageItem;
+import com.panicnot42.warpbook.item.UnboundWarpPotionItem;
 import com.panicnot42.warpbook.item.WarpBookItem;
-import com.panicnot42.warpbook.item.WarpFuelItem;
-import com.panicnot42.warpbook.item.WarpPrintingPlateItem;
+import com.panicnot42.warpbook.item.WarpItem;
+import com.panicnot42.warpbook.item.WarpPageItem;
+import com.panicnot42.warpbook.item.WarpPotionItem;
+import com.panicnot42.warpbook.warps.WarpHyper;
+import com.panicnot42.warpbook.warps.WarpLocus;
+import com.panicnot42.warpbook.warps.WarpPlayer;
 
 import net.minecraft.item.Item;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+import net.minecraft.item.ItemBlock;
+import net.minecraftforge.registries.IForgeRegistry;
 
-@ObjectHolder("warpbook")
-@Mod.EventBusSubscriber(modid = "warpbook")
-public class WarpItems
-{
-  @ObjectHolder("warpbook")
-  public static final WarpBookItem warpBookItem = null;
-  
-  @ObjectHolder("playerwarppage")
-  public static final PlayerWarpPageItem playerWarpPageItem = null;
-  
-  @ObjectHolder("hyperwarppage")
-  public static final HyperBoundWarpPageItem hyperWarpPageItem = null;
-  
-  @ObjectHolder("boundwarppage")
-  public static final BoundWarpPageItem boundWarpPageItem = null;
-  
-  @ObjectHolder("unboundwarppage")
-  public static final UnboundWarpPageItem unboundWarpPageItem = null;
-  
-  @ObjectHolder("potatowarppage")
-  public static final PotatoWarpPageItem potatoWarpPageItem = null;
-  
-  @ObjectHolder("deathlywarppage")
-  public static final DeathlyWarpPageItem deathlyWarpPageItem = null;
-  
-  @ObjectHolder("warpfuel")
-  public static final WarpFuelItem warpFuelItem = null;
-  
-  @ObjectHolder("warpplate")
-  public static final WarpPrintingPlateItem warpPrintingPlateItem = null;
-  
-  @SubscribeEvent
-  public static void registerItems(RegistryEvent.Register<Item> event)
-  {
-    event.getRegistry().registerAll(
-        new WarpBookItem("warpbook"),
-        new PlayerWarpPageItem("playerwarppage"),
-        new HyperBoundWarpPageItem("hyperwarppage"),
-        new BoundWarpPageItem("boundwarppage"),
-        new UnboundWarpPageItem("unboundwarppage"),
-        new PotatoWarpPageItem("potatowarppage"),
-        new DeathlyWarpPageItem("deathlywarppage"),
-        new WarpPrintingPlateItem("warpplate")
-        );
-    if (WarpBookMod.fuelEnabled)
-      event.getRegistry().registerAll(new WarpFuelItem("warpfuel"));
-  }
+public class WarpItems {
+	
+	public WarpBookItem warpBookItem;
+	public Item warpClusterItem;
+	
+	public WarpItem playerWarpPageItem;
+	public WarpItem hyperWarpPageItem;
+	public WarpItem locusWarpPageItem;
+	public WarpItem unboundWarpPageItem;
+	public WarpItem legacyPageItem;
+	public DeathlyWarpPageItem deathlyWarpPageItem;
+	
+	public WarpItem unboundWarpPotionItem;
+	public WarpItem locusWarpPotionItem;
+	public WarpItem playerWarpPotionItem;
+	public WarpItem hyperWarpPotionItem;
+	
+	public WarpItems() {
+		
+		//Misc
+		warpBookItem = new WarpBookItem("warpbook");
+		warpClusterItem = new WarpItem("warpcluster");
+		
+		//Pages
+		unboundWarpPageItem = new UnboundWarpPageItem("unboundwarppage");
+		locusWarpPageItem = new WarpPageItem("boundwarppage").setWarp(new WarpLocus()).setCloneable(true);
+		playerWarpPageItem = new WarpPageItem("playerwarppage").setWarp(new WarpPlayer()).setCloneable(false);
+		hyperWarpPageItem = new WarpPageItem("hyperwarppage").setWarp(new WarpHyper()).setCloneable(true);
+		deathlyWarpPageItem = new DeathlyWarpPageItem("deathlywarppage");
+		legacyPageItem = new LegacyWarpPageItem("warppage");
+		
+		//Potions
+		unboundWarpPotionItem = new UnboundWarpPotionItem("unboundwarppotion");
+		locusWarpPotionItem = new WarpPotionItem("boundwarppotion").setWarp(new WarpLocus()).setCloneable(true);
+		playerWarpPotionItem = new WarpPotionItem("playerwarppotion").setWarp(new WarpPlayer()).setCloneable(true);
+		hyperWarpPotionItem = new WarpPotionItem("hyperwarppotion").setWarp(new WarpHyper()).setCloneable(true);
+	}
+	
+	public void register(IForgeRegistry<Item> registry) {
+		
+		//Misc
+		registry.register(warpBookItem);
+		registry.register(warpClusterItem);
+		
+		//Pages
+		registry.register(unboundWarpPageItem);
+		registry.register(locusWarpPageItem);
+		registry.register(playerWarpPageItem);
+		registry.register(hyperWarpPageItem);
+		registry.register(deathlyWarpPageItem);
+		registry.register(legacyPageItem);
+		
+		//Potions
+		registry.register(unboundWarpPotionItem);
+		registry.register(locusWarpPotionItem);
+		registry.register(playerWarpPotionItem);
+		registry.register(hyperWarpPotionItem);
+		
+		ItemBlock itemBlock = new ItemBlock(WarpBookMod.blocks.bookCloner);
+		itemBlock.setRegistryName(WarpBookMod.blocks.bookCloner.getRegistryName());
+		registry.register(itemBlock);
+		
+		itemBlock = new ItemBlock(WarpBookMod.blocks.teleporter);
+		itemBlock.setRegistryName(WarpBookMod.blocks.teleporter.getRegistryName());
+		registry.register(itemBlock);
+	}
+	
 }

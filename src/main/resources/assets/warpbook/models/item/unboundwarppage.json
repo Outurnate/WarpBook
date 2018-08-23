@@ -1,6 +1,7 @@
 {
-    "parent": "item/generated",
+    "parent": "warpbook:item/warppagebase",
     "textures": {
-        "layer0": "warpbook:items/unboundwarppage"
+        "layer0": "items/paper",
+        "layer1": "warpbook:items/empty"
     }
 }

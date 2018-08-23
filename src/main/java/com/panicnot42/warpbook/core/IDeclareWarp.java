@@ -6,10 +6,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public interface IDeclareWarp
-{
-  String GetName(World world, ItemStack stack);
-  Waypoint GetWaypoint(EntityPlayer player, ItemStack stack);
-  Boolean ValidData(ItemStack stack);
-  Boolean WarpCloneable();
+public interface IDeclareWarp {
+  /** Used by the warpbook for generating it's listing.  Must be used for warp book pages */
+  String getName(World world, ItemStack stack);
+  
+  /** Gets the waypoint for this object */
+  Waypoint getWaypoint(EntityPlayer player, ItemStack stack);
+  
+  /** Does this stack have valid waypoint data? */
+  boolean hasValidData(ItemStack stack);
+  
 }
