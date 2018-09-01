@@ -4,8 +4,10 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
+import com.panicnot42.warpbook.WarpSounds;
 import com.panicnot42.warpbook.util.net.NetUtils;
 
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -34,12 +36,14 @@ public class PacketEffect implements IMessage, IMessageHandler<PacketEffect, IMe
 				player.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, message.x, message.y + (player.world.rand.nextDouble() * 2), message.z, (player.world.rand.nextDouble() / 10) - 0.05D, 0D,
 						(player.world.rand.nextDouble() / 10) - 0.05D);
 			}
+			player.world.playSound(player, player.posX, player.posY, player.posZ, WarpSounds.arriveSound, SoundCategory.PLAYERS, 1.0f, 1.0f);
 		}
 		else {
 			for (int i = 0; i < particles; ++i) {
-				player.world.spawnParticle(EnumParticleTypes.PORTAL, message.x - 0.5D, message.y + (player.world.rand.nextDouble() * 2), message.z - 0.5D, player.world.rand.nextDouble() - 0.5D,
+				player.world.spawnParticle(EnumParticleTypes.PORTAL, message.x + 0.5D, message.y + (player.world.rand.nextDouble() * 2), message.z + 0.5D, player.world.rand.nextDouble() - 0.5D,
 						player.world.rand.nextDouble() - 0.5D, player.world.rand.nextDouble() - 0.5D);
 			}
+			player.world.playSound(player, player.posX, player.posY, player.posZ, WarpSounds.departSound, SoundCategory.PLAYERS, 1.0f, 1.0f);
 		}
 		
 		return null;
